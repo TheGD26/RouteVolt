@@ -1,0 +1,36 @@
+station_id,station_name,latitude,longitude,charger_speed_kw,available_ports,occupied_ports,queue_time_minutes,cost_per_kwh,traffic_index,temperature,rain_probability,elevation,operator
+1,Spencer plaza,13.086440939321662,80.24611761923632,150,7,3,14,21.52,0.6,26,82,214,Unknown
+2,Grand Chennai by GRT Hotels,13.039883703809371,80.24507602103657,150,4,4,35,13.86,0.65,40,1,343,Unknown
+3,Saravana Stores - Padi - Relux Electric ,13.10080944,80.19059824,50,2,2,20,20.03,0.61,31,88,48,Relux Electric (India)
+4,Cosmopolitan Club - Relux Electric,13.10080944,80.19059824,50,4,4,27,24.66,0.23,34,61,50,Relux Electric (India)
+5,SRM Eshwari College,13.0352312108773,80.19546897036247,120,9,6,2,23.18,0.68,28,38,273,Unknown
+6,Dr. MGR University ,13.06959746,80.1779609,120,7,0,13,22.51,0.3,40,1,339,Relux Electric (India)
+7,IITM Research Park,12.9908,80.2424,120,6,1,1,17.53,0.21,23,53,476,Relux Electric (India)
+8,Holiday Inn Chennai OMR,12.98007448484978,80.25315304085922,50,1,1,43,24.21,0.89,33,94,303,Unknown
+9,Etron Energies,13.07148,80.11256,120,11,7,39,22.98,0.75,34,52,279,Zeon Charging
+10,SRM Institute of science and technology,12.919046997353462,80.2829860791885,120,5,5,44,13.83,0.8,20,88,326,Unknown
+11,MM Legacy ,12.9036054,80.167116,25,5,5,43,15.82,0.01,38,80,391,Relux Electric (India)
+12,EVP Cinemas - Relux Charging Station,13.03601745,80.04651678,25,4,2,4,24.04,0.65,26,72,327,Relux Electric (India)
+13,Muscat bakery & Restaurants,13.008010578515618,79.99673028011085,25,14,1,22,20.69,0.67,31,85,474,Unknown
+14,Kalyan Grand Business Hotel,12.873800155645254,80.07849378133422,75,6,0,36,24.63,0.85,24,89,254,Unknown
+15,Hindustan EV Charge ,12.79947247256655,80.22763805069019,75,11,6,8,21.24,0.11,32,50,62,Unknown
+16,Sheraton Grand Chennai Resort,12.744285810719331,80.23928129928231,25,13,6,31,21.04,0.14,26,14,170,Chargezone (India)
+17,Pondur - Oragadam,12.9274339889228,79.93416222500605,150,13,3,31,19.79,0.69,21,41,44,Chargezone (India)
+18,Fairfield By Marriott,12.932607263975813,79.90581636365982,120,12,5,27,14.84,0.42,30,91,472,Chargezone (India)
+19,Four Points By Sheraton,12.613079212258144,80.16879623508567,25,10,0,26,17.55,0.82,28,2,358,Chargezone (India)
+20,Regency Tiruttani by GRT Hotels,13.19516,79.64576,75,2,2,8,18.3,0.69,29,43,151,Zeon Charging
+21,Silavattam Village,12.48148773352969,79.86252229584034,120,10,8,11,15.27,0.5,36,55,80,Unknown
+22,Hotel Aaryas Garden - Relux Electric,12.38530243,79.7960046,50,14,0,1,17.34,0.03,20,0,402,Relux Electric (India)
+23,Hotel Paladin Pride,13.890665810555973,79.8798169477675,150,16,1,43,17.82,0.55,23,54,202,Unknown
+24,Hotel Aaryas Garden - Relux Charging Station,12.2406595,79.663151,25,1,1,37,16.78,0.63,25,85,394,Relux Electric (India)
+25,Hotel Aishwarya Bhavan,12.24034498,79.66228159,25,3,3,8,16.17,0.19,22,19,251,Relux Electric (India)
+26,Ocean Spray Resort ,12.06587465,79.88027083,75,11,3,25,18.66,0.23,26,51,488,Relux Electric (India)
+27,Regency Sameera Vellore by GRT Hotels,12.93209,79.13843,50,1,1,39,13.79,0.34,37,22,414,Zeon Charging
+28,"Park Inn by Radisson, Vellore",12.932172599883003,79.13688025759188,75,8,8,6,20.58,0.82,39,59,368,Unknown
+29,Hotel Benzz Park,12.929099273160231,79.1336516,120,5,0,4,23.71,0.63,28,98,146,Relux Electric (India)
+30,RB Business Centre,12.86196,79.13251,75,4,4,19,23.53,0.78,39,74,112,Zeon Charging
+31,Aryaas Pure Veg,12.90702,78.9619,120,8,3,34,16.84,0.94,37,81,193,Zeon Charging
+32,Cafe Coffee Day,12.888168188363297,78.87963197158584,150,7,2,40,14.29,0.02,33,20,303,Chargezone (India)
+33,Hotel Himalayaa,12.23639376,79.08960088,75,1,1,16,16.0,0.54,38,85,374,Relux Electric (India)
+34,Hotel Seasons,12.258660691700726,79.06838859499601,150,4,4,7,20.2,0.79,20,27,366,Chargezone (India)
+35,Sree Annapoorna Restaurant ,12.85301412,78.81703476,150,19,0,18,19.44,0.77,36,43,219,Chargezone (India)

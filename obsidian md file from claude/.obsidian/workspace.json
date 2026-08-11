@@ -1,0 +1,280 @@
+{
+  "main": {
+    "id": "04b7e6b17e1bc7ee",
+    "type": "split",
+    "children": [
+      {
+        "id": "33a035d4ff49f6e3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f33bb3740c3e4b1f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "10 - Correlation vs Causation.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "10 - Correlation vs Causation"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "0d91ae3d329c1407",
+    "type": "split",
+    "children": [
+      {
+        "id": "1ed25ad3499eb1bc",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bc20f94823043ea4",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "308f898fd02429d6",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "d2b1b944b1d3552a",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "eb9662c3ee5d65e4",
+    "type": "split",
+    "children": [
+      {
+        "id": "2c5c800a1e6b1bf5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "250bc6d7056d5ac8",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "10 - Correlation vs Causation.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "08ca0397116a7fa1",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Untitled 1.base",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "de06ce448b027fa5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "6e1213b00d439612",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "bd93a2d3d77ff4a7",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Untitled 1.base",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "floating": {
+    "id": "dacab226a1eb5d66",
+    "type": "floating",
+    "children": [
+      {
+        "id": "9cd5c17e93ef781d",
+        "type": "window",
+        "children": [
+          {
+            "id": "0991bee841e7ecfd",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "157c21e0173886ad",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "01 - Feature Map.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "01 - Feature Map"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 223,
+        "y": 14,
+        "width": 1024,
+        "height": 800,
+        "maximize": false,
+        "zoom": -0.5
+      },
+      {
+        "id": "5a40d348583f1599",
+        "type": "window",
+        "children": [
+          {
+            "id": "91789138fd0b15e0",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "9c3aa616886febd1",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "03 - EV Physics.md",
+                    "mode": "preview",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "03 - EV Physics"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 223,
+        "y": 14,
+        "width": 1024,
+        "height": 800,
+        "maximize": false,
+        "zoom": 0
+      }
+    ]
+  },
+  "active": "f33bb3740c3e4b1f",
+  "lastOpenFiles": [
+    "09 - Physics to Energy Flow.md",
+    "08 - Leakage.md",
+    "07 - ML Pipeline.md",
+    "11 - RouteVolt Learning Checklist.md",
+    "10 - Correlation vs Causation.md",
+    "01 - Feature Map.md",
+    "06 - Data Validation.md",
+    "05 - Synthetic Dataset.md",
+    "03 - EV Physics.md",
+    "04 - Target Generation.md",
+    "02 - Feature Relationships.md",
+    "00 - RouteVolt Master Map.md",
+    "Untitled 1.base",
+    "Untitled.base"
+  ]
+}
