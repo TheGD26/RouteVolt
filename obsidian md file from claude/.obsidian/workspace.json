@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "10 - Correlation vs Causation.md",
+                "file": "RouteVolt_ML_Pipeline.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "10 - Correlation vs Causation"
+              "title": "RouteVolt_ML_Pipeline"
             }
           }
         ]
@@ -219,7 +219,7 @@
         ],
         "direction": "vertical",
         "x": 223,
-        "y": 14,
+        "y": 33,
         "width": 1024,
         "height": 800,
         "maximize": false,
@@ -252,7 +252,7 @@
         ],
         "direction": "vertical",
         "x": 223,
-        "y": 14,
+        "y": 33,
         "width": 1024,
         "height": 800,
         "maximize": false,
@@ -260,17 +260,18 @@
       }
     ]
   },
-  "active": "f33bb3740c3e4b1f",
+  "active": "9c3aa616886febd1",
   "lastOpenFiles": [
+    "RouteVolt_ML_Pipeline.md",
+    "10 - Correlation vs Causation.md",
+    "01 - Feature Map.md",
+    "03 - EV Physics.md",
     "09 - Physics to Energy Flow.md",
     "08 - Leakage.md",
     "07 - ML Pipeline.md",
     "11 - RouteVolt Learning Checklist.md",
-    "10 - Correlation vs Causation.md",
-    "01 - Feature Map.md",
     "06 - Data Validation.md",
     "05 - Synthetic Dataset.md",
-    "03 - EV Physics.md",
     "04 - Target Generation.md",
     "02 - Feature Relationships.md",
     "00 - RouteVolt Master Map.md",

@@ -41,7 +41,7 @@ LOAD_STATES = {
 ROAD_TYPES = ["highway", "arterial", "city"]
 WEATHER_CONDITIONS = ["clear", "rain", "heavy_rain"]
 
-N_ROWS = 500
+N_ROWS = 10000
 
 
 def sample_payload(profile_name: str, load_state: str) -> float:
@@ -220,7 +220,7 @@ def generate_dataset() -> pd.DataFrame:
 
 if __name__ == "__main__":
     df = generate_dataset()
-    out_path = "/mnt/user-data/outputs/trip_energy_dataset.csv"
+    out_path = "trip_energy_dataset.csv"
     df.to_csv(out_path, index=False)
     print(f"Wrote {len(df)} rows to {out_path}")
     print(df.groupby(["vehicle_profile", "load_state"])["total_mass_kg"].mean())

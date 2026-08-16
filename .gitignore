@@ -11,6 +11,10 @@ wheels/
 
 # Secrets
 .env
+api.env
 
 # OS
 .DS_Store
+
+# SQLite DB (seeded from the CSV at startup, not source of truth)
+*.db
