@@ -1,3 +1,5 @@
+import BatteryChart from "./BatteryChart";
+import RouteMap from "./RouteMap";
 import StationCard from "./StationCard";
 
 function stopEta(route, legIndex) {
@@ -66,6 +68,9 @@ export default function RouteResults({
           to {route.gap.battery_pct_at_gap}%.
         </div>
       )}
+
+      <RouteMap route={route} />
+      <BatteryChart route={route} />
 
       {route.charging_plan.length === 0 && route.status === "ok" && (
         <p>No charging stops needed -- battery lasts the whole trip.</p>

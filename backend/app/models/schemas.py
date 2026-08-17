@@ -97,6 +97,13 @@ class RouteLeg(BaseModel):
         "was reachable/configured and this leg fell back to 0.3 -- lets a caller tell genuinely "
         "light traffic apart from a silently-degraded guess.",
     )
+    battery_pct_after: Optional[float] = Field(
+        default=None,
+        description="Battery % remaining once this leg is driven, as simulated by "
+        "battery_simulator.plan_full_journey -- was computed but silently dropped from "
+        "the response before this field existed, since response_model= strips anything "
+        "not declared here. What the frontend's battery chart plots per leg.",
+    )
 
 
 class StopAlternative(BaseModel):

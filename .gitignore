@@ -9,9 +9,11 @@ wheels/
 # Virtual environments
 .venv
 
-# Secrets
-.env
-api.env
+# Secrets -- any *.env file (wherever it lives), not just the literal .env,
+# so a stray one like the old backend/app/api/api.env can't get staged by
+# accident. .env.example is a template with no real secrets, kept tracked.
+*.env
+!.env.example
 
 # OS
 .DS_Store

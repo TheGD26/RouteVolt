@@ -2,10 +2,13 @@
 Routing + geocoding for RouteVolt.
 
 OSRM (backend/app/config.OSRM_BASE_URL, defaults to the public demo server)
-provides turn-by-turn routes; Nominatim (OpenStreetMap, no API key required)
-resolves the free-text current_location/destination strings on RouteRequest
-into coordinates. Both are plain HTTP calls with a 5s timeout -- neither
-raises anything OSRM/Nominatim-shaped, callers just catch RoutingError /
+provides turn-by-turn routes; Ola Maps' Geocoding API (backend/app/config.
+OLA_MAPS_API_KEY, same credential traffic_service.py uses) resolves the
+free-text current_location/destination strings on RouteRequest into
+coordinates -- swapped in for Nominatim, whose OSM coverage of Indian
+addresses is weak and whose usage policy rules out anything beyond light,
+non-production use. Both are plain HTTP calls with a 5s timeout -- neither
+raises anything OSRM/Ola-shaped, callers just catch RoutingError /
 GeocodingError.
 """
 
@@ -14,12 +17,10 @@ from typing import Optional
 
 import requests
 
-from backend.app.config import OSRM_BASE_URL
+from backend.app.config import OLA_MAPS_ALLOWED_ORIGIN, OLA_MAPS_API_KEY, OSRM_BASE_URL
 
 REQUEST_TIMEOUT_S = 5
-NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
-# Nominatim's usage policy requires a descriptive User-Agent identifying the app.
-NOMINATIM_USER_AGENT = "RouteVolt-EV-Route-Planner/1.0"
+OLA_GEOCODE_URL = "https://api.olamaps.io/places/v1/geocode"
 
 
 class RoutingError(Exception):
@@ -31,23 +32,37 @@ class GeocodingError(Exception):
 
 
 def geocode(address: str) -> tuple[float, float]:
-    """Resolve a free-text address to (latitude, longitude) via Nominatim."""
+    """Resolve a free-text address to (latitude, longitude) via Ola Maps' Geocoding API."""
+    if not OLA_MAPS_API_KEY:
+        raise GeocodingError("OLA_MAPS_API_KEY not set")
+
     try:
         response = requests.get(
-            NOMINATIM_URL,
-            params={"q": address, "format": "json", "limit": 1},
-            headers={"User-Agent": NOMINATIM_USER_AGENT},
+            OLA_GEOCODE_URL,
+            params={"address": address, "api_key": OLA_MAPS_API_KEY},
+            # Same domain-whitelist check traffic_service.py's Ola calls hit --
+            # applies to this server-to-server call too, see that module's
+            # _ola_matrix_batch for the 401/403 details.
+            headers={
+                "Origin": OLA_MAPS_ALLOWED_ORIGIN,
+                "Referer": OLA_MAPS_ALLOWED_ORIGIN,
+            },
             timeout=REQUEST_TIMEOUT_S,
         )
         response.raise_for_status()
     except requests.RequestException as exc:
         raise GeocodingError(f"Geocoding request failed for '{address}': {exc}") from exc
 
-    results = response.json()
+    # Ola's forward-geocode response: {"geocodingResults": [{"geometry":
+    # {"location": {"lat", "lng"}}, ...}, ...], "status": "ok"} -- confirmed
+    # against the live API, not assumed from docs (Ola's public docs pages
+    # don't include a worked example response).
+    results = response.json().get("geocodingResults") or []
     if not results:
         raise GeocodingError(f"No geocoding match found for '{address}'")
 
-    return float(results[0]["lat"]), float(results[0]["lon"])
+    location = results[0]["geometry"]["location"]
+    return float(location["lat"]), float(location["lng"])
 
 
 def _leg_from_step(step: dict) -> dict:

@@ -126,6 +126,27 @@ header p {
   font-size: 0.9rem;
 }
 
+.route-map-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.route-map {
+  height: 320px;
+  width: 100%;
+}
+
+.battery-chart-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1rem;
+  height: 220px;
+  margin-bottom: 1rem;
+  background: white;
+}
+
 .charging-stop {
   border-top: 1px solid #e0e0e0;
   padding-top: 1rem;
