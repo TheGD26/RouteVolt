@@ -6,12 +6,12 @@ import { OlaMaps } from "olamaps-web-sdk";
 // stylesheet (.maplibregl-map/-marker/-popup/-ctrl rules) as a <style> tag
 // the moment the module is imported.
 
-// Reuse the app's existing tokens rather than inventing new ones: green
-// accent for the route line (matches header/buttons/rank badges), the blue
-// already used for .confidence-badge for the origin dot.
-const ROUTE_COLOR = "#1a7f37";
-const ORIGIN_COLOR = "#2952a3";
-const DESTINATION_COLOR = "#b3261e";
+// Mirrors the Tailwind theme tokens in index.css (forest-700/forest-900/
+// clay-600) -- kept as literal hex here since MapLibre paint properties and
+// inline marker HTML can't reference CSS custom properties.
+const ROUTE_COLOR = "#235a3a";
+const ORIGIN_COLOR = "#163a26";
+const DESTINATION_COLOR = "#a8503f";
 
 // Ola Maps' vector style JSON, confirmed against the official
 // olamaps-web-sdk source (dist/OlaMaps-*.js) -- the SDK's init() appends
@@ -156,17 +156,11 @@ export default function RouteMap({ route }) {
 
   if (!OLA_MAPS_API_KEY) {
     return (
-      <div className="route-map-card">
-        <div className="route-map" style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "#888", fontSize: "0.85rem" }}>
-          Set VITE_OLA_MAPS_API_KEY to render the route map.
-        </div>
+      <div className="flex h-full w-full items-center justify-center bg-cream-200 text-[13px] text-ink-300">
+        Set VITE_OLA_MAPS_API_KEY to render the route map.
       </div>
     );
   }
 
-  return (
-    <div className="route-map-card">
-      <div ref={containerRef} className="route-map" />
-    </div>
-  );
+  return <div ref={containerRef} className="h-full w-full" />;
 }

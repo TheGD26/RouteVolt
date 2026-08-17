@@ -1,87 +1,68 @@
-const VEHICLE_PROFILES = [
-  { value: "small_ev", label: "Small EV" },
-  { value: "mid_ev", label: "Mid EV" },
-  { value: "large_ev", label: "Large EV" },
-];
+import BatterySlider from "./BatterySlider";
+import { IconMapPin, IconNavigation, IconRoute } from "./icons";
+import LoadStateToggle from "./LoadStateToggle";
+import LocationField from "./LocationField";
+import PreferenceToggle from "./PreferenceToggle";
+import VehicleSelector from "./VehicleSelector";
 
-const LOAD_STATES = [
-  { value: "unladen", label: "Unladen" },
-  { value: "half_load", label: "Half load" },
-  { value: "full_load", label: "Full load" },
-];
-
-export default function RouteForm({ form, onChange, onSubmit, loading }) {
-  function handleChange(field) {
-    return (e) => onChange({ ...form, [field]: e.target.value });
+export default function RouteForm({ form, onChange, preference, onPreferenceChange, onSubmit, loading }) {
+  function set(field) {
+    return (val) => onChange({ ...form, [field]: val });
   }
 
   return (
-    <form className="route-form" onSubmit={onSubmit}>
-      <div className="field">
-        <label htmlFor="current_location">Current location</label>
-        <input
-          id="current_location"
-          type="text"
+    <form onSubmit={onSubmit} className="flex flex-col gap-5">
+      <div className="flex items-center gap-2.5">
+        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-forest-100 text-forest-700">
+          <IconRoute className="h-[18px] w-[18px]" />
+        </span>
+        <div>
+          <h1 className="text-[17px] font-semibold tracking-tight text-ink-900">Dynamic EV Route Planner</h1>
+          <p className="text-[12px] text-ink-500">Real-time driving routes, geocoding &amp; AI charging optimization</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        <LocationField
+          icon={IconMapPin}
+          iconClassName="text-forest-600"
+          placeholder="Current location, e.g. Bengaluru, Karnataka"
           value={form.current_location}
-          onChange={handleChange("current_location")}
-          placeholder="e.g. Chennai"
+          onChange={set("current_location")}
           required
         />
-      </div>
-
-      <div className="field">
-        <label htmlFor="destination">Destination</label>
-        <input
-          id="destination"
-          type="text"
+        <LocationField
+          icon={IconNavigation}
+          iconClassName="text-clay-600"
+          placeholder="Destination, e.g. Chennai, Tamil Nadu"
           value={form.destination}
-          onChange={handleChange("destination")}
-          placeholder="e.g. Coimbatore"
+          onChange={set("destination")}
           required
         />
       </div>
 
-      <div className="field">
-        <label htmlFor="battery_percentage">Battery %</label>
-        <input
-          id="battery_percentage"
-          type="number"
-          min="0"
-          max="100"
-          value={form.battery_percentage}
-          onChange={handleChange("battery_percentage")}
-          required
-        />
+      <div>
+        <span className="mb-2 block text-[11px] font-medium uppercase tracking-wider text-ink-500">
+          EV Model
+        </span>
+        <VehicleSelector value={form.vehicle_profile} onChange={set("vehicle_profile")} />
       </div>
 
-      <div className="field">
-        <label htmlFor="vehicle_profile">Vehicle profile</label>
-        <select
-          id="vehicle_profile"
-          value={form.vehicle_profile}
-          onChange={handleChange("vehicle_profile")}
-        >
-          {VEHICLE_PROFILES.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </div>
+      <LoadStateToggle value={form.load_state} onChange={set("load_state")} />
 
-      <div className="field">
-        <label htmlFor="load_state">Load state</label>
-        <select id="load_state" value={form.load_state} onChange={handleChange("load_state")}>
-          {LOAD_STATES.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </div>
+      <BatterySlider
+        value={form.battery_percentage}
+        onChange={(v) => onChange({ ...form, battery_percentage: v })}
+      />
 
-      <button type="submit" disabled={loading}>
-        {loading ? "Planning route..." : "Plan route"}
+      <PreferenceToggle value={preference} onChange={onPreferenceChange} />
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="flex items-center justify-center gap-2 rounded-lg bg-forest-700 px-4 py-3 text-sm font-semibold text-white shadow-sm shadow-forest-900/20 transition-colors hover:bg-forest-800 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {loading ? "Calculating Route..." : "Calculate Dynamic Route"}
       </button>
     </form>
   );

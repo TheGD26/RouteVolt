@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import BatteryChart from "./components/BatteryChart";
+import ChargingStationsSummary from "./components/ChargingStationsSummary";
+import { IconRoute } from "./components/icons";
 import RouteForm from "./components/RouteForm";
 import RouteResults from "./components/RouteResults";
+import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
 import { API_BASE_URL, getStationWaitEstimate, optimizeRoute, reportStationStatus } from "./api";
-import "./App.css";
 
 const INITIAL_FORM = {
   current_location: "",
@@ -23,8 +27,21 @@ function uniqueStationIds(route) {
   return [...ids];
 }
 
+// Only "Fastest" reflects real backend behavior (see PreferenceToggle) --
+// applying it means auto-selecting whichever of the returned OSRM
+// alternatives actually has the lowest duration_min, using real response
+// data rather than a fabricated ranking.
+function fastestRouteIndex(routes) {
+  let bestIdx = 0;
+  for (let i = 1; i < routes.length; i++) {
+    if (routes[i].duration_min < routes[bestIdx].duration_min) bestIdx = i;
+  }
+  return bestIdx;
+}
+
 export default function App() {
   const [form, setForm] = useState(INITIAL_FORM);
+  const [preference, setPreference] = useState("fastest");
   const [result, setResult] = useState(null);
   const [selectedRouteIdx, setSelectedRouteIdx] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -34,7 +51,6 @@ export default function App() {
   const [stationExtras, setStationExtras] = useState({});
   const [reportStates, setReportStates] = useState({});
 
-  // Station catalogue (for address lookups) -- fetched once.
   useEffect(() => {
     fetch(`${API_BASE_URL}/stations/`)
       .then((res) => res.json())
@@ -44,11 +60,10 @@ export default function App() {
         setStationMeta(byId);
       })
       .catch(() => {
-        // Address lookups are a nice-to-have; route planning still works without them.
+        // Address/connector lookups are a nice-to-have; route planning still works without them.
       });
   }, []);
 
-  // Confidence level per station shown for the selected route.
   useEffect(() => {
     if (!result) return;
     const route = result.routes[selectedRouteIdx];
@@ -79,7 +94,6 @@ export default function App() {
     setLoading(true);
     setError(null);
     setResult(null);
-    setSelectedRouteIdx(0);
     try {
       const data = await optimizeRoute({
         ...form,
@@ -91,6 +105,7 @@ export default function App() {
         preferred_charging_speed: "fast",
       });
       setResult(data);
+      setSelectedRouteIdx(preference === "fastest" ? fastestRouteIndex(data.routes) : 0);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -108,29 +123,82 @@ export default function App() {
     }
   }
 
+  const route = result?.routes[selectedRouteIdx];
+
   return (
-    <div className="app">
-      <header>
-        <h1>RouteVolt</h1>
-        <p>Plan an EV route with real charging-stop guidance.</p>
-      </header>
+    <div className="flex h-screen bg-cream-100 text-ink-900">
+      <Sidebar />
 
-      <RouteForm form={form} onChange={setForm} onSubmit={handleSubmit} loading={loading} />
+      <div className="flex min-w-0 flex-1 flex-col">
+        <Topbar />
 
-      {error && <p className="error">{error}</p>}
-      {loading && <p className="loading">Loading...</p>}
+        <main className="flex min-h-0 flex-1 flex-col lg:flex-row">
+          <section className="thin-scroll flex w-full shrink-0 flex-col gap-5 overflow-y-auto border-cream-300 px-6 py-6 lg:w-[380px] lg:border-r xl:w-[420px]">
+            <RouteForm
+              form={form}
+              onChange={setForm}
+              preference={preference}
+              onPreferenceChange={setPreference}
+              onSubmit={handleSubmit}
+              loading={loading}
+            />
 
-      {result && (
-        <RouteResults
-          result={result}
-          selectedRouteIdx={selectedRouteIdx}
-          onSelectRoute={setSelectedRouteIdx}
-          stationMeta={stationMeta}
-          stationExtras={stationExtras}
-          onReport={handleReport}
-          reportStates={reportStates}
-        />
-      )}
+            {error && (
+              <div className="rounded-lg border border-clay-600/30 bg-clay-100 px-3.5 py-2.5 text-[13px] text-clay-600">
+                {error}
+              </div>
+            )}
+
+            {route?.status === "unreachable_gap" && route.gap && (
+              <div className="rounded-lg border border-amber-600/30 bg-amber-100 px-3.5 py-2.5 text-[12px] text-amber-600">
+                No reachable station near leg {route.gap.leg_index} ({route.gap.reason}) -- battery would
+                drop to {route.gap.battery_pct_at_gap}%.
+              </div>
+            )}
+
+            {route && (
+              <ChargingStationsSummary
+                route={route}
+                stationMeta={stationMeta}
+                stationExtras={stationExtras}
+                onReport={handleReport}
+                reportStates={reportStates}
+              />
+            )}
+
+            {route && route.charging_plan.length > 0 && (
+              <div>
+                <span className="mb-2 block text-[11px] font-medium uppercase tracking-wider text-ink-500">
+                  Battery Profile
+                </span>
+                <BatteryChart route={route} />
+              </div>
+            )}
+
+            {route && route.charging_plan.length === 0 && route.status === "ok" && (
+              <p className="text-[12px] text-ink-500">No charging stops needed -- battery lasts the whole trip.</p>
+            )}
+          </section>
+
+          <section className="relative min-h-[320px] flex-1">
+            {result ? (
+              <RouteResults result={result} selectedRouteIdx={selectedRouteIdx} onSelectRoute={setSelectedRouteIdx} />
+            ) : (
+              <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-cream-200 text-center">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-forest-700 shadow-sm">
+                  <IconRoute className="h-6 w-6" />
+                </span>
+                <p className="text-sm font-medium text-ink-700">
+                  {loading ? "Calculating your dynamic route..." : "Enter an origin and destination to see your route"}
+                </p>
+                <p className="max-w-xs text-[12px] text-ink-300">
+                  The map, charging stops, and battery profile will appear here once a route is calculated.
+                </p>
+              </div>
+            )}
+          </section>
+        </main>
+      </div>
     </div>
   );
 }

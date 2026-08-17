@@ -19,11 +19,11 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, 
 const BATTERY_FLOOR_PCT = 20;
 const BATTERY_CEILING_PCT = 80;
 
-const LINE_COLOR = "#2952a3"; // existing blue token (see .confidence-badge in App.css)
-const FILL_COLOR = "rgba(41, 82, 163, 0.08)";
-const STOP_COLOR = "#1a7f37"; // app's existing green accent
-const ARRIVAL_COLOR = "#999999";
-const REFERENCE_COLOR = "#bbbbbb";
+const LINE_COLOR = "#235a3a"; // forest-700
+const FILL_COLOR = "rgba(35, 90, 58, 0.08)";
+const STOP_COLOR = "#2c6e47"; // forest-600
+const ARRIVAL_COLOR = "#a8503f"; // clay-600
+const REFERENCE_COLOR = "#cbc7b6";
 
 function round1(n) {
   return Math.round(n * 10) / 10;
@@ -133,22 +133,22 @@ export default function BatteryChart({ route }) {
     scales: {
       x: {
         type: "linear",
-        title: { display: true, text: "Distance (km)", color: "#555", font: { size: 11 } },
-        grid: { color: "#f0f0f0" },
-        ticks: { color: "#555" },
+        title: { display: true, text: "Distance (km)", color: "#6b6f63", font: { size: 11 } },
+        grid: { color: "#f2f0e8" },
+        ticks: { color: "#6b6f63" },
       },
       y: {
         min: 0,
         max: 100,
-        title: { display: true, text: "Battery %", color: "#555", font: { size: 11 } },
-        grid: { color: "#f0f0f0" },
-        ticks: { color: "#555" },
+        title: { display: true, text: "Battery %", color: "#6b6f63", font: { size: 11 } },
+        grid: { color: "#f2f0e8" },
+        ticks: { color: "#6b6f63" },
       },
     },
   };
 
   return (
-    <div className="battery-chart-card">
+    <div className="h-[200px] rounded-xl border border-cream-300 bg-white p-4 shadow-sm">
       <Line data={data} options={options} />
     </div>
   );

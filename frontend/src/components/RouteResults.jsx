@@ -1,52 +1,25 @@
-import BatteryChart from "./BatteryChart";
 import RouteMap from "./RouteMap";
-import StationCard from "./StationCard";
+import RouteSummaryBar from "./RouteSummaryBar";
 
-function stopEta(route, legIndex) {
-  const legs = route.legs.slice(0, legIndex + 1);
-  const seconds = legs.reduce((sum, leg) => sum + (leg.duration_s || 0), 0);
-  const trafficAware = route.legs[legIndex]?.traffic_source === "live";
-  return { etaMinutes: Math.round(seconds / 60), trafficAware };
-}
-
-function buildStationView(alt, meta, extras) {
-  const stationId = alt.station_id;
-  return {
-    stationId,
-    stationName: alt.station_name,
-    address: meta[stationId]?.address,
-    expectedWaitMinutes: alt.expected_wait_minutes,
-    queueLength: alt.queue_length,
-    confidence: extras[stationId]?.confidence,
-  };
-}
-
-export default function RouteResults({
-  result,
-  selectedRouteIdx,
-  onSelectRoute,
-  stationMeta,
-  stationExtras,
-  onReport,
-  reportStates,
-}) {
+export default function RouteResults({ result, selectedRouteIdx, onSelectRoute }) {
   const route = result.routes[selectedRouteIdx];
 
   return (
-    <section className="route-results">
-      <div className="route-summary-top">
-        <span>Estimated time: {result.estimated_time}</span>
-        <span>{result.traffic_aware ? "Live traffic" : "Traffic estimate unavailable"}</span>
-      </div>
+    <div className="relative h-full w-full">
+      <RouteMap route={route} />
 
       {result.routes.length > 1 && (
-        <div className="route-tabs">
+        <div className="absolute left-3 top-3 flex gap-1.5 rounded-full border border-cream-300 bg-white/95 p-1 shadow-md backdrop-blur-sm sm:left-4 sm:top-4">
           {result.routes.map((r, idx) => (
             <button
               key={r.label}
               type="button"
-              className={idx === selectedRouteIdx ? "active" : ""}
               onClick={() => onSelectRoute(idx)}
+              className={`rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors ${
+                idx === selectedRouteIdx
+                  ? "bg-forest-700 text-white shadow-sm"
+                  : "text-ink-700 hover:bg-cream-200"
+              }`}
             >
               {r.label}
             </button>
@@ -54,60 +27,7 @@ export default function RouteResults({
         </div>
       )}
 
-      <div className="route-summary">
-        <span>{route.distance_km} km</span>
-        <span>{route.duration_min} min drive</span>
-        <span>{route.predicted_energy_kwh} kWh predicted</span>
-        <span>Arrives at {route.final_battery_pct}% battery</span>
-        {route.status === "unreachable_gap" && <span className="warning">Route has an unreachable gap</span>}
-      </div>
-
-      {route.gap && (
-        <div className="route-gap">
-          No reachable station near leg {route.gap.leg_index} ({route.gap.reason}) -- battery would drop
-          to {route.gap.battery_pct_at_gap}%.
-        </div>
-      )}
-
-      <RouteMap route={route} />
-      <BatteryChart route={route} />
-
-      {route.charging_plan.length === 0 && route.status === "ok" && (
-        <p>No charging stops needed -- battery lasts the whole trip.</p>
-      )}
-
-      {route.charging_plan.map((stop, i) => {
-        const { etaMinutes, trafficAware } = stopEta(route, stop.leg_index);
-        const ranked = stop.alternatives.length > 0 ? stop.alternatives : [stop];
-
-        return (
-          <div key={i} className="charging-stop">
-            <h3>
-              Stop {i + 1} -- charge to {stop.charge_to_percent}%
-              {stop.exceeded_ceiling && " (above normal ceiling)"}
-            </h3>
-            <p className="stop-meta">
-              Arriving at {stop.battery_pct_on_arrival}% battery, ~{stop.estimated_charge_duration_min} min
-              charge time
-            </p>
-
-            <div className="station-list">
-              {ranked.map((alt, idx) => {
-                const view = buildStationView(alt, stationMeta, stationExtras);
-                return (
-                  <StationCard
-                    key={`${view.stationId}-${idx}`}
-                    rank={idx + 1}
-                    station={{ ...view, etaMinutes, trafficAware }}
-                    onReport={onReport}
-                    reportState={reportStates[view.stationId]}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        );
-      })}
-    </section>
+      <RouteSummaryBar route={route} />
+    </div>
   );
 }

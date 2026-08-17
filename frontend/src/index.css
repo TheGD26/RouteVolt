@@ -1,14 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Warm off-white canvas, not pure white */
+  --color-cream-50: #fdfcfa;
+  --color-cream-100: #faf9f5;
+  --color-cream-200: #f2f0e8;
+  --color-cream-300: #e8e5d9;
+
+  /* Charcoal text scale */
+  --color-ink-900: #1c1e1a;
+  --color-ink-700: #43473f;
+  --color-ink-500: #6b6f63;
+  --color-ink-300: #9a9d92;
+
+  /* Muted forest/emerald -- the co-equal brand color */
+  --color-forest-950: #0f2a1c;
+  --color-forest-900: #163a26;
+  --color-forest-800: #1c4a30;
+  --color-forest-700: #235a3a;
+  --color-forest-600: #2c6e47;
+  --color-forest-500: #367f53;
+  --color-forest-200: #cfe3d5;
+  --color-forest-100: #e4f0e7;
+  --color-forest-50: #f2f8f3;
+
+  /* Muted supporting accents */
+  --color-clay-600: #a8503f;
+  --color-clay-100: #f5e6e1;
+  --color-slate-600: #3f5872;
+  --color-slate-100: #e7edf2;
+  --color-amber-600: #a97a1f;
+  --color-amber-100: #f6ecd6;
+
+  --shadow-color: 30 25% 12%;
+}
+
 :root {
   color-scheme: light;
-  font: 16px/1.5 system-ui, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
   margin: 0;
-  background: #fff;
-  color: #1a1a1a;
+  background: var(--color-cream-100);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4 {
   margin: 0;
+}
+
+/* ---- Custom range slider (battery %) -- Tailwind has no native slider
+   thumb styling utility, so the thumb/track are hand-styled here to match
+   the forest-green brand token. ---- */
+input[type="range"].battery-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--color-forest-600) 0%,
+    var(--color-forest-600) var(--range-fill, 50%),
+    var(--color-cream-300) var(--range-fill, 50%),
+    var(--color-cream-300) 100%
+  );
+  outline: none;
+}
+
+input[type="range"].battery-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--color-forest-700);
+  box-shadow: 0 1px 3px hsl(var(--shadow-color) / 0.35);
+  cursor: pointer;
+  margin-top: -1px;
+}
+
+input[type="range"].battery-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--color-forest-700);
+  box-shadow: 0 1px 3px hsl(var(--shadow-color) / 0.35);
+  cursor: pointer;
+}
+
+input[type="range"].battery-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: transparent;
+}
+
+/* ---- Thin, unobtrusive scrollbars for the left panel / station list ---- */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-cream-300) transparent;
+}
+
+.thin-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-cream-300);
+  border-radius: 999px;
+}
+
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Ola Maps popup chrome -- restyled to match the light/cream theme instead
+   of the SDK's default white-square popup. */
+.maplibregl-popup-content {
+  background: var(--color-cream-50) !important;
+  color: var(--color-ink-900) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px hsl(var(--shadow-color) / 0.18) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.8rem !important;
+  padding: 10px 12px !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: var(--color-cream-50) !important;
 }
