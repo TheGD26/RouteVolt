@@ -33,7 +33,7 @@ class Station(Base):
     connector_types: Mapped[str] = mapped_column(String, nullable=True)
     # Kept as text, not float: the source CSV mixes plain numbers ("30.0")
     # with ranges/units ("3.3-7 kW", "7-120 kW") -- charger_service/
-    # route_optimizer already parse this defensively via _clean_number.
+    # route_optimizer already parse this defensively via clean_number.
     power_kw: Mapped[str] = mapped_column(String, nullable=True)
     status: Mapped[str] = mapped_column(String, nullable=False, default="Operational")
     pricing: Mapped[str] = mapped_column(String, nullable=True)

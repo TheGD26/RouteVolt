@@ -1,0 +1,3189 @@
+{
+  "meta": {
+    "vehicle_profile": "mid_ev",
+    "load_state": "half_load",
+    "capacity_kwh": 40,
+    "range_km": 250.0,
+    "total_unique_edges_refined": 246,
+    "edges_dropped": 54,
+    "refinement_wall_clock_s": 53.9,
+    "retry_pass": {
+      "attempted": 54,
+      "recovered": 54,
+      "still_dropped": []
+    }
+  },
+  "per_stop": [
+    {
+      "stop_idx": 0,
+      "station_id": 27,
+      "station_name": "Nungambakkam - Prestige Palladium Bayan",
+      "node_idx": 2,
+      "current_charge_to_percent": 20.0,
+      "top8_node_indices": [
+        4,
+        6,
+        5,
+        7,
+        3,
+        12,
+        8,
+        9
+      ],
+      "top8_distance_km_by_j": {
+        "4": 3.3534,
+        "6": 4.7643,
+        "5": 5.1998,
+        "7": 5.314100000000001,
+        "3": 6.0791,
+        "12": 8.608799999999999,
+        "8": 9.8017,
+        "9": 9.808200000000001
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 4,
+          "neighbor_station_id": 30,
+          "neighbor_station_name": "T Nagar - Grand Chennai by GRT Hotels",
+          "distance_km": 3.35,
+          "energy_kwh": 1.426,
+          "target_pct": 7.3
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 6,
+          "neighbor_station_id": 31,
+          "neighbor_station_name": "T Nagar - Mango Hill Central",
+          "distance_km": 4.76,
+          "energy_kwh": 3.234,
+          "target_pct": 11.8
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 5,
+          "neighbor_station_id": 15,
+          "neighbor_station_name": "Arumbakkam - Prestige Polygon",
+          "distance_km": 5.2,
+          "energy_kwh": 3.435,
+          "target_pct": 12.3
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 7,
+          "neighbor_station_id": 13,
+          "neighbor_station_name": "Alwarpet - The Raintree",
+          "distance_km": 5.31,
+          "energy_kwh": 4.708,
+          "target_pct": 15.5
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 3,
+          "neighbor_station_id": 14,
+          "neighbor_station_name": "Aminjikarai - Ampa Skyone",
+          "distance_km": 6.08,
+          "energy_kwh": 5.008,
+          "target_pct": 16.3
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 12,
+          "neighbor_station_id": 22,
+          "neighbor_station_name": "Guindy - Olympia Cyberspace",
+          "distance_km": 8.61,
+          "energy_kwh": 6.275,
+          "target_pct": 19.4
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 8,
+          "neighbor_station_id": 24,
+          "neighbor_station_name": "Koyambedu - SAF Games Village Apartment",
+          "distance_km": 9.8,
+          "energy_kwh": 6.358,
+          "target_pct": 19.6
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 9,
+          "neighbor_station_id": 16,
+          "neighbor_station_name": "Arumbakkam - SAF Games Village",
+          "distance_km": 9.81,
+          "energy_kwh": 6.449,
+          "target_pct": 19.9
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 1,
+      "station_id": 30,
+      "station_name": "T Nagar - Grand Chennai by GRT Hotels",
+      "node_idx": 4,
+      "current_charge_to_percent": 28.9,
+      "top8_node_indices": [
+        6,
+        7,
+        12,
+        5,
+        13,
+        8,
+        9,
+        16
+      ],
+      "top8_distance_km_by_j": {
+        "6": 2.7084,
+        "7": 3.22,
+        "12": 5.7892,
+        "5": 5.7963000000000005,
+        "13": 7.7418000000000005,
+        "8": 7.7959,
+        "9": 7.8024,
+        "16": 7.8815
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 6,
+          "neighbor_station_id": 31,
+          "neighbor_station_name": "T Nagar - Mango Hill Central",
+          "distance_km": 2.71,
+          "energy_kwh": 1.173,
+          "target_pct": 6.7
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 7,
+          "neighbor_station_id": 13,
+          "neighbor_station_name": "Alwarpet - The Raintree",
+          "distance_km": 3.22,
+          "energy_kwh": 2.303,
+          "target_pct": 9.5
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 12,
+          "neighbor_station_id": 22,
+          "neighbor_station_name": "Guindy - Olympia Cyberspace",
+          "distance_km": 5.79,
+          "energy_kwh": 3.723,
+          "target_pct": 13.1
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 5,
+          "neighbor_station_id": 15,
+          "neighbor_station_name": "Arumbakkam - Prestige Polygon",
+          "distance_km": 5.8,
+          "energy_kwh": 3.229,
+          "target_pct": 11.8
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 13,
+          "neighbor_station_id": 265,
+          "neighbor_station_name": "SRM Eshwari College",
+          "distance_km": 7.74,
+          "energy_kwh": 5.019,
+          "target_pct": 16.3
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 8,
+          "neighbor_station_id": 24,
+          "neighbor_station_name": "Koyambedu - SAF Games Village Apartment",
+          "distance_km": 7.8,
+          "energy_kwh": 5.066,
+          "target_pct": 16.4
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 9,
+          "neighbor_station_id": 16,
+          "neighbor_station_name": "Arumbakkam - SAF Games Village",
+          "distance_km": 7.8,
+          "energy_kwh": 5.244,
+          "target_pct": 16.9
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 16,
+          "neighbor_station_id": 23,
+          "neighbor_station_name": "Guindy - Olympia Tech Park",
+          "distance_km": 7.88,
+          "energy_kwh": 4.935,
+          "target_pct": 16.1
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 2,
+      "station_id": 23,
+      "station_name": "Guindy - Olympia Tech Park",
+      "node_idx": 16,
+      "current_charge_to_percent": 21.6,
+      "top8_node_indices": [
+        23,
+        21,
+        22,
+        25,
+        26,
+        24,
+        17,
+        19
+      ],
+      "top8_distance_km_by_j": {
+        "23": 5.5427,
+        "21": 6.0511,
+        "22": 6.4005,
+        "25": 7.7121,
+        "26": 7.7121,
+        "24": 8.2635,
+        "17": 8.8243,
+        "19": 9.0654
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 23,
+          "neighbor_station_id": 26,
+          "neighbor_station_name": "Mugalivakkam - Zeon X Raptee HV HQ",
+          "distance_km": 5.54,
+          "energy_kwh": 4.64,
+          "target_pct": 15.3
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 21,
+          "neighbor_station_id": 17,
+          "neighbor_station_name": "Chennai - Max Showroom (Mount Poonamallee Rd)",
+          "distance_km": 6.05,
+          "energy_kwh": 5.041,
+          "target_pct": 16.4
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 22,
+          "neighbor_station_id": 29,
+          "neighbor_station_name": "Porur - RMZ One Paramount",
+          "distance_km": 6.4,
+          "energy_kwh": 5.648,
+          "target_pct": 17.9
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 25,
+          "neighbor_station_id": 19,
+          "neighbor_station_name": "Chennai Airport - Domestic Parking (AEROHUB)",
+          "distance_km": 7.71,
+          "energy_kwh": 8.04,
+          "target_pct": 23.9
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 26,
+          "neighbor_station_id": 20,
+          "neighbor_station_name": "Chennai Airport - International Parking (AEROHUB)",
+          "distance_km": 7.71,
+          "energy_kwh": 8.261,
+          "target_pct": 24.4
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 24,
+          "neighbor_station_id": 34,
+          "neighbor_station_name": "Velachery - Grand Square Mall",
+          "distance_km": 8.26,
+          "energy_kwh": 7.326,
+          "target_pct": 22.1
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 17,
+          "neighbor_station_id": 35,
+          "neighbor_station_name": "IITM Research Park",
+          "distance_km": 8.82,
+          "energy_kwh": 6.258,
+          "target_pct": 19.4
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 19,
+          "neighbor_station_id": 32,
+          "neighbor_station_name": "Thiruvanmiyur - Holiday Inn Chennai OMR",
+          "distance_km": 9.07,
+          "energy_kwh": 7.188,
+          "target_pct": 21.7
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 3,
+      "station_id": 19,
+      "station_name": "Chennai Airport - Domestic Parking (AEROHUB)",
+      "node_idx": 25,
+      "current_charge_to_percent": 22.4,
+      "top8_node_indices": [
+        26,
+        31,
+        30,
+        29,
+        27,
+        28,
+        34,
+        32
+      ],
+      "top8_distance_km_by_j": {
+        "26": 0.0,
+        "31": 14.1228,
+        "30": 16.2965,
+        "29": 16.688299999999998,
+        "27": 17.5257,
+        "28": 17.6812,
+        "34": 18.421400000000002,
+        "32": 22.3565
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 26,
+          "neighbor_station_id": 20,
+          "neighbor_station_name": "Chennai Airport - International Parking (AEROHUB)",
+          "distance_km": 0.0,
+          "energy_kwh": 0.001,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 31,
+          "neighbor_station_id": 136,
+          "neighbor_station_name": "MM Legacy",
+          "distance_km": 14.12,
+          "energy_kwh": 6.589,
+          "target_pct": 20.2
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 30,
+          "neighbor_station_id": 18,
+          "neighbor_station_name": "Chennai - Near Poonamallee Post Office",
+          "distance_km": 16.3,
+          "energy_kwh": 13.429,
+          "target_pct": 37.3
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 29,
+          "neighbor_station_id": 28,
+          "neighbor_station_name": "Poonamallee Bypass - Sri Sugam Travels",
+          "distance_km": 16.69,
+          "energy_kwh": 13.639,
+          "target_pct": 37.8
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 27,
+          "neighbor_station_id": 33,
+          "neighbor_station_name": "Thoraipakkam - Prestige Zackria Metropolitan",
+          "distance_km": 17.53,
+          "energy_kwh": 11.224,
+          "target_pct": 31.8
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 28,
+          "neighbor_station_id": 333,
+          "neighbor_station_name": "Etron Energies",
+          "distance_km": 17.68,
+          "energy_kwh": 13.922,
+          "target_pct": 38.6
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 34,
+          "neighbor_station_id": 398,
+          "neighbor_station_name": "Kalyan Grand Business Hotel",
+          "distance_km": 18.42,
+          "energy_kwh": 9.645,
+          "target_pct": 27.9
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 32,
+          "neighbor_station_id": 7,
+          "neighbor_station_name": "EVP Cinemas - Relux Charging Station",
+          "distance_km": 22.36,
+          "energy_kwh": 18.957,
+          "target_pct": 51.1
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 4,
+      "station_id": 20,
+      "station_name": "Chennai Airport - International Parking (AEROHUB)",
+      "node_idx": 26,
+      "current_charge_to_percent": 68.4,
+      "top8_node_indices": [
+        31,
+        30,
+        29,
+        27,
+        28,
+        34,
+        32,
+        33
+      ],
+      "top8_distance_km_by_j": {
+        "31": 14.1228,
+        "30": 16.2965,
+        "29": 16.688299999999998,
+        "27": 17.5257,
+        "28": 17.6812,
+        "34": 18.421400000000002,
+        "32": 22.3565,
+        "33": 28.67
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 31,
+          "neighbor_station_id": 136,
+          "neighbor_station_name": "MM Legacy",
+          "distance_km": 14.12,
+          "energy_kwh": 6.182,
+          "target_pct": 19.2
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 30,
+          "neighbor_station_id": 18,
+          "neighbor_station_name": "Chennai - Near Poonamallee Post Office",
+          "distance_km": 16.3,
+          "energy_kwh": 13.429,
+          "target_pct": 37.3
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 29,
+          "neighbor_station_id": 28,
+          "neighbor_station_name": "Poonamallee Bypass - Sri Sugam Travels",
+          "distance_km": 16.69,
+          "energy_kwh": 13.539,
+          "target_pct": 37.6
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 27,
+          "neighbor_station_id": 33,
+          "neighbor_station_name": "Thoraipakkam - Prestige Zackria Metropolitan",
+          "distance_km": 17.53,
+          "energy_kwh": 10.828,
+          "target_pct": 30.8
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 28,
+          "neighbor_station_id": 333,
+          "neighbor_station_name": "Etron Energies",
+          "distance_km": 17.68,
+          "energy_kwh": 13.797,
+          "target_pct": 38.2
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 34,
+          "neighbor_station_id": 398,
+          "neighbor_station_name": "Kalyan Grand Business Hotel",
+          "distance_km": 18.42,
+          "energy_kwh": 9.641,
+          "target_pct": 27.9
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 32,
+          "neighbor_station_id": 7,
+          "neighbor_station_name": "EVP Cinemas - Relux Charging Station",
+          "distance_km": 22.36,
+          "energy_kwh": 18.954,
+          "target_pct": 51.1
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 33,
+          "neighbor_station_id": 128,
+          "neighbor_station_name": "Muscat bakery & Restaurants",
+          "distance_km": 28.67,
+          "energy_kwh": 23.805,
+          "target_pct": 63.3
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 5,
+      "station_id": 398,
+      "station_name": "Kalyan Grand Business Hotel",
+      "node_idx": 34,
+      "current_charge_to_percent": 100.0,
+      "top8_node_indices": [
+        40,
+        35,
+        36,
+        37,
+        38,
+        39,
+        44,
+        43
+      ],
+      "top8_distance_km_by_j": {
+        "40": 32.0253,
+        "35": 32.2992,
+        "36": 32.2992,
+        "37": 43.6574,
+        "38": 52.37,
+        "39": 52.37,
+        "44": 52.5071,
+        "43": 57.473699999999994
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 40,
+          "neighbor_station_id": 11,
+          "neighbor_station_name": "Mamandur - Ram Residency (Manoj Bhavan)",
+          "distance_km": 32.03,
+          "energy_kwh": 25.591,
+          "target_pct": 67.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 35,
+          "neighbor_station_id": 137,
+          "neighbor_station_name": "Fairfield By Marriott Sriperumbudur",
+          "distance_km": 32.3,
+          "energy_kwh": 17.542,
+          "target_pct": 47.6
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 36,
+          "neighbor_station_id": 138,
+          "neighbor_station_name": "Pondur - Oragadam",
+          "distance_km": 32.3,
+          "energy_kwh": 17.542,
+          "target_pct": 47.6
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 37,
+          "neighbor_station_id": 10,
+          "neighbor_station_name": "Mamallapuram - Radisson Blu Resort Temple Bay",
+          "distance_km": 43.66,
+          "energy_kwh": 20.454,
+          "target_pct": 54.9
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 38,
+          "neighbor_station_id": 8,
+          "neighbor_station_name": "Sheraton Grand Chennai Resort",
+          "distance_km": 52.37,
+          "energy_kwh": 36.664,
+          "target_pct": 97.2
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 39,
+          "neighbor_station_id": 9,
+          "neighbor_station_name": "Four Points By Sheraton",
+          "distance_km": 52.37,
+          "energy_kwh": 36.664,
+          "target_pct": 97.2
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 44,
+          "neighbor_station_id": 12,
+          "neighbor_station_name": "Silavattam Village",
+          "distance_km": 52.51,
+          "energy_kwh": 29.751,
+          "target_pct": 78.8
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 43,
+          "neighbor_station_id": 139,
+          "neighbor_station_name": "Statiq - Cafe Udupi Ruchi (Uthiramerur)",
+          "distance_km": 57.47,
+          "energy_kwh": 36.54,
+          "target_pct": 96.8
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 6,
+      "station_id": 11,
+      "station_name": "Mamandur - Ram Residency (Manoj Bhavan)",
+      "node_idx": 40,
+      "current_charge_to_percent": 60.0,
+      "top8_node_indices": [
+        43,
+        44,
+        45,
+        41,
+        42,
+        52,
+        47,
+        49
+      ],
+      "top8_distance_km_by_j": {
+        "43": 0.0,
+        "44": 0.0,
+        "45": 0.0,
+        "41": 0.4081,
+        "42": 0.4081,
+        "52": 0.4768,
+        "47": 1.3385,
+        "49": 1.3385
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 43,
+          "neighbor_station_id": 139,
+          "neighbor_station_name": "Statiq - Cafe Udupi Ruchi (Uthiramerur)",
+          "distance_km": 0.0,
+          "energy_kwh": 10.768,
+          "target_pct": 30.7
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 44,
+          "neighbor_station_id": 12,
+          "neighbor_station_name": "Silavattam Village",
+          "distance_km": 0.0,
+          "energy_kwh": 5.213,
+          "target_pct": 16.8
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 45,
+          "neighbor_station_id": 133,
+          "neighbor_station_name": "Melmaruvathur - McDonald's (AVK Fuel Station)",
+          "distance_km": 0.0,
+          "energy_kwh": 7.856,
+          "target_pct": 23.4
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 41,
+          "neighbor_station_id": 135,
+          "neighbor_station_name": "Kanchipuram - Regency by GRT Hotels",
+          "distance_km": 0.41,
+          "energy_kwh": 41.579,
+          "target_pct": 110.2
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 42,
+          "neighbor_station_id": 134,
+          "neighbor_station_name": "Kanchipuram - Dindigul Thalappakatti Restaurant",
+          "distance_km": 0.41,
+          "energy_kwh": 44.29,
+          "target_pct": 117.4
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 52,
+          "neighbor_station_id": 416,
+          "neighbor_station_name": "Ather - Hotel Nadhan's Toll Punjabi Dhaba",
+          "distance_km": 0.48,
+          "energy_kwh": 29.179,
+          "target_pct": 77.3
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 47,
+          "neighbor_station_id": 425,
+          "neighbor_station_name": "Hotel Aishwarya Bhavan",
+          "distance_km": 1.34,
+          "energy_kwh": 17.607,
+          "target_pct": 47.8
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 49,
+          "neighbor_station_id": 426,
+          "neighbor_station_name": "Zeon Charging - Nalathur",
+          "distance_km": 1.34,
+          "energy_kwh": 18.596,
+          "target_pct": 50.2
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 7,
+      "station_id": 425,
+      "station_name": "Hotel Aishwarya Bhavan",
+      "node_idx": 47,
+      "current_charge_to_percent": 28.9,
+      "top8_node_indices": [
+        49,
+        54,
+        52,
+        48,
+        50,
+        51,
+        55,
+        64
+      ],
+      "top8_distance_km_by_j": {
+        "49": 0.0,
+        "54": 0.0,
+        "52": 1.8153,
+        "48": 11.1284,
+        "50": 11.1284,
+        "51": 18.0147,
+        "55": 18.0147,
+        "64": 23.087
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 49,
+          "neighbor_station_id": 426,
+          "neighbor_station_name": "Zeon Charging - Nalathur",
+          "distance_km": 0.0,
+          "energy_kwh": 0.035,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 54,
+          "neighbor_station_id": 424,
+          "neighbor_station_name": "NTPC - NPS Agency",
+          "distance_km": 0.0,
+          "energy_kwh": 11.327,
+          "target_pct": 32.1
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 52,
+          "neighbor_station_id": 416,
+          "neighbor_station_name": "Ather - Hotel Nadhan's Toll Punjabi Dhaba",
+          "distance_km": 1.82,
+          "energy_kwh": 12.333,
+          "target_pct": 34.6
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 48,
+          "neighbor_station_id": 421,
+          "neighbor_station_name": "Marakkanam - Mango Hill Hotel Shallow Beach",
+          "distance_km": 11.13,
+          "energy_kwh": 17.243,
+          "target_pct": 46.9
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 50,
+          "neighbor_station_id": 432,
+          "neighbor_station_name": "Ocean Spray Resort",
+          "distance_km": 11.13,
+          "energy_kwh": 16.248,
+          "target_pct": 44.4
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 51,
+          "neighbor_station_id": 417,
+          "neighbor_station_name": "IOCL - Sri Vinayaga Muruga",
+          "distance_km": 18.01,
+          "energy_kwh": 4.447,
+          "target_pct": 14.9
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 55,
+          "neighbor_station_id": 423,
+          "neighbor_station_name": "Ather - Nandans Punjabi Dhaba (Tailapuram)",
+          "distance_km": 18.01,
+          "energy_kwh": 6.146,
+          "target_pct": 19.1
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 64,
+          "neighbor_station_id": 83,
+          "neighbor_station_name": "Ather - Barath Complex",
+          "distance_km": 23.09,
+          "energy_kwh": 25.29,
+          "target_pct": 67.0
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 8,
+      "station_id": 426,
+      "station_name": "Zeon Charging - Nalathur",
+      "node_idx": 49,
+      "current_charge_to_percent": 33.6,
+      "top8_node_indices": [
+        54,
+        52,
+        50,
+        51,
+        55,
+        64,
+        65,
+        66
+      ],
+      "top8_distance_km_by_j": {
+        "54": 0.0,
+        "52": 1.8153,
+        "50": 11.1284,
+        "51": 18.0147,
+        "55": 18.0147,
+        "64": 23.087,
+        "65": 23.087,
+        "66": 23.087
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 54,
+          "neighbor_station_id": 424,
+          "neighbor_station_name": "NTPC - NPS Agency",
+          "distance_km": 0.0,
+          "energy_kwh": 11.093,
+          "target_pct": 31.5
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 52,
+          "neighbor_station_id": 416,
+          "neighbor_station_name": "Ather - Hotel Nadhan's Toll Punjabi Dhaba",
+          "distance_km": 1.82,
+          "energy_kwh": 12.092,
+          "target_pct": 34.0
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 50,
+          "neighbor_station_id": 432,
+          "neighbor_station_name": "Ocean Spray Resort",
+          "distance_km": 11.13,
+          "energy_kwh": 15.883,
+          "target_pct": 43.5
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 51,
+          "neighbor_station_id": 417,
+          "neighbor_station_name": "IOCL - Sri Vinayaga Muruga",
+          "distance_km": 18.01,
+          "energy_kwh": 3.32,
+          "target_pct": 12.1
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 55,
+          "neighbor_station_id": 423,
+          "neighbor_station_name": "Ather - Nandans Punjabi Dhaba (Tailapuram)",
+          "distance_km": 18.01,
+          "energy_kwh": 5.16,
+          "target_pct": 16.7
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 64,
+          "neighbor_station_id": 83,
+          "neighbor_station_name": "Ather - Barath Complex",
+          "distance_km": 23.09,
+          "energy_kwh": 25.978,
+          "target_pct": 68.8
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 65,
+          "neighbor_station_id": 84,
+          "neighbor_station_name": "Ather - Shobana",
+          "distance_km": 23.09,
+          "energy_kwh": 25.978,
+          "target_pct": 68.8
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 66,
+          "neighbor_station_id": 86,
+          "neighbor_station_name": "MG Motors (FPL Vehicles)",
+          "distance_km": 23.09,
+          "energy_kwh": 25.978,
+          "target_pct": 68.8
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 9,
+      "station_id": 415,
+      "station_name": "IOCL - Sakthi Agency",
+      "node_idx": 56,
+      "current_charge_to_percent": 35.2,
+      "top8_node_indices": [
+        57,
+        58,
+        59,
+        61,
+        62,
+        63,
+        71,
+        72
+      ],
+      "top8_distance_km_by_j": {
+        "57": 0.0,
+        "58": 0.0,
+        "59": 0.0,
+        "61": 0.0,
+        "62": 0.0,
+        "63": 0.0,
+        "71": 10.752799999999999,
+        "72": 10.752799999999999
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 57,
+          "neighbor_station_id": 419,
+          "neighbor_station_name": "Ather - Nandans Punjabi",
+          "distance_km": 0.0,
+          "energy_kwh": 0.0,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 58,
+          "neighbor_station_id": 430,
+          "neighbor_station_name": "Vikravandi - Arutperun Jothi",
+          "distance_km": 0.0,
+          "energy_kwh": 0.657,
+          "target_pct": 5.4
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 59,
+          "neighbor_station_id": 422,
+          "neighbor_station_name": "HPCL - Sri Varadhan",
+          "distance_km": 0.0,
+          "energy_kwh": 8.155,
+          "target_pct": 24.1
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 61,
+          "neighbor_station_id": 434,
+          "neighbor_station_name": "Viluppuram - Arutperun Jothi / Ayyur Agaram",
+          "distance_km": 0.0,
+          "energy_kwh": 4.125,
+          "target_pct": 14.1
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 62,
+          "neighbor_station_id": 431,
+          "neighbor_station_name": "Ather - Villupuram",
+          "distance_km": 0.0,
+          "energy_kwh": 4.853,
+          "target_pct": 15.9
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 63,
+          "neighbor_station_id": 433,
+          "neighbor_station_name": "Statiq - Noor Residency",
+          "distance_km": 0.0,
+          "energy_kwh": 4.853,
+          "target_pct": 15.9
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 71,
+          "neighbor_station_id": 88,
+          "neighbor_station_name": "IOCL - K G P Amaravathi",
+          "distance_km": 10.75,
+          "energy_kwh": 10.965,
+          "target_pct": 31.2
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 72,
+          "neighbor_station_id": 89,
+          "neighbor_station_name": "NTPC - Panruti",
+          "distance_km": 10.75,
+          "energy_kwh": 10.965,
+          "target_pct": 31.2
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 10,
+      "station_id": 430,
+      "station_name": "Vikravandi - Arutperun Jothi",
+      "node_idx": 58,
+      "current_charge_to_percent": 32.3,
+      "top8_node_indices": [
+        59,
+        61,
+        62,
+        63,
+        71,
+        72,
+        73,
+        69
+      ],
+      "top8_distance_km_by_j": {
+        "59": 0.0,
+        "61": 0.0,
+        "62": 0.0,
+        "63": 0.0,
+        "71": 10.752799999999999,
+        "72": 10.752799999999999,
+        "73": 13.6623,
+        "69": 17.651
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 59,
+          "neighbor_station_id": 422,
+          "neighbor_station_name": "HPCL - Sri Varadhan",
+          "distance_km": 0.0,
+          "energy_kwh": 6.354,
+          "target_pct": 19.6
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 61,
+          "neighbor_station_id": 434,
+          "neighbor_station_name": "Viluppuram - Arutperun Jothi / Ayyur Agaram",
+          "distance_km": 0.0,
+          "energy_kwh": 4.18,
+          "target_pct": 14.2
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 62,
+          "neighbor_station_id": 431,
+          "neighbor_station_name": "Ather - Villupuram",
+          "distance_km": 0.0,
+          "energy_kwh": 4.108,
+          "target_pct": 14.0
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 63,
+          "neighbor_station_id": 433,
+          "neighbor_station_name": "Statiq - Noor Residency",
+          "distance_km": 0.0,
+          "energy_kwh": 4.108,
+          "target_pct": 14.0
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 71,
+          "neighbor_station_id": 88,
+          "neighbor_station_name": "IOCL - K G P Amaravathi",
+          "distance_km": 10.75,
+          "energy_kwh": 7.16,
+          "target_pct": 21.6
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 72,
+          "neighbor_station_id": 89,
+          "neighbor_station_name": "NTPC - Panruti",
+          "distance_km": 10.75,
+          "energy_kwh": 7.16,
+          "target_pct": 21.6
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 73,
+          "neighbor_station_id": 85,
+          "neighbor_station_name": "IOCL - Shivasakthi Singaram (1)",
+          "distance_km": 13.66,
+          "energy_kwh": 7.463,
+          "target_pct": 22.4
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 69,
+          "neighbor_station_id": 420,
+          "neighbor_station_name": "HPCL - Chakra",
+          "distance_km": 17.65,
+          "energy_kwh": 14.126,
+          "target_pct": 39.1
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 11,
+      "station_id": 88,
+      "station_name": "IOCL - K G P Amaravathi",
+      "node_idx": 71,
+      "current_charge_to_percent": 23.5,
+      "top8_node_indices": [
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        79,
+        80
+      ],
+      "top8_distance_km_by_j": {
+        "72": 0.0,
+        "73": 3.1458000000000004,
+        "74": 23.0273,
+        "75": 30.2762,
+        "76": 30.2762,
+        "77": 41.8467,
+        "79": 47.5342,
+        "80": 58.0484
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 72,
+          "neighbor_station_id": 89,
+          "neighbor_station_name": "NTPC - Panruti",
+          "distance_km": 0.0,
+          "energy_kwh": 0.0,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 73,
+          "neighbor_station_id": 85,
+          "neighbor_station_name": "IOCL - Shivasakthi Singaram (1)",
+          "distance_km": 3.15,
+          "energy_kwh": 0.315,
+          "target_pct": 4.5
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 74,
+          "neighbor_station_id": 87,
+          "neighbor_station_name": "Cuddalore - Argunt Aggregates",
+          "distance_km": 23.03,
+          "energy_kwh": 13.802,
+          "target_pct": 38.3
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 75,
+          "neighbor_station_id": 427,
+          "neighbor_station_name": "Kazam - Cafe Udupi Ruchi (Ulundurpettai)",
+          "distance_km": 30.28,
+          "energy_kwh": 10.69,
+          "target_pct": 30.5
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 76,
+          "neighbor_station_id": 428,
+          "neighbor_station_name": "Zeon Electric - Cafe Udupi Ruchi (Ulundurpettai)",
+          "distance_km": 30.28,
+          "energy_kwh": 10.69,
+          "target_pct": 30.5
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 77,
+          "neighbor_station_id": 91,
+          "neighbor_station_name": "IOCL - Raja Traders",
+          "distance_km": 41.85,
+          "energy_kwh": 15.589,
+          "target_pct": 42.7
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 79,
+          "neighbor_station_id": 92,
+          "neighbor_station_name": "Virudhachalam - Hotel Shree Bhawan",
+          "distance_km": 47.53,
+          "energy_kwh": 17.568,
+          "target_pct": 47.7
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 80,
+          "neighbor_station_id": 246,
+          "neighbor_station_name": "Veppur - Hotel Sri Anandhas",
+          "distance_km": 58.05,
+          "energy_kwh": 24.081,
+          "target_pct": 64.0
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 12,
+      "station_id": 85,
+      "station_name": "IOCL - Shivasakthi Singaram (1)",
+      "node_idx": 73,
+      "current_charge_to_percent": 39.1,
+      "top8_node_indices": [
+        74,
+        75,
+        76,
+        77,
+        79,
+        80,
+        82,
+        78
+      ],
+      "top8_distance_km_by_j": {
+        "74": 20.2434,
+        "75": 33.0772,
+        "76": 33.0772,
+        "77": 37.9749,
+        "79": 46.0398,
+        "80": 60.8494,
+        "82": 70.1129,
+        "78": 74.6448
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 74,
+          "neighbor_station_id": 87,
+          "neighbor_station_name": "Cuddalore - Argunt Aggregates",
+          "distance_km": 20.24,
+          "energy_kwh": 12.19,
+          "target_pct": 34.2
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 75,
+          "neighbor_station_id": 427,
+          "neighbor_station_name": "Kazam - Cafe Udupi Ruchi (Ulundurpettai)",
+          "distance_km": 33.08,
+          "energy_kwh": 11.947,
+          "target_pct": 33.6
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 76,
+          "neighbor_station_id": 428,
+          "neighbor_station_name": "Zeon Electric - Cafe Udupi Ruchi (Ulundurpettai)",
+          "distance_km": 33.08,
+          "energy_kwh": 11.947,
+          "target_pct": 33.6
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 77,
+          "neighbor_station_id": 91,
+          "neighbor_station_name": "IOCL - Raja Traders",
+          "distance_km": 37.97,
+          "energy_kwh": 17.066,
+          "target_pct": 46.4
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 79,
+          "neighbor_station_id": 92,
+          "neighbor_station_name": "Virudhachalam - Hotel Shree Bhawan",
+          "distance_km": 46.04,
+          "energy_kwh": 20.852,
+          "target_pct": 55.9
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 80,
+          "neighbor_station_id": 246,
+          "neighbor_station_name": "Veppur - Hotel Sri Anandhas",
+          "distance_km": 60.85,
+          "energy_kwh": 24.161,
+          "target_pct": 64.2
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 82,
+          "neighbor_station_id": 90,
+          "neighbor_station_name": "IOCL - Shivasakthi Singaram (2)",
+          "distance_km": 70.11,
+          "energy_kwh": 30.527,
+          "target_pct": 80.9
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 78,
+          "neighbor_station_id": 130,
+          "neighbor_station_name": "Kallakurichi - District Collector Office",
+          "distance_km": 74.64,
+          "energy_kwh": 38.227,
+          "target_pct": 101.3
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 13,
+      "station_id": 87,
+      "station_name": "Cuddalore - Argunt Aggregates",
+      "node_idx": 74,
+      "current_charge_to_percent": 100.0,
+      "top8_node_indices": [
+        77,
+        79,
+        75,
+        76,
+        82,
+        80,
+        78,
+        81
+      ],
+      "top8_distance_km_by_j": {
+        "77": 19.759,
+        "79": 29.319,
+        "75": 29.7355,
+        "76": 29.7355,
+        "82": 53.1129,
+        "80": 55.6485,
+        "78": 73.6336,
+        "81": 82.6044
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 77,
+          "neighbor_station_id": 91,
+          "neighbor_station_name": "IOCL - Raja Traders",
+          "distance_km": 19.76,
+          "energy_kwh": 7.584,
+          "target_pct": 22.7
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 79,
+          "neighbor_station_id": 92,
+          "neighbor_station_name": "Virudhachalam - Hotel Shree Bhawan",
+          "distance_km": 29.32,
+          "energy_kwh": 13.545,
+          "target_pct": 37.6
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 75,
+          "neighbor_station_id": 427,
+          "neighbor_station_name": "Kazam - Cafe Udupi Ruchi (Ulundurpettai)",
+          "distance_km": 29.74,
+          "energy_kwh": 11.368,
+          "target_pct": 32.2
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 76,
+          "neighbor_station_id": 428,
+          "neighbor_station_name": "Zeon Electric - Cafe Udupi Ruchi (Ulundurpettai)",
+          "distance_km": 29.74,
+          "energy_kwh": 11.368,
+          "target_pct": 32.2
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 82,
+          "neighbor_station_id": 90,
+          "neighbor_station_name": "IOCL - Shivasakthi Singaram (2)",
+          "distance_km": 53.11,
+          "energy_kwh": 25.25,
+          "target_pct": 66.9
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 80,
+          "neighbor_station_id": 246,
+          "neighbor_station_name": "Veppur - Hotel Sri Anandhas",
+          "distance_km": 55.65,
+          "energy_kwh": 26.499,
+          "target_pct": 70.2
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 78,
+          "neighbor_station_id": 130,
+          "neighbor_station_name": "Kallakurichi - District Collector Office",
+          "distance_km": 73.63,
+          "energy_kwh": 37.655,
+          "target_pct": 99.8
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 81,
+          "neighbor_station_id": 131,
+          "neighbor_station_name": "Thachur, Kallakurichi - Adyar Ananda Bhavan",
+          "distance_km": 82.6,
+          "energy_kwh": 40.322,
+          "target_pct": 106.9
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 14,
+      "station_id": 91,
+      "station_name": "IOCL - Raja Traders",
+      "node_idx": 77,
+      "current_charge_to_percent": 91.2,
+      "top8_node_indices": [
+        79,
+        82,
+        80,
+        78,
+        81,
+        89,
+        90,
+        93
+      ],
+      "top8_distance_km_by_j": {
+        "79": 8.0648,
+        "82": 30.6764,
+        "80": 33.212,
+        "78": 55.0351,
+        "81": 60.1679,
+        "89": 71.4503,
+        "90": 71.4503,
+        "93": 71.93430000000001
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 79,
+          "neighbor_station_id": 92,
+          "neighbor_station_name": "Virudhachalam - Hotel Shree Bhawan",
+          "distance_km": 8.06,
+          "energy_kwh": 3.382,
+          "target_pct": 12.2
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 82,
+          "neighbor_station_id": 90,
+          "neighbor_station_name": "IOCL - Shivasakthi Singaram (2)",
+          "distance_km": 30.68,
+          "energy_kwh": 14.087,
+          "target_pct": 39.0
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 80,
+          "neighbor_station_id": 246,
+          "neighbor_station_name": "Veppur - Hotel Sri Anandhas",
+          "distance_km": 33.21,
+          "energy_kwh": 15.173,
+          "target_pct": 41.7
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 78,
+          "neighbor_station_id": 130,
+          "neighbor_station_name": "Kallakurichi - District Collector Office",
+          "distance_km": 55.04,
+          "energy_kwh": 28.977,
+          "target_pct": 76.8
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 81,
+          "neighbor_station_id": 131,
+          "neighbor_station_name": "Thachur, Kallakurichi - Adyar Ananda Bhavan",
+          "distance_km": 60.17,
+          "energy_kwh": 31.586,
+          "target_pct": 83.7
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 89,
+          "neighbor_station_id": 320,
+          "neighbor_station_name": "Quality Inn Viha",
+          "distance_km": 71.45,
+          "energy_kwh": 28.043,
+          "target_pct": 74.3
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 90,
+          "neighbor_station_id": 321,
+          "neighbor_station_name": "RAS Residency Auto Nagar",
+          "distance_km": 71.45,
+          "energy_kwh": 28.043,
+          "target_pct": 74.3
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 93,
+          "neighbor_station_id": 322,
+          "neighbor_station_name": "Raya's Grand Hotel",
+          "distance_km": 71.93,
+          "energy_kwh": 29.44,
+          "target_pct": 78.0
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 15,
+      "station_id": 320,
+      "station_name": "Quality Inn Viha",
+      "node_idx": 89,
+      "current_charge_to_percent": 86.3,
+      "top8_node_indices": [
+        90,
+        93,
+        95,
+        103,
+        96,
+        106,
+        100,
+        108
+      ],
+      "top8_distance_km_by_j": {
+        "90": 0.0,
+        "93": 0.484,
+        "95": 7.414,
+        "103": 54.357699999999994,
+        "96": 68.94069999999999,
+        "106": 72.3779,
+        "100": 76.0197,
+        "108": 81.0972
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 90,
+          "neighbor_station_id": 321,
+          "neighbor_station_name": "RAS Residency Auto Nagar",
+          "distance_km": 0.0,
+          "energy_kwh": 0.0,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 93,
+          "neighbor_station_id": 322,
+          "neighbor_station_name": "Raya's Grand Hotel",
+          "distance_km": 0.48,
+          "energy_kwh": 1.048,
+          "target_pct": 6.4
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 95,
+          "neighbor_station_id": 319,
+          "neighbor_station_name": "Kumbakonam - Cholaa Dynasty (A Bergamont Hotel)",
+          "distance_km": 7.41,
+          "energy_kwh": 4.404,
+          "target_pct": 14.8
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 103,
+          "neighbor_station_id": 323,
+          "neighbor_station_name": "Jayaraj Karz Vallam Pudur Sethi",
+          "distance_km": 54.36,
+          "energy_kwh": 25.17,
+          "target_pct": 66.7
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 96,
+          "neighbor_station_id": 209,
+          "neighbor_station_name": "IOCL - Sri Balaji",
+          "distance_km": 68.94,
+          "energy_kwh": 45.428,
+          "target_pct": 120.4
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 106,
+          "neighbor_station_id": 358,
+          "neighbor_station_name": "Trichy - Hotel Balaji Ariyas",
+          "distance_km": 72.38,
+          "energy_kwh": 32.289,
+          "target_pct": 85.6
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 100,
+          "neighbor_station_id": 211,
+          "neighbor_station_name": "Velankanni - Hotel Golden Sand",
+          "distance_km": 76.02,
+          "energy_kwh": 50.24,
+          "target_pct": 133.1
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 108,
+          "neighbor_station_id": 3,
+          "neighbor_station_name": "Charles Mahal",
+          "distance_km": 81.1,
+          "energy_kwh": 37.316,
+          "target_pct": 98.9
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 16,
+      "station_id": 319,
+      "station_name": "Kumbakonam - Cholaa Dynasty (A Bergamont Hotel)",
+      "node_idx": 95,
+      "current_charge_to_percent": 99.3,
+      "top8_node_indices": [
+        103,
+        106,
+        108,
+        105,
+        104,
+        96,
+        102,
+        114
+      ],
+      "top8_distance_km_by_j": {
+        "103": 46.9437,
+        "106": 64.9639,
+        "108": 73.8443,
+        "105": 75.65180000000001,
+        "104": 76.2388,
+        "96": 76.8329,
+        "102": 77.0013,
+        "114": 77.5532
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 103,
+          "neighbor_station_id": 323,
+          "neighbor_station_name": "Jayaraj Karz Vallam Pudur Sethi",
+          "distance_km": 46.94,
+          "energy_kwh": 21.133,
+          "target_pct": 56.6
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 106,
+          "neighbor_station_id": 358,
+          "neighbor_station_name": "Trichy - Hotel Balaji Ariyas",
+          "distance_km": 64.96,
+          "energy_kwh": 28.207,
+          "target_pct": 74.7
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 108,
+          "neighbor_station_id": 3,
+          "neighbor_station_name": "Charles Mahal",
+          "distance_km": 73.84,
+          "energy_kwh": 31.169,
+          "target_pct": 82.6
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 105,
+          "neighbor_station_id": 359,
+          "neighbor_station_name": "Trichy - Tata Motors Kaveri (Thiruvanaikoil)",
+          "distance_km": 75.65,
+          "energy_kwh": 33.618,
+          "target_pct": 89.1
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 104,
+          "neighbor_station_id": 355,
+          "neighbor_station_name": "Kaveri Garage Tiruchirapalli",
+          "distance_km": 76.24,
+          "energy_kwh": 34.441,
+          "target_pct": 91.3
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 96,
+          "neighbor_station_id": 209,
+          "neighbor_station_name": "IOCL - Sri Balaji",
+          "distance_km": 76.83,
+          "energy_kwh": 55.139,
+          "target_pct": 146.1
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 102,
+          "neighbor_station_id": 349,
+          "neighbor_station_name": "Samayapuram - Gowri Parvathi Bhavan",
+          "distance_km": 77.0,
+          "energy_kwh": 35.526,
+          "target_pct": 94.1
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 114,
+          "neighbor_station_id": 354,
+          "neighbor_station_name": "Charge Zone - Tiruchirappalli (Courtyard Marriott)",
+          "distance_km": 77.55,
+          "energy_kwh": 33.565,
+          "target_pct": 88.9
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 17,
+      "station_id": 358,
+      "station_name": "Trichy - Hotel Balaji Ariyas",
+      "node_idx": 106,
+      "current_charge_to_percent": 30.7,
+      "top8_node_indices": [
+        108,
+        114,
+        112,
+        113,
+        121,
+        119,
+        118,
+        117
+      ],
+      "top8_distance_km_by_j": {
+        "108": 18.0672,
+        "114": 23.5936,
+        "112": 23.8888,
+        "113": 23.8888,
+        "121": 25.5748,
+        "119": 25.6557,
+        "118": 28.3023,
+        "117": 29.2722
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 108,
+          "neighbor_station_id": 3,
+          "neighbor_station_name": "Charles Mahal",
+          "distance_km": 18.07,
+          "energy_kwh": 5.58,
+          "target_pct": 17.7
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 114,
+          "neighbor_station_id": 354,
+          "neighbor_station_name": "Charge Zone - Tiruchirappalli (Courtyard Marriott)",
+          "distance_km": 23.59,
+          "energy_kwh": 8.265,
+          "target_pct": 24.4
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 112,
+          "neighbor_station_id": 350,
+          "neighbor_station_name": "Ather-Aswin's Sweets (Bus Stand)",
+          "distance_km": 23.89,
+          "energy_kwh": 8.447,
+          "target_pct": 24.9
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 113,
+          "neighbor_station_id": 352,
+          "neighbor_station_name": "Ather-Trichi Kaveri Foods",
+          "distance_km": 23.89,
+          "energy_kwh": 8.447,
+          "target_pct": 24.9
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 121,
+          "neighbor_station_id": 254,
+          "neighbor_station_name": "VASAN Charging Station",
+          "distance_km": 25.57,
+          "energy_kwh": 14.481,
+          "target_pct": 40.0
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 119,
+          "neighbor_station_id": 356,
+          "neighbor_station_name": "Trichy - Ammikal Square Kanchivaram Cafe",
+          "distance_km": 25.66,
+          "energy_kwh": 12.963,
+          "target_pct": 36.2
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 118,
+          "neighbor_station_id": 357,
+          "neighbor_station_name": "Trichy - Dindigul Main Road Kaveri Garage",
+          "distance_km": 28.3,
+          "energy_kwh": 11.36,
+          "target_pct": 32.2
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 117,
+          "neighbor_station_id": 351,
+          "neighbor_station_name": "Ather-Kaveri Tata (Piratiyur)",
+          "distance_km": 29.27,
+          "energy_kwh": 11.151,
+          "target_pct": 31.6
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 18,
+      "station_id": 354,
+      "station_name": "Charge Zone - Tiruchirappalli (Courtyard Marriott)",
+      "node_idx": 114,
+      "current_charge_to_percent": 32.9,
+      "top8_node_indices": [
+        118,
+        117,
+        116,
+        119,
+        121,
+        123,
+        122,
+        120
+      ],
+      "top8_distance_km_by_j": {
+        "118": 5.5376,
+        "117": 6.5074,
+        "116": 6.5118,
+        "119": 7.8431999999999995,
+        "121": 18.7952,
+        "123": 26.8278,
+        "122": 26.8304,
+        "120": 48.8557
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 118,
+          "neighbor_station_id": 357,
+          "neighbor_station_name": "Trichy - Dindigul Main Road Kaveri Garage",
+          "distance_km": 5.54,
+          "energy_kwh": 1.754,
+          "target_pct": 8.1
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 117,
+          "neighbor_station_id": 351,
+          "neighbor_station_name": "Ather-Kaveri Tata (Piratiyur)",
+          "distance_km": 6.51,
+          "energy_kwh": 1.947,
+          "target_pct": 8.6
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 116,
+          "neighbor_station_id": 249,
+          "neighbor_station_name": "Kaveri Garage Piratiyur",
+          "distance_km": 6.51,
+          "energy_kwh": 1.947,
+          "target_pct": 8.6
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 119,
+          "neighbor_station_id": 356,
+          "neighbor_station_name": "Trichy - Ammikal Square Kanchivaram Cafe",
+          "distance_km": 7.84,
+          "energy_kwh": 5.793,
+          "target_pct": 18.2
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 121,
+          "neighbor_station_id": 254,
+          "neighbor_station_name": "VASAN Charging Station",
+          "distance_km": 18.8,
+          "energy_kwh": 12.64,
+          "target_pct": 35.3
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 123,
+          "neighbor_station_id": 435,
+          "neighbor_station_name": "Hotel Arun Cafe",
+          "distance_km": 26.83,
+          "energy_kwh": 15.268,
+          "target_pct": 41.9
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 122,
+          "neighbor_station_id": 253,
+          "neighbor_station_name": "IOCL - Sugan Tradings",
+          "distance_km": 26.83,
+          "energy_kwh": 15.268,
+          "target_pct": 41.9
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 120,
+          "neighbor_station_id": 157,
+          "neighbor_station_name": "Kulithalai - Nimalan Food Court",
+          "distance_km": 48.86,
+          "energy_kwh": 29.224,
+          "target_pct": 77.4
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 19,
+      "station_id": 249,
+      "station_name": "Kaveri Garage Piratiyur",
+      "node_idx": 116,
+      "current_charge_to_percent": 100.0,
+      "top8_node_indices": [
+        118,
+        117,
+        119,
+        121,
+        123,
+        122,
+        120,
+        130
+      ],
+      "top8_distance_km_by_j": {
+        "118": 0.1205,
+        "117": 1.0904,
+        "119": 11.314200000000001,
+        "121": 22.2662,
+        "123": 23.610599999999998,
+        "122": 23.6131,
+        "120": 40.275800000000004,
+        "130": 78.046
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 118,
+          "neighbor_station_id": 357,
+          "neighbor_station_name": "Trichy - Dindigul Main Road Kaveri Garage",
+          "distance_km": 0.12,
+          "energy_kwh": 0.002,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 117,
+          "neighbor_station_id": 351,
+          "neighbor_station_name": "Ather-Kaveri Tata (Piratiyur)",
+          "distance_km": 1.09,
+          "energy_kwh": 0.356,
+          "target_pct": 4.6
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 119,
+          "neighbor_station_id": 356,
+          "neighbor_station_name": "Trichy - Ammikal Square Kanchivaram Cafe",
+          "distance_km": 11.31,
+          "energy_kwh": 10.24,
+          "target_pct": 29.3
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 121,
+          "neighbor_station_id": 254,
+          "neighbor_station_name": "VASAN Charging Station",
+          "distance_km": 22.27,
+          "energy_kwh": 17.192,
+          "target_pct": 46.7
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 123,
+          "neighbor_station_id": 435,
+          "neighbor_station_name": "Hotel Arun Cafe",
+          "distance_km": 23.61,
+          "energy_kwh": 9.609,
+          "target_pct": 27.8
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 122,
+          "neighbor_station_id": 253,
+          "neighbor_station_name": "IOCL - Sugan Tradings",
+          "distance_km": 23.61,
+          "energy_kwh": 9.609,
+          "target_pct": 27.8
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 120,
+          "neighbor_station_id": 157,
+          "neighbor_station_name": "Kulithalai - Nimalan Food Court",
+          "distance_km": 40.28,
+          "energy_kwh": 19.06,
+          "target_pct": 51.4
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 130,
+          "neighbor_station_id": 154,
+          "neighbor_station_name": "Sri Venkateshwara Auto Fuels",
+          "distance_km": 78.05,
+          "energy_kwh": 40.804,
+          "target_pct": 108.1
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 20,
+      "station_id": 253,
+      "station_name": "IOCL - Sugan Tradings",
+      "node_idx": 122,
+      "current_charge_to_percent": 100.0,
+      "top8_node_indices": [
+        123,
+        124,
+        144,
+        137,
+        145,
+        138,
+        140,
+        141
+      ],
+      "top8_distance_km_by_j": {
+        "123": 3.6168,
+        "124": 74.92960000000001,
+        "144": 76.70660000000001,
+        "137": 77.4826,
+        "145": 78.3386,
+        "138": 79.4854,
+        "140": 80.7054,
+        "141": 80.7054
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 123,
+          "neighbor_station_id": 435,
+          "neighbor_station_name": "Hotel Arun Cafe",
+          "distance_km": 3.62,
+          "energy_kwh": 2.316,
+          "target_pct": 9.5
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 124,
+          "neighbor_station_id": 252,
+          "neighbor_station_name": "IOCL - S M Agency",
+          "distance_km": 74.93,
+          "energy_kwh": 32.803,
+          "target_pct": 86.9
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 144,
+          "neighbor_station_id": 195,
+          "neighbor_station_name": "Melur - Zeon X A.N Energy Solutions",
+          "distance_km": 76.71,
+          "energy_kwh": 34.324,
+          "target_pct": 91.0
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 137,
+          "neighbor_station_id": 98,
+          "neighbor_station_name": "Kaveri Garage Seelapadi",
+          "distance_km": 77.48,
+          "energy_kwh": 33.789,
+          "target_pct": 89.5
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 145,
+          "neighbor_station_id": 194,
+          "neighbor_station_name": "Ather-Temple City (Melur Town Junction)",
+          "distance_km": 78.34,
+          "energy_kwh": 34.829,
+          "target_pct": 92.3
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 138,
+          "neighbor_station_id": 99,
+          "neighbor_station_name": "Vel Saravana bhavan",
+          "distance_km": 79.49,
+          "energy_kwh": 33.77,
+          "target_pct": 89.5
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 140,
+          "neighbor_station_id": 96,
+          "neighbor_station_name": "IOCL - Parthyusha",
+          "distance_km": 80.71,
+          "energy_kwh": 37.008,
+          "target_pct": 98.1
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 141,
+          "neighbor_station_id": 97,
+          "neighbor_station_name": "IOCL - Sri Sai Ram",
+          "distance_km": 80.71,
+          "energy_kwh": 37.008,
+          "target_pct": 98.1
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 21,
+      "station_id": 195,
+      "station_name": "Melur - Zeon X A.N Energy Solutions",
+      "node_idx": 144,
+      "current_charge_to_percent": 35.4,
+      "top8_node_indices": [
+        145,
+        150,
+        156,
+        158,
+        159,
+        160,
+        151,
+        169
+      ],
+      "top8_distance_km_by_j": {
+        "145": 1.9250999999999998,
+        "150": 18.3109,
+        "156": 25.100099999999998,
+        "158": 29.0195,
+        "159": 29.3522,
+        "160": 29.3888,
+        "151": 30.9723,
+        "169": 31.1812
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 145,
+          "neighbor_station_id": 194,
+          "neighbor_station_name": "Ather-Temple City (Melur Town Junction)",
+          "distance_km": 1.93,
+          "energy_kwh": 0.419,
+          "target_pct": 4.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 150,
+          "neighbor_station_id": 449,
+          "neighbor_station_name": "Hotel Temple City Lake Inn",
+          "distance_km": 18.31,
+          "energy_kwh": 8.606,
+          "target_pct": 25.3
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 156,
+          "neighbor_station_id": 185,
+          "neighbor_station_name": "Madurai - Poppys Hotel",
+          "distance_km": 25.1,
+          "energy_kwh": 9.858,
+          "target_pct": 28.4
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 158,
+          "neighbor_station_id": 129,
+          "neighbor_station_name": "Courtyard by Marriott Madurai",
+          "distance_km": 29.02,
+          "energy_kwh": 13.186,
+          "target_pct": 36.7
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 159,
+          "neighbor_station_id": 184,
+          "neighbor_station_name": "Madurai - JC Residency",
+          "distance_km": 29.35,
+          "energy_kwh": 11.705,
+          "target_pct": 33.0
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 160,
+          "neighbor_station_id": 180,
+          "neighbor_station_name": "JC Residency Madurai",
+          "distance_km": 29.39,
+          "energy_kwh": 11.76,
+          "target_pct": 33.1
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 151,
+          "neighbor_station_id": 316,
+          "neighbor_station_name": "IOCL - Nma Rahima Enterprises",
+          "distance_km": 30.97,
+          "energy_kwh": 12.524,
+          "target_pct": 35.1
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 169,
+          "neighbor_station_id": 183,
+          "neighbor_station_name": "Madurai - Grand Madurai by GRT Hotels",
+          "distance_km": 31.18,
+          "energy_kwh": 14.293,
+          "target_pct": 39.5
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 22,
+      "station_id": 183,
+      "station_name": "Madurai - Grand Madurai by GRT Hotels",
+      "node_idx": 169,
+      "current_charge_to_percent": 58.2,
+      "top8_node_indices": [
+        170,
+        178,
+        181,
+        174,
+        173,
+        182,
+        172,
+        176
+      ],
+      "top8_distance_km_by_j": {
+        "170": 1.4365,
+        "178": 6.1067,
+        "181": 7.823600000000001,
+        "174": 8.238,
+        "173": 8.4671,
+        "182": 8.4878,
+        "172": 9.4674,
+        "176": 10.7408
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 170,
+          "neighbor_station_id": 179,
+          "neighbor_station_name": "Grand Madurai by GRT Hotels",
+          "distance_km": 1.44,
+          "energy_kwh": 0.023,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 178,
+          "neighbor_station_id": 174,
+          "neighbor_station_name": "Amika Hotel Madurai",
+          "distance_km": 6.11,
+          "energy_kwh": 2.081,
+          "target_pct": 9.0
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 181,
+          "neighbor_station_id": 248,
+          "neighbor_station_name": "Jacks Charging Station",
+          "distance_km": 7.82,
+          "energy_kwh": 3.294,
+          "target_pct": 12.0
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 174,
+          "neighbor_station_id": 186,
+          "neighbor_station_name": "Madurai - Regency by GRT Hotels",
+          "distance_km": 8.24,
+          "energy_kwh": 2.623,
+          "target_pct": 10.3
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 173,
+          "neighbor_station_id": 190,
+          "neighbor_station_name": "Regency Madurai by GRT Hotels",
+          "distance_km": 8.47,
+          "energy_kwh": 2.431,
+          "target_pct": 9.8
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 182,
+          "neighbor_station_id": 181,
+          "neighbor_station_name": "Jasmine Filling Station",
+          "distance_km": 8.49,
+          "energy_kwh": 2.55,
+          "target_pct": 10.1
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 172,
+          "neighbor_station_id": 191,
+          "neighbor_station_name": "Tucker Motors Private Limited",
+          "distance_km": 9.47,
+          "energy_kwh": 2.729,
+          "target_pct": 10.6
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 176,
+          "neighbor_station_id": 177,
+          "neighbor_station_name": "Ather-Mug & Beans Charging Station",
+          "distance_km": 10.74,
+          "energy_kwh": 4.071,
+          "target_pct": 13.9
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 23,
+      "station_id": 181,
+      "station_name": "Jasmine Filling Station",
+      "node_idx": 182,
+      "current_charge_to_percent": 80.8,
+      "top8_node_indices": [
+        184,
+        185,
+        187,
+        188,
+        200,
+        201,
+        199,
+        202
+      ],
+      "top8_distance_km_by_j": {
+        "184": 9.720600000000001,
+        "185": 9.731200000000001,
+        "187": 15.361600000000001,
+        "188": 15.361600000000001,
+        "200": 23.147,
+        "201": 23.496299999999998,
+        "199": 24.1658,
+        "202": 44.1728
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 184,
+          "neighbor_station_id": 198,
+          "neighbor_station_name": "Virudhunagar - ChargeZone",
+          "distance_km": 9.72,
+          "energy_kwh": 3.638,
+          "target_pct": 12.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 185,
+          "neighbor_station_id": 197,
+          "neighbor_station_name": "OM MADURAI SARAVANA BHAVAN",
+          "distance_km": 9.73,
+          "energy_kwh": 5.763,
+          "target_pct": 18.2
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 187,
+          "neighbor_station_id": 199,
+          "neighbor_station_name": "Ather-Hotel Temple City (NH44 Tirumangalam)",
+          "distance_km": 15.36,
+          "energy_kwh": 6.662,
+          "target_pct": 20.4
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 188,
+          "neighbor_station_id": 201,
+          "neighbor_station_name": "Veepees Bistro And Cafe",
+          "distance_km": 15.36,
+          "energy_kwh": 6.662,
+          "target_pct": 20.4
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 200,
+          "neighbor_station_id": 172,
+          "neighbor_station_name": "Alampatti - Hotel Temple City",
+          "distance_km": 23.15,
+          "energy_kwh": 9.765,
+          "target_pct": 28.2
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 201,
+          "neighbor_station_id": 200,
+          "neighbor_station_name": "Tirumangalam - Hotel Temple City",
+          "distance_km": 23.5,
+          "energy_kwh": 11.433,
+          "target_pct": 32.3
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 199,
+          "neighbor_station_id": 196,
+          "neighbor_station_name": "Zeon Charging - Hotel Temple City (Sivarakottai)",
+          "distance_km": 24.17,
+          "energy_kwh": 9.356,
+          "target_pct": 27.1
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 202,
+          "neighbor_station_id": 440,
+          "neighbor_station_name": "Ather - TRZ Virudhunagar",
+          "distance_km": 44.17,
+          "energy_kwh": 17.063,
+          "target_pct": 46.4
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 24,
+      "station_id": 440,
+      "station_name": "Ather - TRZ Virudhunagar",
+      "node_idx": 202,
+      "current_charge_to_percent": 84.5,
+      "top8_node_indices": [
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210
+      ],
+      "top8_distance_km_by_j": {
+        "203": 0.0,
+        "204": 0.0,
+        "205": 0.0,
+        "206": 2.852,
+        "207": 26.377,
+        "208": 26.377,
+        "209": 30.252,
+        "210": 56.607699999999994
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 203,
+          "neighbor_station_id": 441,
+          "neighbor_station_name": "IOCL - Annai Saraswathi",
+          "distance_km": 0.0,
+          "energy_kwh": 0.0,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 204,
+          "neighbor_station_id": 442,
+          "neighbor_station_name": "IOCL - Perumalsamy",
+          "distance_km": 0.0,
+          "energy_kwh": 0.0,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 205,
+          "neighbor_station_id": 443,
+          "neighbor_station_name": "IOCL - S A Anbu",
+          "distance_km": 0.0,
+          "energy_kwh": 0.0,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 206,
+          "neighbor_station_id": 445,
+          "neighbor_station_name": "Virudhunagar - Saravana Autos",
+          "distance_km": 2.85,
+          "energy_kwh": 0.046,
+          "target_pct": 3.9
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 207,
+          "neighbor_station_id": 438,
+          "neighbor_station_name": "Ather - TRZ Sivakasi",
+          "distance_km": 26.38,
+          "energy_kwh": 15.478,
+          "target_pct": 42.4
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 208,
+          "neighbor_station_id": 439,
+          "neighbor_station_name": "IOCL - Thangamani",
+          "distance_km": 26.38,
+          "energy_kwh": 15.478,
+          "target_pct": 42.4
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 209,
+          "neighbor_station_id": 437,
+          "neighbor_station_name": "IOCL - Shree Krishna",
+          "distance_km": 30.25,
+          "energy_kwh": 13.249,
+          "target_pct": 36.9
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 210,
+          "neighbor_station_id": 436,
+          "neighbor_station_name": "Dynasty AK Plaza Relux",
+          "distance_km": 56.61,
+          "energy_kwh": 28.204,
+          "target_pct": 74.7
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 25,
+      "station_id": 438,
+      "station_name": "Ather - TRZ Sivakasi",
+      "node_idx": 207,
+      "current_charge_to_percent": 100.0,
+      "top8_node_indices": [
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        223,
+        233
+      ],
+      "top8_distance_km_by_j": {
+        "208": 0.0,
+        "209": 21.2671,
+        "210": 32.3622,
+        "211": 44.3158,
+        "212": 48.7377,
+        "213": 48.7377,
+        "223": 89.8955,
+        "233": 97.2026
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 208,
+          "neighbor_station_id": 439,
+          "neighbor_station_name": "IOCL - Thangamani",
+          "distance_km": 0.0,
+          "energy_kwh": 0.0,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 209,
+          "neighbor_station_id": 437,
+          "neighbor_station_name": "IOCL - Shree Krishna",
+          "distance_km": 21.27,
+          "energy_kwh": 11.735,
+          "target_pct": 33.1
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 210,
+          "neighbor_station_id": 436,
+          "neighbor_station_name": "Dynasty AK Plaza Relux",
+          "distance_km": 32.36,
+          "energy_kwh": 16.794,
+          "target_pct": 45.7
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 211,
+          "neighbor_station_id": 444,
+          "neighbor_station_name": "IOCL - Selvakumar Agency",
+          "distance_km": 44.32,
+          "energy_kwh": 19.362,
+          "target_pct": 52.2
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 212,
+          "neighbor_station_id": 365,
+          "neighbor_station_name": "IOCL - Rajam Agency",
+          "distance_km": 48.74,
+          "energy_kwh": 21.353,
+          "target_pct": 57.1
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 213,
+          "neighbor_station_id": 370,
+          "neighbor_station_name": "HPCL - Valliammai",
+          "distance_km": 48.74,
+          "energy_kwh": 21.353,
+          "target_pct": 57.1
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 223,
+          "neighbor_station_id": 334,
+          "neighbor_station_name": "IOCL - Arul Doss",
+          "distance_km": 89.9,
+          "energy_kwh": 40.631,
+          "target_pct": 107.7
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 233,
+          "neighbor_station_id": 142,
+          "neighbor_station_name": "Kazam - Perumalpuram",
+          "distance_km": 97.2,
+          "energy_kwh": 45.712,
+          "target_pct": 121.1
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 26,
+      "station_id": 365,
+      "station_name": "IOCL - Rajam Agency",
+      "node_idx": 212,
+      "current_charge_to_percent": 100.0,
+      "top8_node_indices": [
+        213,
+        239,
+        223,
+        238,
+        227,
+        233,
+        234,
+        235
+      ],
+      "top8_distance_km_by_j": {
+        "213": 0.0,
+        "239": 49.4129,
+        "223": 55.904199999999996,
+        "238": 58.501400000000004,
+        "227": 59.8826,
+        "233": 74.865,
+        "234": 75.7852,
+        "235": 77.7404
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 213,
+          "neighbor_station_id": 370,
+          "neighbor_station_name": "HPCL - Valliammai",
+          "distance_km": 0.0,
+          "energy_kwh": 0.0,
+          "target_pct": 3.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 239,
+          "neighbor_station_id": 318,
+          "neighbor_station_name": "Courtallam - Five Falls Resort",
+          "distance_km": 49.41,
+          "energy_kwh": 20.456,
+          "target_pct": 54.9
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 223,
+          "neighbor_station_id": 334,
+          "neighbor_station_name": "IOCL - Arul Doss",
+          "distance_km": 55.9,
+          "energy_kwh": 20.173,
+          "target_pct": 54.2
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 238,
+          "neighbor_station_id": 360,
+          "neighbor_station_name": "IOCL - GSM",
+          "distance_km": 58.5,
+          "energy_kwh": 17.241,
+          "target_pct": 46.9
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 227,
+          "neighbor_station_id": 361,
+          "neighbor_station_name": "Tamilachi Family Restaurant",
+          "distance_km": 59.88,
+          "energy_kwh": 21.467,
+          "target_pct": 57.4
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 233,
+          "neighbor_station_id": 142,
+          "neighbor_station_name": "Kazam - Perumalpuram",
+          "distance_km": 74.86,
+          "energy_kwh": 32.602,
+          "target_pct": 86.4
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 234,
+          "neighbor_station_id": 371,
+          "neighbor_station_name": "Regency Tirunelveli By GRT Hotels",
+          "distance_km": 75.79,
+          "energy_kwh": 33.652,
+          "target_pct": 89.2
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 235,
+          "neighbor_station_id": 362,
+          "neighbor_station_name": "Ather-Tirunelveli",
+          "distance_km": 77.74,
+          "energy_kwh": 34.687,
+          "target_pct": 91.9
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 27,
+      "station_id": 360,
+      "station_name": "IOCL - GSM",
+      "node_idx": 238,
+      "current_charge_to_percent": 100.0,
+      "top8_node_indices": [
+        239,
+        241,
+        242,
+        243,
+        240,
+        245,
+        251,
+        247
+      ],
+      "top8_distance_km_by_j": {
+        "239": 45.591800000000006,
+        "241": 51.3226,
+        "242": 65.55189999999999,
+        "243": 67.8124,
+        "240": 69.26339999999999,
+        "245": 79.8384,
+        "251": 81.54169999999999,
+        "247": 82.183
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 239,
+          "neighbor_station_id": 318,
+          "neighbor_station_name": "Courtallam - Five Falls Resort",
+          "distance_km": 45.59,
+          "energy_kwh": 17.032,
+          "target_pct": 46.3
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 241,
+          "neighbor_station_id": 373,
+          "neighbor_station_name": "Ather-Eagle Traders (Vallioor)",
+          "distance_km": 51.32,
+          "energy_kwh": 21.266,
+          "target_pct": 56.9
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 242,
+          "neighbor_station_id": 364,
+          "neighbor_station_name": "IOCL - St Thomas",
+          "distance_km": 65.55,
+          "energy_kwh": 29.468,
+          "target_pct": 78.1
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 243,
+          "neighbor_station_id": 147,
+          "neighbor_station_name": "Nagercoil, Thovalai - Carnival City",
+          "distance_km": 67.81,
+          "energy_kwh": 28.948,
+          "target_pct": 76.7
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 240,
+          "neighbor_station_id": 335,
+          "neighbor_station_name": "Ather-Asir Automobiles #2",
+          "distance_km": 69.26,
+          "energy_kwh": 25.401,
+          "target_pct": 67.3
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 245,
+          "neighbor_station_id": 146,
+          "neighbor_station_name": "Ather-Nagercoil",
+          "distance_km": 79.84,
+          "energy_kwh": 34.365,
+          "target_pct": 91.1
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 251,
+          "neighbor_station_id": null,
+          "neighbor_station_name": null,
+          "distance_km": 81.54,
+          "energy_kwh": 35.932,
+          "target_pct": 95.2
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 247,
+          "neighbor_station_id": 140,
+          "neighbor_station_name": "Ather-Hotel Sahana",
+          "distance_km": 82.18,
+          "energy_kwh": 36.164,
+          "target_pct": 95.8
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 28,
+      "station_id": 373,
+      "station_name": "Ather-Eagle Traders (Vallioor)",
+      "node_idx": 241,
+      "current_charge_to_percent": 52.9,
+      "top8_node_indices": [
+        242,
+        243,
+        245,
+        251,
+        247,
+        248,
+        249,
+        250
+      ],
+      "top8_distance_km_by_j": {
+        "242": 20.9574,
+        "243": 23.218,
+        "245": 35.244,
+        "251": 36.947199999999995,
+        "247": 37.5885,
+        "248": 37.5885,
+        "249": 37.5885,
+        "250": 37.5885
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 242,
+          "neighbor_station_id": 364,
+          "neighbor_station_name": "IOCL - St Thomas",
+          "distance_km": 20.96,
+          "energy_kwh": 11.926,
+          "target_pct": 33.6
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 243,
+          "neighbor_station_id": 147,
+          "neighbor_station_name": "Nagercoil, Thovalai - Carnival City",
+          "distance_km": 23.22,
+          "energy_kwh": 12.238,
+          "target_pct": 34.3
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 245,
+          "neighbor_station_id": 146,
+          "neighbor_station_name": "Ather-Nagercoil",
+          "distance_km": 35.24,
+          "energy_kwh": 16.888,
+          "target_pct": 46.0
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 251,
+          "neighbor_station_id": null,
+          "neighbor_station_name": null,
+          "distance_km": 36.95,
+          "energy_kwh": 17.618,
+          "target_pct": 47.8
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 247,
+          "neighbor_station_id": 140,
+          "neighbor_station_name": "Ather-Hotel Sahana",
+          "distance_km": 37.59,
+          "energy_kwh": 19.771,
+          "target_pct": 53.2
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 248,
+          "neighbor_station_id": 141,
+          "neighbor_station_name": "IOCL - Jackys",
+          "distance_km": 37.59,
+          "energy_kwh": 19.771,
+          "target_pct": 53.2
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 249,
+          "neighbor_station_id": 143,
+          "neighbor_station_name": "Ather-Marshal E Tech",
+          "distance_km": 37.59,
+          "energy_kwh": 19.771,
+          "target_pct": 53.2
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 250,
+          "neighbor_station_id": 144,
+          "neighbor_station_name": "Marshal E-Tech Relux",
+          "distance_km": 37.59,
+          "energy_kwh": 19.771,
+          "target_pct": 53.2
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 29,
+      "station_id": 147,
+      "station_name": "Nagercoil, Thovalai - Carnival City",
+      "node_idx": 243,
+      "current_charge_to_percent": 20.0,
+      "top8_node_indices": [
+        245,
+        251,
+        246,
+        247,
+        248,
+        249,
+        250,
+        244
+      ],
+      "top8_distance_km_by_j": {
+        "245": 12.0286,
+        "251": 13.7318,
+        "246": 26.2656,
+        "247": 30.8691,
+        "248": 30.8691,
+        "249": 30.8691,
+        "250": 30.8691,
+        "244": 39.9619
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 245,
+          "neighbor_station_id": 146,
+          "neighbor_station_name": "Ather-Nagercoil",
+          "distance_km": 12.03,
+          "energy_kwh": 4.02,
+          "target_pct": 13.8
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 251,
+          "neighbor_station_id": null,
+          "neighbor_station_name": null,
+          "distance_km": 13.73,
+          "energy_kwh": 5.242,
+          "target_pct": 16.9
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 246,
+          "neighbor_station_id": 148,
+          "neighbor_station_name": "Ather-Y.M.A",
+          "distance_km": 26.27,
+          "energy_kwh": 8.563,
+          "target_pct": 25.2
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 247,
+          "neighbor_station_id": 140,
+          "neighbor_station_name": "Ather-Hotel Sahana",
+          "distance_km": 30.87,
+          "energy_kwh": 15.346,
+          "target_pct": 42.1
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 248,
+          "neighbor_station_id": 141,
+          "neighbor_station_name": "IOCL - Jackys",
+          "distance_km": 30.87,
+          "energy_kwh": 15.346,
+          "target_pct": 42.1
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 249,
+          "neighbor_station_id": 143,
+          "neighbor_station_name": "Ather-Marshal E Tech",
+          "distance_km": 30.87,
+          "energy_kwh": 15.346,
+          "target_pct": 42.1
+        },
+        {
+          "distance_rank": 7,
+          "neighbor_node_idx": 250,
+          "neighbor_station_id": 144,
+          "neighbor_station_name": "Marshal E-Tech Relux",
+          "distance_km": 30.87,
+          "energy_kwh": 15.346,
+          "target_pct": 42.1
+        },
+        {
+          "distance_rank": 8,
+          "neighbor_node_idx": 244,
+          "neighbor_station_id": 145,
+          "neighbor_station_name": "Ather-Marthandam",
+          "distance_km": 39.96,
+          "energy_kwh": 12.786,
+          "target_pct": 35.7
+        }
+      ],
+      "edges_computed": 8,
+      "edges_dropped": 0
+    },
+    {
+      "stop_idx": 30,
+      "station_id": 146,
+      "station_name": "Ather-Nagercoil",
+      "node_idx": 245,
+      "current_charge_to_percent": 20.0,
+      "top8_node_indices": [
+        251,
+        247,
+        248,
+        249,
+        250,
+        246
+      ],
+      "top8_distance_km_by_j": {
+        "251": 3.5508,
+        "247": 16.663400000000003,
+        "248": 16.663400000000003,
+        "249": 16.663400000000003,
+        "250": 16.663400000000003,
+        "246": 16.690099999999997
+      },
+      "neighbors": [
+        {
+          "distance_rank": 1,
+          "neighbor_node_idx": 251,
+          "neighbor_station_id": null,
+          "neighbor_station_name": null,
+          "distance_km": 3.55,
+          "energy_kwh": 0.709,
+          "target_pct": 5.5
+        },
+        {
+          "distance_rank": 2,
+          "neighbor_node_idx": 247,
+          "neighbor_station_id": 140,
+          "neighbor_station_name": "Ather-Hotel Sahana",
+          "distance_km": 16.66,
+          "energy_kwh": 7.793,
+          "target_pct": 23.2
+        },
+        {
+          "distance_rank": 3,
+          "neighbor_node_idx": 248,
+          "neighbor_station_id": 141,
+          "neighbor_station_name": "IOCL - Jackys",
+          "distance_km": 16.66,
+          "energy_kwh": 7.793,
+          "target_pct": 23.2
+        },
+        {
+          "distance_rank": 4,
+          "neighbor_node_idx": 249,
+          "neighbor_station_id": 143,
+          "neighbor_station_name": "Ather-Marshal E Tech",
+          "distance_km": 16.66,
+          "energy_kwh": 7.793,
+          "target_pct": 23.2
+        },
+        {
+          "distance_rank": 5,
+          "neighbor_node_idx": 250,
+          "neighbor_station_id": 144,
+          "neighbor_station_name": "Marshal E-Tech Relux",
+          "distance_km": 16.66,
+          "energy_kwh": 7.793,
+          "target_pct": 23.2
+        },
+        {
+          "distance_rank": 6,
+          "neighbor_node_idx": 246,
+          "neighbor_station_id": 148,
+          "neighbor_station_name": "Ather-Y.M.A",
+          "distance_km": 16.69,
+          "energy_kwh": 5.797,
+          "target_pct": 18.2
+        }
+      ],
+      "edges_computed": 6,
+      "edges_dropped": 0
+    }
+  ]
+}

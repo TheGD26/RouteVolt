@@ -12,12 +12,16 @@ raises anything OSRM/Ola-shaped, callers just catch RoutingError /
 GeocodingError.
 """
 
+import logging
 import math
+from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
 import requests
 
 from backend.app.config import OLA_MAPS_ALLOWED_ORIGIN, OLA_MAPS_API_KEY, OSRM_BASE_URL
+
+logger = logging.getLogger(__name__)
 
 REQUEST_TIMEOUT_S = 5
 OLA_GEOCODE_URL = "https://api.olamaps.io/places/v1/geocode"
@@ -63,6 +67,141 @@ def geocode(address: str) -> tuple[float, float]:
 
     location = results[0]["geometry"]["location"]
     return float(location["lat"]), float(location["lng"])
+
+
+# The public OSRM demo server (router.project-osrm.org) caps its Table
+# Service at 100 total coordinates per request -- found by a direct
+# binary-search sweep against the live instance (same spirit as
+# traffic_service.OLA_MAX_ORIGINS_PER_REQUEST's precedent): 100 succeeds,
+# 101+ either 400s outright or times out under load. A full-state,
+# north-to-south trip's candidate station list can run into the hundreds,
+# so a single request can't cover it -- see _get_distance_matrix_chunked.
+OSRM_TABLE_MAX_COORDINATES = 100
+
+# Block size for chunked requests: any two blocks combined (2 * this) must
+# stay under OSRM_TABLE_MAX_COORDINATES, since a cross-block request lists
+# both blocks' coordinates together to get real bidirectional distances in
+# one call (see _get_distance_matrix_chunked).
+_TABLE_BLOCK_SIZE = OSRM_TABLE_MAX_COORDINATES // 2
+
+# Concurrency for firing chunked block-pair requests -- same burst-limit
+# reasoning as traffic_service.OLA_BATCH_CONCURRENCY: a handful of
+# concurrent requests keeps a many-block matrix from serializing into a slow
+# chain of round trips without hammering the shared public demo server.
+_TABLE_BATCH_CONCURRENCY = 3
+
+
+def _table_request(coordinates: list[tuple[float, float]]) -> dict:
+    """One raw OSRM Table Service call for <= OSRM_TABLE_MAX_COORDINATES coordinates."""
+    coords = ";".join(f"{lon},{lat}" for lat, lon in coordinates)
+    url = f"{OSRM_BASE_URL}/table/v1/driving/{coords}"
+    try:
+        response = requests.get(url, params={"annotations": "distance,duration"}, timeout=REQUEST_TIMEOUT_S)
+        response.raise_for_status()
+    except requests.RequestException as exc:
+        raise RoutingError(f"OSRM table request failed: {exc}") from exc
+
+    payload = response.json()
+    if payload.get("code") != "Ok":
+        raise RoutingError(f"OSRM table returned no matrix: {payload.get('code', 'unknown error')}")
+    return payload
+
+
+def _get_distance_matrix_chunked(coordinates: list[tuple[float, float]]) -> dict:
+    """
+    Full N x N distance/duration matrix built from block-pair OSRM Table
+    requests, for N beyond OSRM_TABLE_MAX_COORDINATES. Coordinates are split
+    into blocks of <= _TABLE_BLOCK_SIZE; for every pair of blocks (including
+    a block against itself), one request lists that pair's combined
+    coordinates (<= OSRM_TABLE_MAX_COORDINATES total) and OSRM returns the
+    full bidirectional submatrix between them in one call -- cheaper than
+    querying each direction separately. Fired with bounded concurrency (see
+    _TABLE_BATCH_CONCURRENCY), then stitched into the full matrix.
+    """
+    n = len(coordinates)
+    blocks = [
+        list(range(i, min(i + _TABLE_BLOCK_SIZE, n)))
+        for i in range(0, n, _TABLE_BLOCK_SIZE)
+    ]
+
+    def _fetch_block_pair(block_a: list[int], block_b: list[int]) -> tuple[list[int], list[int], dict]:
+        combined = block_a if block_a is block_b else block_a + block_b
+        return block_a, block_b, _table_request([coordinates[idx] for idx in combined])
+
+    pairs = [
+        (blocks[a], blocks[b])
+        for a in range(len(blocks))
+        for b in range(a, len(blocks))
+    ]
+    logger.info(
+        "OSRM table: chunking %d coordinates into %d blocks (%d block-pair requests, max %d/request)",
+        n, len(blocks), len(pairs), OSRM_TABLE_MAX_COORDINATES,
+    )
+
+    distances_m = [[None] * n for _ in range(n)]
+    durations_s = [[None] * n for _ in range(n)]
+
+    with ThreadPoolExecutor(max_workers=_TABLE_BATCH_CONCURRENCY) as pool:
+        futures = [pool.submit(_fetch_block_pair, block_a, block_b) for block_a, block_b in pairs]
+        for future in futures:
+            block_a, block_b, payload = future.result()
+            if block_b is block_a:
+                # Self-pair: payload is a plain size_a x size_a submatrix
+                # over block_a alone.
+                for local_i, global_i in enumerate(block_a):
+                    for local_j, global_j in enumerate(block_a):
+                        distances_m[global_i][global_j] = payload["distances"][local_i][local_j]
+                        durations_s[global_i][global_j] = payload["durations"][local_i][local_j]
+            else:
+                # Cross-pair: payload is over the concatenated
+                # [block_a, block_b] coordinate list -- block_a occupies
+                # positions 0..size_a-1, block_b occupies
+                # size_a..size_a+size_b-1 in both dimensions. Only the two
+                # off-diagonal quadrants (a->b, b->a) are filled here; the
+                # diagonal quadrants are each block's own self-pair's job.
+                # Deliberately NOT also re-filling the diagonal quadrants
+                # from this payload too: real station data has duplicate/
+                # near-duplicate coordinates (multiple chargers at the same
+                # site), and OSRM's road-snapping for those isn't perfectly
+                # stable across differently-composed requests -- writing the
+                # same cell from two different requests could silently pick
+                # up two different values depending on which future finishes
+                # last. Single source of truth per cell avoids that.
+                size_a = len(block_a)
+                for local_i, global_i in enumerate(block_a):
+                    for local_j, global_j in enumerate(block_b):
+                        distances_m[global_i][global_j] = payload["distances"][local_i][size_a + local_j]
+                        durations_s[global_i][global_j] = payload["durations"][local_i][size_a + local_j]
+                        distances_m[global_j][global_i] = payload["distances"][size_a + local_j][local_i]
+                        durations_s[global_j][global_i] = payload["durations"][size_a + local_j][local_i]
+
+    return {"distances": distances_m, "durations": durations_s}
+
+
+def get_distance_matrix(coordinates: list[tuple[float, float]]) -> dict:
+    """
+    Bulk driving distance/duration matrix from OSRM's Table Service.
+    coordinates is (lat, lon) in the order you want the matrix indexed by.
+    One HTTP call for <= OSRM_TABLE_MAX_COORDINATES points; chunked into
+    multiple block-pair calls beyond that (see _get_distance_matrix_chunked)
+    -- callers don't need to know which path ran, the returned shape is the
+    same either way. No route geometry comes back (no real elevation) --
+    this is the cheap first pass; per-edge elevation is a separate, sparser
+    cost paid only on survivors (see graph_planner.build_station_graph).
+    """
+    if len(coordinates) <= OSRM_TABLE_MAX_COORDINATES:
+        payload = _table_request(coordinates)
+        distances_m = payload["distances"]
+        durations_s = payload["durations"]
+    else:
+        chunked = _get_distance_matrix_chunked(coordinates)
+        distances_m = chunked["distances"]
+        durations_s = chunked["durations"]
+
+    return {
+        "distances_km": [[d / 1000.0 for d in row] for row in distances_m],
+        "durations_min": [[d / 60.0 for d in row] for row in durations_s],
+    }
 
 
 def _leg_from_step(step: dict) -> dict:

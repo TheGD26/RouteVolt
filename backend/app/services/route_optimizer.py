@@ -6,6 +6,7 @@ whatever model gets trained on trip_energy_dataset.csv sees the same feature
 definitions at inference time as it did at training time.
 """
 
+import logging
 import math
 from datetime import datetime, timezone
 from typing import Optional
@@ -17,6 +18,8 @@ from backend.app.config import ENERGY_MODEL_PATH
 from backend.app.services import elevation_service, traffic_service
 from backend.app.services.charger_service import estimate_wait_time, get_stations
 from backend.app.utils.connector_normalizer import AC_TYPE2, CCS2, normalize_connector_types
+
+logger = logging.getLogger(__name__)
 
 # ---- Energy model, loaded once at import time (not per-request) ----
 _MODEL_PAYLOAD = joblib.load(ENERGY_MODEL_PATH)
@@ -103,6 +106,57 @@ def estimate_total_mass_kg(
     return profile["curb_weight_kg"] + payload_kg
 
 
+# No real leg can cost less than this fraction of the vehicle's own flat
+# baseline efficiency for that distance, however favorable the terrain/speed:
+# strong regenerative braking and coasting can push consumption well below
+# the baseline, but motor/inverter losses, rolling resistance, and accessory
+# draw mean it can never approach zero or go negative for a real, nonzero-
+# distance road leg. 0.1 is deliberately conservative -- it lets genuinely
+# favorable downhill/low-speed legs through untouched, catching only
+# predictions that are physically impossible, not merely efficient.
+#
+# Found via a real, reproducible failure: graph_planner.build_station_graph
+# evaluating a near-duplicate-coordinate station pair (~0.1km apart, two
+# chargers at the same site, floored to routing_service.MIN_LEG_DISTANCE_KM
+# for the model) combined with a real ~34km/h speed and a real -5m elevation
+# delta from that tiny original leg -- the trained model predicted -0.23 kWh,
+# a physically impossible negative energy cost. Dijkstra then treated that as
+# a free/negative-cost edge, corrupting the whole path search toward routing
+# through spurious near-duplicate stops instead of a sane corridor.
+MIN_ENERGY_FRACTION_OF_BASELINE = 0.1
+
+
+def _apply_energy_floor(predicted_kwh: float, trip_features: dict) -> float:
+    """
+    Physics-based sanity floor on the trained model's raw prediction (see
+    MIN_ENERGY_FRACTION_OF_BASELINE) -- clips and logs a warning rather than
+    trusting the model when its output falls below what's physically
+    plausible for the leg's own distance and vehicle profile. trip_features
+    is the full dict from _build_trip_features (not the model-only row), so
+    "distance_km" and "vehicle_efficiency_baseline_wh_per_km" are always
+    present regardless of what the trained pipeline's own feature set is.
+    """
+    distance_km = trip_features.get("distance_km", 0.0)
+    baseline_wh_per_km = trip_features.get("vehicle_efficiency_baseline_wh_per_km", 0.0)
+    floor_kwh = max(distance_km, 0.0) * baseline_wh_per_km / 1000.0 * MIN_ENERGY_FRACTION_OF_BASELINE
+
+    if predicted_kwh >= floor_kwh:
+        return predicted_kwh
+
+    logger.warning(
+        "Energy model prediction (%.4f kWh) fell below the physics-based floor (%.4f kWh) for a "
+        "%.3fkm %s leg at avg_speed_kmh=%s (vehicle_profile=%s, elevation_gain_m=%s, elevation_loss_m=%s, "
+        "traffic_congestion_level=%s) -- clipping to the floor. Usually means a real, near-duplicate-"
+        "coordinate short leg (see routing_service.MIN_LEG_DISTANCE_KM flooring) landed in an unstable "
+        "region of the trained model's feature space, not a genuine ultra-efficient trip.",
+        predicted_kwh, floor_kwh, distance_km, trip_features.get("road_type"),
+        trip_features.get("avg_speed_kmh"), trip_features.get("vehicle_profile"),
+        trip_features.get("elevation_gain_m"), trip_features.get("elevation_loss_m"),
+        trip_features.get("traffic_congestion_level"),
+    )
+    return floor_kwh
+
+
 def predict_energy_kwh(trip_features: dict) -> float:
     """
     Run the trained energy-consumption model on a single trip.
@@ -111,10 +165,14 @@ def predict_energy_kwh(trip_features: dict) -> float:
     the pipeline was trained on (see dataset_2/train_model.py); extra keys are
     ignored, missing ones raise KeyError. Column order doesn't matter to the
     pipeline, but we pass it in a fixed order for a deterministic DataFrame.
+
+    The raw prediction is passed through _apply_energy_floor before returning
+    -- see MIN_ENERGY_FRACTION_OF_BASELINE for why.
     """
     row = {feature: trip_features[feature] for feature in _MODEL_FEATURE_ORDER}
     df = pd.DataFrame([row], columns=_MODEL_FEATURE_ORDER)
-    return float(_ENERGY_PIPELINE.predict(df)[0])
+    predicted_kwh = float(_ENERGY_PIPELINE.predict(df)[0])
+    return _apply_energy_floor(predicted_kwh, trip_features)
 
 
 # ---- Reachability defaults (used until real terrain/traffic/weather feeds exist) ----
@@ -146,8 +204,9 @@ CHARGE_TO_FLOOR_PCT = 20.0
 WAIT_TIME_SCORE_WEIGHT = 0.3
 
 
-def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     # Haversine formula is used to calculate the distance between two points on the earth by factoring in the curvature of the earth. The haversine formula is an equation that can be used to find the distance between two points on a sphere given their longitudes and latitudes.
+    # Public (no leading underscore): shared with graph_planner.py, not private to this module anymore.
     lat1, lon1, lat2, lon2 = map(math.radians, (lat1, lon1, lat2, lon2))
     dlat = lat2 - lat1
     dlon = lon2 - lon1
@@ -165,7 +224,8 @@ def _infer_road_type(corridor) -> str:
     return "arterial"
 
 
-def _clean_number(value, default: Optional[float] = 0.0) -> Optional[float]:
+def clean_number(value, default: Optional[float] = 0.0) -> Optional[float]:
+    # Public (no leading underscore): shared with graph_planner.py, not private to this module anymore.
     if value is None:
         return default
     try:
@@ -253,6 +313,37 @@ def estimate_leg_energy_kwh(
         traffic_congestion_level=traffic_congestion_level,
     )
     return predict_energy_kwh(trip_features)
+
+
+def estimate_leg_energy_kwh_batch(legs: list[dict]) -> list[float]:
+    """
+    Batched form of estimate_leg_energy_kwh: one pipeline.predict() call for
+    many independent legs instead of one call per leg. The trained pipeline
+    has real fixed per-call overhead (~15ms measured, mostly preprocessing,
+    not the model itself) -- fine for a handful of calls, not for hundreds
+    or thousands. calculate_best_route below already avoids this exact trap
+    for its per-station scoring (see its own batching comment); this is the
+    same fix for graph_planner.build_station_graph's O(n^2) candidate edges,
+    which can't reasonably score each edge one at a time once a graph has
+    more than a few dozen candidate stations.
+
+    Each dict in `legs` takes the same keyword arguments as
+    estimate_leg_energy_kwh (distance_km, road_type, vehicle_profile,
+    load_state, total_mass_kg, avg_speed_kmh, elevation_gain_m,
+    elevation_loss_m, traffic_congestion_level). Returns predictions in the
+    same order (each passed through _apply_energy_floor -- see
+    MIN_ENERGY_FRACTION_OF_BASELINE), [] for an empty input.
+    """
+    if not legs:
+        return []
+    full_feature_rows = [_build_trip_features(**leg) for leg in legs]
+    model_rows = [
+        {feature: features[feature] for feature in _MODEL_FEATURE_ORDER}
+        for features in full_feature_rows
+    ]
+    batch_df = pd.DataFrame(model_rows, columns=_MODEL_FEATURE_ORDER)
+    predictions = [float(v) for v in _ENERGY_PIPELINE.predict(batch_df)]
+    return [_apply_energy_floor(p, features) for p, features in zip(predictions, full_feature_rows)]
 
 
 def infer_road_type_from_speed(avg_speed_kmh: float) -> str:
@@ -381,13 +472,13 @@ def calculate_best_route(
     # below first, since it depends on knowing every candidate's lat/lon).
     staged = []
     for station in stations:
-        lat = _clean_number(station.get("latitude"), default=None)
-        lon = _clean_number(station.get("longitude"), default=None)
+        lat = clean_number(station.get("latitude"), default=None)
+        lon = clean_number(station.get("longitude"), default=None)
         if lat is None or lon is None:
             continue
 
         if have_origin:
-            detour_km = _haversine_km(origin_lat, origin_lon, lat, lon)
+            detour_km = haversine_km(origin_lat, origin_lon, lat, lon)
         else:
             # TODO: RouteRequest.current_location is a free-text address, not
             # coordinates -- no geocoding step exists yet. Fall back to the
@@ -408,7 +499,7 @@ def calculate_best_route(
             "station_name": station.get("station_name"),
             "latitude": lat,
             "longitude": lon,
-            "power_kw": _clean_number(station.get("power_kw"), default=0.0),
+            "power_kw": clean_number(station.get("power_kw"), default=0.0),
             "detour_km": round(detour_km, 2),
             "road_type": road_type,
             "connector_buckets": sorted(station_buckets),
@@ -451,6 +542,7 @@ def calculate_best_route(
     candidates = []
     if staged:
         feature_rows = []
+        full_feature_rows = []
         for candidate, elevation, traffic in zip(staged, elevation_result["by_point"], traffic_results):
             trip_features = _build_trip_features(
                 distance_km=candidate["detour_km"],
@@ -462,14 +554,20 @@ def calculate_best_route(
                 elevation_loss_m=elevation["elevation_loss_m"],
                 traffic_congestion_level=traffic["congestion_level"],
             )
+            full_feature_rows.append(trip_features)
             feature_rows.append({feature: trip_features[feature] for feature in _MODEL_FEATURE_ORDER})
 
         # Predictions run as a single batch rather than one predict() call per
         # station -- looping predict_energy_kwh here would mean hundreds of
         # individual pipeline invocations per request (~15s for ~450 stations
-        # vs. ~50ms batched), which doesn't work for an API call.
+        # vs. ~50ms batched), which doesn't work for an API call. Each
+        # prediction still goes through _apply_energy_floor (see
+        # MIN_ENERGY_FRACTION_OF_BASELINE), same as the single-leg path.
         batch_df = pd.DataFrame(feature_rows, columns=_MODEL_FEATURE_ORDER)
-        predicted_kwh_batch = _ENERGY_PIPELINE.predict(batch_df)
+        predicted_kwh_batch = [
+            _apply_energy_floor(float(v), features)
+            for v, features in zip(_ENERGY_PIPELINE.predict(batch_df), full_feature_rows)
+        ]
 
         for candidate, predicted_kwh, traffic in zip(staged, predicted_kwh_batch, traffic_results):
             predicted_kwh = float(predicted_kwh)

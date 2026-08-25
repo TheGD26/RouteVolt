@@ -31,6 +31,11 @@ OLA_MAPS_API_KEY = os.environ.get("OLA_MAPS_API_KEY")
 OLA_MAPS_ALLOWED_ORIGIN = os.environ.get("OLA_MAPS_ALLOWED_ORIGIN", "http://127.0.0.1")
 GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
 
+# Hackathon demo-day fallback -- see backend/app/api/routes.py's DEMO_MODE
+# block and README's "Demo mode" section. Off by default; must be explicitly
+# set to "true" to ever change behavior.
+DEMO_MODE = os.environ.get("DEMO_MODE", "").strip().lower() in ("1", "true", "yes")
+
 # Public Open-Elevation instance by default -- no API key needed, but rate
 # limited. Swappable via env var so a self-hosted instance (recommended for
 # production, see README) is a config change, not a code change.

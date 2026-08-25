@@ -21,6 +21,7 @@ twice for two different purposes.
 
 import logging
 import math
+import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
@@ -58,6 +59,27 @@ OLA_MAX_ORIGINS_PER_REQUEST = 50
 # batches tripped 429s even though the plan has thousands of monthly requests
 # free, so this is a burst-limit workaround, not a quota-conservation measure.
 OLA_BATCH_CONCURRENCY = 2
+
+# Circuit breaker: once a provider fails, skip it for this long instead of
+# re-attempting it on every subsequent call in the same request. Ola's free
+# tier rate limit is per-minute/monthly, not per-request -- once it starts
+# 429ing it keeps 429ing, and a long multi-hop route (battery_simulator.
+# plan_full_journey walking hundreds of real legs) was hitting it, then
+# Google, once per leg, paying two guaranteed-to-fail HTTP round trips
+# before falling back to the straight-line estimate every single time.
+# 30s is short enough that a transient failure still gets retried within
+# the same request if the route is long enough, long enough that it isn't
+# just re-discovering the same outage every couple of legs.
+_PROVIDER_COOLDOWN_S = 30.0
+_provider_failed_until: dict[str, float] = {}
+
+
+def _provider_available(name: str) -> bool:
+    return time.monotonic() >= _provider_failed_until.get(name, 0.0)
+
+
+def _mark_provider_failed(name: str) -> None:
+    _provider_failed_until[name] = time.monotonic() + _PROVIDER_COOLDOWN_S
 
 
 class TrafficServiceError(Exception):
@@ -231,22 +253,29 @@ def get_eta_matrix(origins: list[tuple[float, float]], destination: tuple[float,
     """
     Batch ETA lookup: one origin-per-station, one shared destination, in a
     single HTTP call per provider (not N sequential calls). Falls back
-    provider-wide: Ola -> Google -> straight-line per origin.
+    provider-wide: Ola -> Google -> straight-line per origin. Skips a
+    provider entirely (straight to the next one) if it failed recently --
+    see _PROVIDER_COOLDOWN_S -- rather than re-attempting a call that's
+    almost certainly going to fail the same way it just did.
     """
     if not origins:
         return []
 
     _require_a_provider_key()
 
-    try:
-        return _ola_matrix(origins, destination)
-    except (requests.RequestException, TrafficServiceError, KeyError, ValueError) as exc:
-        logger.warning("Ola Maps provider failed (%s: %s), falling back to Google", type(exc).__name__, exc)
+    if _provider_available("ola"):
+        try:
+            return _ola_matrix(origins, destination)
+        except (requests.RequestException, TrafficServiceError, KeyError, ValueError) as exc:
+            logger.warning("Ola Maps provider failed (%s: %s), falling back to Google", type(exc).__name__, exc)
+            _mark_provider_failed("ola")
 
-    try:
-        return _google_matrix(origins, destination)
-    except (requests.RequestException, TrafficServiceError, KeyError, ValueError) as exc:
-        logger.warning("Google Distance Matrix provider failed (%s: %s), falling back to straight-line estimate", type(exc).__name__, exc)
+    if _provider_available("google"):
+        try:
+            return _google_matrix(origins, destination)
+        except (requests.RequestException, TrafficServiceError, KeyError, ValueError) as exc:
+            logger.warning("Google Distance Matrix provider failed (%s: %s), falling back to straight-line estimate", type(exc).__name__, exc)
+            _mark_provider_failed("google")
 
     return [_straight_line_eta(origin, destination) for origin in origins]
 

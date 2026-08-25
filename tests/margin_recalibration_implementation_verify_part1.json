@@ -1,0 +1,86 @@
+[
+  {
+    "stop": 6,
+    "sim_raw": 15.961,
+    "margin_kwh": 1.5,
+    "required_pct": 43.65,
+    "exceeded_ceiling_still_fires": false
+  },
+  {
+    "stop": 7,
+    "sim_raw": 19.908,
+    "margin_kwh": 1.5,
+    "required_pct": 53.52,
+    "exceeded_ceiling_still_fires": false
+  },
+  {
+    "stop": 14,
+    "sim_raw": 7.078,
+    "margin_kwh": 1.5,
+    "required_pct": 21.44,
+    "exceeded_ceiling_still_fires": false
+  },
+  {
+    "stop": 15,
+    "sim_raw": 30.681,
+    "margin_kwh": 1.8409,
+    "required_pct": 81.3,
+    "exceeded_ceiling_still_fires": true
+  },
+  {
+    "stop": 16,
+    "sim_raw": 3.728,
+    "margin_kwh": 1.5,
+    "required_pct": 13.07,
+    "exceeded_ceiling_still_fires": false
+  },
+  {
+    "stop": 17,
+    "sim_raw": 28.842,
+    "margin_kwh": 1.7305,
+    "required_pct": 76.43,
+    "exceeded_ceiling_still_fires": false
+  },
+  {
+    "stop": 20,
+    "sim_raw": 9.506,
+    "margin_kwh": 1.5,
+    "required_pct": 27.52,
+    "exceeded_ceiling_still_fires": false
+  },
+  {
+    "stop": 21,
+    "sim_raw": 33.171,
+    "margin_kwh": 1.9903,
+    "required_pct": 87.9,
+    "exceeded_ceiling_still_fires": true
+  },
+  {
+    "stop": 25,
+    "sim_raw": 10.197,
+    "margin_kwh": 1.5,
+    "required_pct": 29.24,
+    "exceeded_ceiling_still_fires": false
+  },
+  {
+    "stop": 26,
+    "sim_raw": 21.704,
+    "margin_kwh": 1.5,
+    "required_pct": 58.01,
+    "exceeded_ceiling_still_fires": false
+  },
+  {
+    "stop": 27,
+    "sim_raw": 22.223,
+    "margin_kwh": 1.5,
+    "required_pct": 59.31,
+    "exceeded_ceiling_still_fires": false
+  },
+  {
+    "stop": 28,
+    "sim_raw": 30.151,
+    "margin_kwh": 1.8091,
+    "required_pct": 79.9,
+    "exceeded_ceiling_still_fires": false
+  }
+]

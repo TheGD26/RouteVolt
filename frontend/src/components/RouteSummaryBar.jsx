@@ -12,13 +12,19 @@ function formatEta(minutes) {
 }
 
 export default function RouteSummaryBar({ route }) {
+  // distance_km/duration_min are null when the backend couldn't find any
+  // feasible stop sequence at all (route.feasible === false, e.g. no
+  // charging station in range of the trip) -- there's no real route to
+  // report a distance/ETA for in that case.
+  const hasRoute = route.distance_km != null && route.duration_min != null;
+
   return (
     <div className="absolute inset-x-3 bottom-3 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-xl border border-cream-300 bg-white/95 px-4 py-3 shadow-lg shadow-ink-900/10 backdrop-blur-sm sm:inset-x-4 sm:bottom-4">
-      <Stat icon={IconRoute} label="Distance" value={`${route.distance_km} km`} />
+      <Stat icon={IconRoute} label="Distance" value={hasRoute ? `${route.distance_km} km` : "N/A"} />
       <Stat
         icon={IconClock}
         label="Est. ETA"
-        value={`${formatEta(route.duration_min)} (${formatDuration(route.duration_min)})`}
+        value={hasRoute ? `${formatEta(route.duration_min)} (${formatDuration(route.duration_min)})` : "N/A"}
       />
       <Stat icon={IconGauge} label="Energy Used" value={`${route.predicted_energy_kwh} kWh`} />
 

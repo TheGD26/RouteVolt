@@ -1,0 +1,517 @@
+{
+  "meta": {
+    "vehicle_profile": "mid_ev",
+    "load_state": "half_load",
+    "capacity_kwh": 40,
+    "usable_kwh_at_ceiling": 30.4,
+    "usable_kwh_at_full_charge": 38.0,
+    "segments_checked": 12,
+    "wall_clock_s": 51.2
+  },
+  "results": [
+    {
+      "stop_list_idx": 6,
+      "station_id": 136,
+      "A": {
+        "station_name": "MM Legacy",
+        "coord": [
+          12.9036054,
+          80.167116
+        ]
+      },
+      "B": {
+        "station_name": "Sheraton Grand Chennai Resort",
+        "station_id": 8,
+        "coord": [
+          12.6208,
+          80.1928
+        ]
+      },
+      "C": {
+        "station_name": "Mamallapuram - Radisson Blu Resort Temple Bay",
+        "coord": [
+          12.6238125,
+          80.1951875
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 20.25,
+        "status": "ok",
+        "energy_kwh": 20.25,
+        "sub_leg_count": 7,
+        "real_distance_km": 40.24
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 1.0477,
+        "status": "ok",
+        "energy_kwh": 1.0477,
+        "sub_leg_count": 1,
+        "real_distance_km": 0.53
+      }
+    },
+    {
+      "stop_list_idx": 7,
+      "station_id": 10,
+      "A": {
+        "station_name": "Mamallapuram - Radisson Blu Resort Temple Bay",
+        "coord": [
+          12.6238125,
+          80.1951875
+        ]
+      },
+      "B": {
+        "station_name": "Sheraton Grand Chennai Resort",
+        "station_id": 8,
+        "coord": [
+          12.6208,
+          80.1928
+        ]
+      },
+      "C": {
+        "station_name": "Silavattam Village",
+        "coord": [
+          12.48148773352969,
+          79.86252229584034
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 1.3741,
+        "status": "ok",
+        "energy_kwh": 1.3741,
+        "sub_leg_count": 1,
+        "real_distance_km": 0.53
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 22.522,
+        "status": "ok",
+        "energy_kwh": 22.522,
+        "sub_leg_count": 7,
+        "real_distance_km": 46.22
+      }
+    },
+    {
+      "stop_list_idx": 14,
+      "station_id": 87,
+      "A": {
+        "station_name": "Cuddalore - Argunt Aggregates",
+        "coord": [
+          11.5989375,
+          79.5047031
+        ]
+      },
+      "B": {
+        "station_name": "Virudhachalam - Hotel Shree Bhawan",
+        "station_id": 92,
+        "coord": [
+          11.4954875,
+          79.3231094
+        ]
+      },
+      "C": {
+        "station_name": "IOCL - Raja Traders",
+        "coord": [
+          11.55,
+          79.35
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 12.3318,
+        "status": "ok",
+        "energy_kwh": 12.3318,
+        "sub_leg_count": 6,
+        "real_distance_km": 29.32
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 5.2842,
+        "status": "ok",
+        "energy_kwh": 5.2842,
+        "sub_leg_count": 4,
+        "real_distance_km": 8.46
+      }
+    },
+    {
+      "stop_list_idx": 15,
+      "station_id": 91,
+      "A": {
+        "station_name": "IOCL - Raja Traders",
+        "coord": [
+          11.55,
+          79.35
+        ]
+      },
+      "B": {
+        "station_name": "RAS Residency Auto Nagar",
+        "station_id": 321,
+        "coord": [
+          10.9601,
+          79.3788
+        ]
+      },
+      "C": {
+        "station_name": "Quality Inn Viha",
+        "coord": [
+          10.9601,
+          79.3788
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 27.3481,
+        "status": "ok",
+        "energy_kwh": 27.3481,
+        "sub_leg_count": 10,
+        "real_distance_km": 71.45
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 0.0,
+        "status": "ok",
+        "energy_kwh": 0.0,
+        "sub_leg_count": 1,
+        "real_distance_km": 0.0
+      }
+    },
+    {
+      "stop_list_idx": 16,
+      "station_id": 320,
+      "A": {
+        "station_name": "Quality Inn Viha",
+        "coord": [
+          10.9601,
+          79.3788
+        ]
+      },
+      "B": {
+        "station_name": "RAS Residency Auto Nagar",
+        "station_id": 321,
+        "coord": [
+          10.9601,
+          79.3788
+        ]
+      },
+      "C": {
+        "station_name": "Kumbakonam - Cholaa Dynasty (A Bergamont Hotel)",
+        "coord": [
+          10.94190985208098,
+          79.3190802621623
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 0.0,
+        "status": "ok",
+        "energy_kwh": 0.0,
+        "sub_leg_count": 1,
+        "real_distance_km": 0.0
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 4.2236,
+        "status": "ok",
+        "energy_kwh": 4.2236,
+        "sub_leg_count": 3,
+        "real_distance_km": 7.41
+      }
+    },
+    {
+      "stop_list_idx": 17,
+      "station_id": 319,
+      "A": {
+        "station_name": "Kumbakonam - Cholaa Dynasty (A Bergamont Hotel)",
+        "coord": [
+          10.94190985208098,
+          79.3190802621623
+        ]
+      },
+      "B": {
+        "station_name": "Jayaraj Karz Vallam Pudur Sethi",
+        "station_id": 323,
+        "coord": [
+          10.728,
+          79.04692
+        ]
+      },
+      "C": {
+        "station_name": "Trichy - Hotel Balaji Ariyas",
+        "coord": [
+          10.7330375,
+          78.8735781
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 19.7514,
+        "status": "ok",
+        "energy_kwh": 19.7514,
+        "sub_leg_count": 13,
+        "real_distance_km": 46.94
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 6.2341,
+        "status": "ok",
+        "energy_kwh": 6.2341,
+        "sub_leg_count": 3,
+        "real_distance_km": 21.99
+      }
+    },
+    {
+      "stop_list_idx": 20,
+      "station_id": 249,
+      "A": {
+        "station_name": "Kaveri Garage Piratiyur",
+        "coord": [
+          10.79194,
+          78.65714
+        ]
+      },
+      "B": {
+        "station_name": "Ather-Kaveri Tata (Piratiyur)",
+        "station_id": 351,
+        "coord": [
+          10.7919,
+          78.6571
+        ]
+      },
+      "C": {
+        "station_name": "IOCL - Sugan Tradings",
+        "coord": [
+          10.6244,
+          78.5632
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 0.5122,
+        "status": "ok",
+        "energy_kwh": 0.5122,
+        "sub_leg_count": 1,
+        "real_distance_km": 1.09
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 7.9966,
+        "status": "ok",
+        "energy_kwh": 7.9966,
+        "sub_leg_count": 5,
+        "real_distance_km": 23.62
+      }
+    },
+    {
+      "stop_list_idx": 21,
+      "station_id": 253,
+      "A": {
+        "station_name": "IOCL - Sugan Tradings",
+        "coord": [
+          10.6244,
+          78.5632
+        ]
+      },
+      "B": {
+        "station_name": "Hotel Arun Cafe",
+        "station_id": 435,
+        "coord": [
+          10.6244,
+          78.56317
+        ]
+      },
+      "C": {
+        "station_name": "Melur - Zeon X A.N Energy Solutions",
+        "coord": [
+          10.0487625,
+          78.3492344
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 0.8312,
+        "status": "ok",
+        "energy_kwh": 0.8312,
+        "sub_leg_count": 2,
+        "real_distance_km": 3.62
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 23.3958,
+        "status": "ok",
+        "energy_kwh": 23.3958,
+        "sub_leg_count": 9,
+        "real_distance_km": 76.71
+      }
+    },
+    {
+      "stop_list_idx": 25,
+      "station_id": 440,
+      "A": {
+        "station_name": "Ather - TRZ Virudhunagar",
+        "coord": [
+          9.5851,
+          77.9576
+        ]
+      },
+      "B": {
+        "station_name": "IOCL - Annai Saraswathi",
+        "station_id": 441,
+        "coord": [
+          9.5851,
+          77.9576
+        ]
+      },
+      "C": {
+        "station_name": "Ather - TRZ Sivakasi",
+        "coord": [
+          9.4519,
+          77.7973
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 0.0,
+        "status": "ok",
+        "energy_kwh": 0.0,
+        "sub_leg_count": 1,
+        "real_distance_km": 0.0
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 11.0619,
+        "status": "ok",
+        "energy_kwh": 11.0619,
+        "sub_leg_count": 3,
+        "real_distance_km": 26.38
+      }
+    },
+    {
+      "stop_list_idx": 26,
+      "station_id": 438,
+      "A": {
+        "station_name": "Ather - TRZ Sivakasi",
+        "coord": [
+          9.4519,
+          77.7973
+        ]
+      },
+      "B": {
+        "station_name": "IOCL - Thangamani",
+        "station_id": 439,
+        "coord": [
+          9.4519,
+          77.7973
+        ]
+      },
+      "C": {
+        "station_name": "IOCL - Rajam Agency",
+        "coord": [
+          9.1667,
+          77.5333
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 0.0,
+        "status": "ok",
+        "energy_kwh": 0.0,
+        "sub_leg_count": 1,
+        "real_distance_km": 0.0
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 21.1619,
+        "status": "ok",
+        "energy_kwh": 21.1619,
+        "sub_leg_count": 5,
+        "real_distance_km": 48.74
+      }
+    },
+    {
+      "stop_list_idx": 27,
+      "station_id": 365,
+      "A": {
+        "station_name": "IOCL - Rajam Agency",
+        "coord": [
+          9.1667,
+          77.5333
+        ]
+      },
+      "B": {
+        "station_name": "HPCL - Valliammai",
+        "station_id": 370,
+        "coord": [
+          9.1667,
+          77.5333
+        ]
+      },
+      "C": {
+        "station_name": "IOCL - GSM",
+        "coord": [
+          8.75,
+          77.55
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 0.0,
+        "status": "ok",
+        "energy_kwh": 0.0,
+        "sub_leg_count": 1,
+        "real_distance_km": 0.0
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 17.2704,
+        "status": "ok",
+        "energy_kwh": 17.2704,
+        "sub_leg_count": 14,
+        "real_distance_km": 58.5
+      }
+    },
+    {
+      "stop_list_idx": 28,
+      "station_id": 360,
+      "A": {
+        "station_name": "IOCL - GSM",
+        "coord": [
+          8.75,
+          77.55
+        ]
+      },
+      "B": {
+        "station_name": "IOCL - St Thomas",
+        "station_id": 364,
+        "coord": [
+          8.2333,
+          77.55
+        ]
+      },
+      "C": {
+        "station_name": "Nagercoil, Thovalai - Carnival City",
+        "coord": [
+          8.2282125,
+          77.5085781
+        ]
+      },
+      "A_to_B": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 29.4677,
+        "status": "ok",
+        "energy_kwh": 29.4677,
+        "sub_leg_count": 14,
+        "real_distance_km": 65.55
+      },
+      "B_to_C": {
+        "verdict": "admitted_normal",
+        "dijkstra_cost": 4.0215,
+        "status": "ok",
+        "energy_kwh": 4.0215,
+        "sub_leg_count": 2,
+        "real_distance_km": 7.03
+      }
+    }
+  ]
+}

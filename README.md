@@ -29,6 +29,7 @@ not when the app boots.
 | `OLA_MAPS_API_KEY` | `traffic_service.py` | Primary traffic-aware ETA + congestion provider (Ola Maps / Krutrim Distance Matrix) |
 | `GOOGLE_MAPS_API_KEY` | `traffic_service.py` | Fallback traffic-aware ETA + congestion provider (Google Distance Matrix) |
 | `ELEVATION_API_URL` | `elevation_service.py` | Defaults to the public Open-Elevation instance (`https://api.open-elevation.com/api/v1/lookup`); point at a self-hosted instance for production (see below) |
+| `DEMO_MODE` | `routes.py` | Hackathon demo-day fallback, off by default -- see [Demo mode](#demo-mode) below |
 
 Nominatim (geocoding) needs no API key.
 
@@ -52,7 +53,44 @@ Re-running `download_chargers.py` only refreshes the CSV; re-run
 changes into the DB. Seeding is a no-op once `stations` already has rows, so
 it won't duplicate data on repeated boots.
 
-## API
+## Demo mode
+
+**Hackathon demo-day risk mitigation only -- not a production feature.**
+Live third-party APIs (Ola Maps geocoding/traffic, OSRM) have been observed
+rate-limiting mid-session, swinging a full route plan's wall-clock from
+~2.8 minutes (clean) to ~9.7 minutes (degraded) -- see
+`tests/baseline_rerun_and_health_check_2026-08-24.md`. Demo mode serves a
+pre-captured real response for one specific route instead of hitting any
+live API, so a live demo can't be derailed by rate limiting on the day.
+
+- **Enable**: set `DEMO_MODE=true` in `.env` (or the environment) before
+  starting the backend, then restart it -- it's read once at process start,
+  same as every other setting in `backend/app/config.py`.
+- **Disable**: unset it or set `DEMO_MODE=false` (default is off).
+- **Scope**: only intercepts `POST /route/optimize` requests where
+  `current_location`/`destination` are exactly `"Chennai"`/`"Nagercoil"`
+  (case-insensitive) *and* `vehicle_profile="mid_ev"`, `load_state="half_load"`
+  -- the exact request the frontend's default form sends. Any other
+  route/profile combination, or `DEMO_MODE` unset, runs the real live
+  pipeline unchanged. The served response ignores whatever
+  `battery_percentage` was typed -- it always returns the fixture captured
+  at `battery_pct=8.0` (this route's minimum feasible starting battery).
+- **What's served**: the exact real response captured in
+  `tests/baseline_rerun_and_health_check_2026-08-24.md`'s Part 2 health check
+  (raw data in `tests/health_check_output_2026-08-25.json`), repackaged as
+  `backend/app/fixtures/demo_route_chennai_nagercoil.json` in the same shape
+  `/route/optimize` normally returns -- a real, previously-computed
+  `plan_journey_via_graph` result, not synthetic data.
+- **Implementation**: entirely in `backend/app/api/routes.py`'s "Demo mode"
+  block plus the one fixture file -- no changes to `graph_planner.py`,
+  `battery_simulator.py`, `route_optimizer.py`, or any other planning code.
+  Safe to delete both after the hackathon.
+- **For grading/submission**: turn this OFF (leave `DEMO_MODE` unset) unless
+  you deliberately want judges able to reproduce the fast demo path
+  themselves -- leaving it on doesn't hide or fake anything (the fixture is
+  a real captured run, not fabricated), but a grader re-running the exact
+  demo route/profile combination would get an instant cached response
+  instead of exercising the live pipeline for that one case.
 
 ### `POST /route/optimize`
 

@@ -126,6 +126,27 @@ class StopAlternative(BaseModel):
     )
 
 
+class BackupStation(BaseModel):
+    """
+    One of a charging stop's top-3 nearest real graph neighbors (see
+    graph_planner.REDUNDANCY_NEIGHBOR_COUNT/get_top_n_neighbors) -- a
+    recommended backup station if the stop's planned station turns out
+    unavailable. The same top-3 also sizes ChargingStop.charge_to_percent's
+    redundancy margin (battery_simulator.plan_charge_to_percent), so a stop
+    charged per this response can genuinely reach the worst of these three.
+    See tests/redundancy_charging_implementation_2026-08-24.md.
+    """
+
+    station_id: Optional[int] = None
+    station_name: Optional[str] = None
+    latitude: float
+    longitude: float
+    distance_km: Optional[float] = Field(
+        default=None, description="Real driving distance from this stop to the backup station."
+    )
+    energy_kwh: float = Field(description="Real predicted energy to drive from this stop to the backup station.")
+
+
 class ChargingStop(BaseModel):
 
     leg_index: int
@@ -148,6 +169,13 @@ class ChargingStop(BaseModel):
         default=0, description="Predicted number of vehicles ahead in the queue at arrival."
     )
     alternatives: list[StopAlternative]
+    backup_stations: list[BackupStation] = Field(
+        default_factory=list,
+        description="Top-3 nearest real graph neighbors of this stop (by real driving distance) -- "
+        "recommended backup stations if the planned station here is unavailable. The same top-3 "
+        "also sizes charge_to_percent's redundancy margin. See "
+        "tests/redundancy_charging_implementation_2026-08-24.md.",
+    )
 
 
 class RouteGap(BaseModel):
@@ -162,14 +190,40 @@ class RouteGap(BaseModel):
 class RouteAlternative(BaseModel):
 
     label: str
-    distance_km: float
-    duration_min: float
+    distance_km: Optional[float] = Field(
+        default=None,
+        description="None when feasible is False and the pipeline failed before any real route "
+        "could be assembled (e.g. no candidate stations in range at all).",
+    )
+    duration_min: Optional[float] = Field(
+        default=None,
+        description="None under the same condition as distance_km.",
+    )
     predicted_energy_kwh: float
     final_battery_pct: float
     status: Literal["ok", "unreachable_gap"]
+    feasible: bool = Field(
+        description="False if the upfront graph pipeline (graph_planner.plan_journey_via_graph) "
+        "could not find any feasible stop sequence at all -- richer than status=='unreachable_gap' "
+        "alone, since a route can also fail *during* detailed simulation after a sequence was found "
+        "(see `gap`), not just at the planning stage.",
+    )
+    reason: Optional[str] = Field(
+        default=None,
+        description="Human-readable reason feasible is False -- from graph_planner.find_shortest_path "
+        "(no candidates in range, no path to destination, ...) or the same reason as `gap.reason` "
+        "if the sequence was found but failed detailed simulation. None when feasible is True.",
+    )
     charging_plan: list[ChargingStop] = Field(
         default_factory=list,
         description="Every planned charging stop in order; empty for a route that needs none.",
+    )
+    exceeded_ceiling_stops: list[int] = Field(
+        default_factory=list,
+        description="Node indices (into the graph's node list, see graph_planner.build_station_graph) "
+        "where plan_charge_to_percent's exceeded_ceiling escape hatch fired for a graph-chosen stop -- "
+        "rare drift between build_station_graph's coarse per-edge estimate and the real turn-by-turn "
+        "energy model, always logged as a warning when it happens. Empty when it never fired.",
     )
     gap: Optional[RouteGap] = None
     legs: list[RouteLeg] = Field(

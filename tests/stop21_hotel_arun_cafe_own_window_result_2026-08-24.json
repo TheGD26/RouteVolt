@@ -1,0 +1,63 @@
+{
+  "target_node_idx": 123,
+  "target_station_id": 435,
+  "target_station_name": "Hotel Arun Cafe",
+  "vehicle_range_km": 250.0,
+  "dag_order_window_size": 117,
+  "c_node_idx": 144,
+  "c_in_dag_order_window": true,
+  "osrm_requests": 2,
+  "real_top8": [
+    {
+      "node_idx": 124,
+      "station_id": 252,
+      "station_name": "IOCL - S M Agency",
+      "real_driving_km": 74.9321
+    },
+    {
+      "node_idx": 144,
+      "station_id": 195,
+      "station_name": "Melur - Zeon X A.N Energy Solutions",
+      "real_driving_km": 76.7091
+    },
+    {
+      "node_idx": 137,
+      "station_id": 98,
+      "station_name": "Kaveri Garage Seelapadi",
+      "real_driving_km": 77.48519999999999
+    },
+    {
+      "node_idx": 145,
+      "station_id": 194,
+      "station_name": "Ather-Temple City (Melur Town Junction)",
+      "real_driving_km": 78.34110000000001
+    },
+    {
+      "node_idx": 138,
+      "station_id": 99,
+      "station_name": "Vel Saravana bhavan",
+      "real_driving_km": 79.4879
+    },
+    {
+      "node_idx": 140,
+      "station_id": 96,
+      "station_name": "IOCL - Parthyusha",
+      "real_driving_km": 80.7079
+    },
+    {
+      "node_idx": 141,
+      "station_id": 97,
+      "station_name": "IOCL - Sri Sai Ram",
+      "real_driving_km": 80.7079
+    },
+    {
+      "node_idx": 139,
+      "station_id": 95,
+      "station_name": "Hotel PVK Grand",
+      "real_driving_km": 81.139
+    }
+  ],
+  "c_real_driving_km": 76.7091,
+  "c_real_rank": 2,
+  "c_in_real_top8": true
+}

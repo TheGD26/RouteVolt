@@ -157,6 +157,24 @@ export default function ChargingStationsSummary({ route, stationMeta, stationExt
                       />
                     ))}
                   </div>
+
+                  {stop.backup_stations && stop.backup_stations.length > 0 && (
+                    <div className="mt-2 rounded-md border border-cream-200 bg-cream-50 px-2.5 py-2">
+                      <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-300">
+                        Backup options if this station is unavailable
+                      </p>
+                      <div className="mt-1 flex flex-col gap-0.5">
+                        {stop.backup_stations.map((backup, idx) => (
+                          <p key={`${backup.station_id}-${idx}`} className="text-[11px] text-ink-700">
+                            {backup.station_name || `Station ${backup.station_id}`}
+                            {backup.distance_km != null && (
+                              <span className="text-ink-400"> &middot; {backup.distance_km.toFixed(1)} km</span>
+                            )}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
