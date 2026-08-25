@@ -29,3 +29,20 @@ export function reportStationStatus(stationId, reportedStatus) {
 export function getStationWaitEstimate(stationId) {
   return request(`/stations/${stationId}/wait-estimate`);
 }
+
+export function joinStationQueue(stationId, payload) {
+  return request(`/stations/${stationId}/queue/join`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function getStationQueue(stationId) {
+  return request(`/stations/${stationId}/queue`);
+}
+
+export function leaveStationQueue(reservationId) {
+  return request(`/stations/queue/${reservationId}`, {
+    method: "DELETE",
+  });
+}

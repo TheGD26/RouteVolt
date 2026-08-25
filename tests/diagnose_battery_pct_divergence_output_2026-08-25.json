@@ -1,0 +1,602 @@
+{
+  "meta": {
+    "origin": [
+      13.0827,
+      80.2707
+    ],
+    "destination": [
+      8.1833,
+      77.4119
+    ],
+    "vehicle_profile": "mid_ev",
+    "load_state": "half_load",
+    "battery_levels": [
+      16.0,
+      28.0,
+      80.0,
+      91.0
+    ],
+    "build_elapsed_s": 742.2
+  },
+  "origin_edges": [
+    {
+      "j": 1,
+      "label": "node1:21:Egmore - 125 Pantheon",
+      "real_energy_kwh": 2.761,
+      "dijkstra_cost": 2.761,
+      "tier": "normal"
+    },
+    {
+      "j": 2,
+      "label": "node2:27:Nungambakkam - Prestige Palladium Bayan",
+      "real_energy_kwh": 3.217,
+      "dijkstra_cost": 3.217,
+      "tier": "normal"
+    },
+    {
+      "j": 4,
+      "label": "node4:30:T Nagar - Grand Chennai by GRT Hotels",
+      "real_energy_kwh": 5.237,
+      "dijkstra_cost": 5.237,
+      "tier": "normal"
+    },
+    {
+      "j": 5,
+      "label": "node5:15:Arumbakkam - Prestige Polygon",
+      "real_energy_kwh": 6.358,
+      "dijkstra_cost": 6.358,
+      "tier": "normal"
+    },
+    {
+      "j": 3,
+      "label": "node3:14:Aminjikarai - Ampa Skyone",
+      "real_energy_kwh": 6.411,
+      "dijkstra_cost": 6.411,
+      "tier": "normal"
+    },
+    {
+      "j": 6,
+      "label": "node6:31:T Nagar - Mango Hill Central",
+      "real_energy_kwh": 7.388,
+      "dijkstra_cost": 7.388,
+      "tier": "normal"
+    },
+    {
+      "j": 10,
+      "label": "node10:232:Cosmopolitan Club",
+      "real_energy_kwh": 8.156,
+      "dijkstra_cost": 8.156,
+      "tier": "normal"
+    },
+    {
+      "j": 7,
+      "label": "node7:13:Alwarpet - The Raintree",
+      "real_energy_kwh": 8.542,
+      "dijkstra_cost": 8.542,
+      "tier": "normal"
+    }
+  ],
+  "admissible_by_pct": {
+    "16.0": [
+      {
+        "j": 1,
+        "label": "node1:21:Egmore - 125 Pantheon",
+        "real_energy_kwh": 2.761,
+        "tier": "normal"
+      },
+      {
+        "j": 2,
+        "label": "node2:27:Nungambakkam - Prestige Palladium Bayan",
+        "real_energy_kwh": 3.217,
+        "tier": "normal"
+      },
+      {
+        "j": 4,
+        "label": "node4:30:T Nagar - Grand Chennai by GRT Hotels",
+        "real_energy_kwh": 5.237,
+        "tier": "normal"
+      }
+    ],
+    "28.0": [
+      {
+        "j": 1,
+        "label": "node1:21:Egmore - 125 Pantheon",
+        "real_energy_kwh": 2.761,
+        "tier": "normal"
+      },
+      {
+        "j": 2,
+        "label": "node2:27:Nungambakkam - Prestige Palladium Bayan",
+        "real_energy_kwh": 3.217,
+        "tier": "normal"
+      },
+      {
+        "j": 3,
+        "label": "node3:14:Aminjikarai - Ampa Skyone",
+        "real_energy_kwh": 6.411,
+        "tier": "normal"
+      },
+      {
+        "j": 5,
+        "label": "node5:15:Arumbakkam - Prestige Polygon",
+        "real_energy_kwh": 6.358,
+        "tier": "normal"
+      },
+      {
+        "j": 4,
+        "label": "node4:30:T Nagar - Grand Chennai by GRT Hotels",
+        "real_energy_kwh": 5.237,
+        "tier": "normal"
+      },
+      {
+        "j": 6,
+        "label": "node6:31:T Nagar - Mango Hill Central",
+        "real_energy_kwh": 7.388,
+        "tier": "normal"
+      },
+      {
+        "j": 7,
+        "label": "node7:13:Alwarpet - The Raintree",
+        "real_energy_kwh": 8.542,
+        "tier": "normal"
+      },
+      {
+        "j": 10,
+        "label": "node10:232:Cosmopolitan Club",
+        "real_energy_kwh": 8.156,
+        "tier": "normal"
+      }
+    ],
+    "80.0": [
+      {
+        "j": 1,
+        "label": "node1:21:Egmore - 125 Pantheon",
+        "real_energy_kwh": 2.761,
+        "tier": "normal"
+      },
+      {
+        "j": 2,
+        "label": "node2:27:Nungambakkam - Prestige Palladium Bayan",
+        "real_energy_kwh": 3.217,
+        "tier": "normal"
+      },
+      {
+        "j": 3,
+        "label": "node3:14:Aminjikarai - Ampa Skyone",
+        "real_energy_kwh": 6.411,
+        "tier": "normal"
+      },
+      {
+        "j": 5,
+        "label": "node5:15:Arumbakkam - Prestige Polygon",
+        "real_energy_kwh": 6.358,
+        "tier": "normal"
+      },
+      {
+        "j": 4,
+        "label": "node4:30:T Nagar - Grand Chennai by GRT Hotels",
+        "real_energy_kwh": 5.237,
+        "tier": "normal"
+      },
+      {
+        "j": 6,
+        "label": "node6:31:T Nagar - Mango Hill Central",
+        "real_energy_kwh": 7.388,
+        "tier": "normal"
+      },
+      {
+        "j": 7,
+        "label": "node7:13:Alwarpet - The Raintree",
+        "real_energy_kwh": 8.542,
+        "tier": "normal"
+      },
+      {
+        "j": 10,
+        "label": "node10:232:Cosmopolitan Club",
+        "real_energy_kwh": 8.156,
+        "tier": "normal"
+      }
+    ],
+    "91.0": [
+      {
+        "j": 1,
+        "label": "node1:21:Egmore - 125 Pantheon",
+        "real_energy_kwh": 2.761,
+        "tier": "normal"
+      },
+      {
+        "j": 2,
+        "label": "node2:27:Nungambakkam - Prestige Palladium Bayan",
+        "real_energy_kwh": 3.217,
+        "tier": "normal"
+      },
+      {
+        "j": 3,
+        "label": "node3:14:Aminjikarai - Ampa Skyone",
+        "real_energy_kwh": 6.411,
+        "tier": "normal"
+      },
+      {
+        "j": 5,
+        "label": "node5:15:Arumbakkam - Prestige Polygon",
+        "real_energy_kwh": 6.358,
+        "tier": "normal"
+      },
+      {
+        "j": 4,
+        "label": "node4:30:T Nagar - Grand Chennai by GRT Hotels",
+        "real_energy_kwh": 5.237,
+        "tier": "normal"
+      },
+      {
+        "j": 6,
+        "label": "node6:31:T Nagar - Mango Hill Central",
+        "real_energy_kwh": 7.388,
+        "tier": "normal"
+      },
+      {
+        "j": 7,
+        "label": "node7:13:Alwarpet - The Raintree",
+        "real_energy_kwh": 8.542,
+        "tier": "normal"
+      },
+      {
+        "j": 10,
+        "label": "node10:232:Cosmopolitan Club",
+        "real_energy_kwh": 8.156,
+        "tier": "normal"
+      }
+    ]
+  },
+  "flips": [
+    {
+      "j": 5,
+      "label": "node5:15:Arumbakkam - Prestige Polygon",
+      "transition": "16->28",
+      "before": false,
+      "after": true
+    },
+    {
+      "j": 3,
+      "label": "node3:14:Aminjikarai - Ampa Skyone",
+      "transition": "16->28",
+      "before": false,
+      "after": true
+    },
+    {
+      "j": 6,
+      "label": "node6:31:T Nagar - Mango Hill Central",
+      "transition": "16->28",
+      "before": false,
+      "after": true
+    },
+    {
+      "j": 10,
+      "label": "node10:232:Cosmopolitan Club",
+      "transition": "16->28",
+      "before": false,
+      "after": true
+    },
+    {
+      "j": 7,
+      "label": "node7:13:Alwarpet - The Raintree",
+      "transition": "16->28",
+      "before": false,
+      "after": true
+    }
+  ],
+  "table_rows": [
+    {
+      "battery_pct": 16.0,
+      "dijkstra_feasible": true,
+      "path_indices": [
+        0,
+        2,
+        4,
+        16,
+        25,
+        26,
+        34,
+        40,
+        47,
+        49,
+        56,
+        58,
+        71,
+        73,
+        74,
+        77,
+        89,
+        95,
+        106,
+        114,
+        116,
+        122,
+        144,
+        169,
+        182,
+        202,
+        207,
+        212,
+        238,
+        241,
+        243,
+        245,
+        251
+      ],
+      "path_labels": [
+        "ORIGIN",
+        "node2:27:Nungambakkam - Prestige Palladium Bayan",
+        "node4:30:T Nagar - Grand Chennai by GRT Hotels",
+        "node16:23:Guindy - Olympia Tech Park",
+        "node25:19:Chennai Airport - Domestic Parking (AEROHUB)",
+        "node26:20:Chennai Airport - International Parking (AEROHUB)",
+        "node34:398:Kalyan Grand Business Hotel",
+        "node40:11:Mamandur - Ram Residency (Manoj Bhavan)",
+        "node47:425:Hotel Aishwarya Bhavan",
+        "node49:426:Zeon Charging - Nalathur",
+        "node56:415:IOCL - Sakthi Agency",
+        "node58:430:Vikravandi - Arutperun Jothi",
+        "node71:88:IOCL - K G P Amaravathi",
+        "node73:85:IOCL - Shivasakthi Singaram (1)",
+        "node74:87:Cuddalore - Argunt Aggregates",
+        "node77:91:IOCL - Raja Traders",
+        "node89:320:Quality Inn Viha",
+        "node95:319:Kumbakonam - Cholaa Dynasty (A Bergamont Hotel)",
+        "node106:358:Trichy - Hotel Balaji Ariyas",
+        "node114:354:Charge Zone - Tiruchirappalli (Courtyard Marriott)",
+        "node116:249:Kaveri Garage Piratiyur",
+        "node122:253:IOCL - Sugan Tradings",
+        "node144:195:Melur - Zeon X A.N Energy Solutions",
+        "node169:183:Madurai - Grand Madurai by GRT Hotels",
+        "node182:181:Jasmine Filling Station",
+        "node202:440:Ather - TRZ Virudhunagar",
+        "node207:438:Ather - TRZ Sivakasi",
+        "node212:365:IOCL - Rajam Agency",
+        "node238:360:IOCL - GSM",
+        "node241:373:Ather-Eagle Traders (Vallioor)",
+        "node243:147:Nagercoil, Thovalai - Carnival City",
+        "node245:146:Ather-Nagercoil",
+        "DEST"
+      ],
+      "total_energy_kwh": 364.49,
+      "sim_feasible": true,
+      "gap": null,
+      "reason": null
+    },
+    {
+      "battery_pct": 28.0,
+      "dijkstra_feasible": true,
+      "path_indices": [
+        0,
+        2,
+        4,
+        16,
+        25,
+        26,
+        34,
+        40,
+        47,
+        49,
+        56,
+        58,
+        71,
+        73,
+        74,
+        77,
+        89,
+        95,
+        106,
+        114,
+        116,
+        122,
+        144,
+        169,
+        182,
+        202,
+        207,
+        212,
+        238,
+        241,
+        243,
+        245,
+        251
+      ],
+      "path_labels": [
+        "ORIGIN",
+        "node2:27:Nungambakkam - Prestige Palladium Bayan",
+        "node4:30:T Nagar - Grand Chennai by GRT Hotels",
+        "node16:23:Guindy - Olympia Tech Park",
+        "node25:19:Chennai Airport - Domestic Parking (AEROHUB)",
+        "node26:20:Chennai Airport - International Parking (AEROHUB)",
+        "node34:398:Kalyan Grand Business Hotel",
+        "node40:11:Mamandur - Ram Residency (Manoj Bhavan)",
+        "node47:425:Hotel Aishwarya Bhavan",
+        "node49:426:Zeon Charging - Nalathur",
+        "node56:415:IOCL - Sakthi Agency",
+        "node58:430:Vikravandi - Arutperun Jothi",
+        "node71:88:IOCL - K G P Amaravathi",
+        "node73:85:IOCL - Shivasakthi Singaram (1)",
+        "node74:87:Cuddalore - Argunt Aggregates",
+        "node77:91:IOCL - Raja Traders",
+        "node89:320:Quality Inn Viha",
+        "node95:319:Kumbakonam - Cholaa Dynasty (A Bergamont Hotel)",
+        "node106:358:Trichy - Hotel Balaji Ariyas",
+        "node114:354:Charge Zone - Tiruchirappalli (Courtyard Marriott)",
+        "node116:249:Kaveri Garage Piratiyur",
+        "node122:253:IOCL - Sugan Tradings",
+        "node144:195:Melur - Zeon X A.N Energy Solutions",
+        "node169:183:Madurai - Grand Madurai by GRT Hotels",
+        "node182:181:Jasmine Filling Station",
+        "node202:440:Ather - TRZ Virudhunagar",
+        "node207:438:Ather - TRZ Sivakasi",
+        "node212:365:IOCL - Rajam Agency",
+        "node238:360:IOCL - GSM",
+        "node241:373:Ather-Eagle Traders (Vallioor)",
+        "node243:147:Nagercoil, Thovalai - Carnival City",
+        "node245:146:Ather-Nagercoil",
+        "DEST"
+      ],
+      "total_energy_kwh": 364.49,
+      "sim_feasible": true,
+      "gap": null,
+      "reason": null
+    },
+    {
+      "battery_pct": 80.0,
+      "dijkstra_feasible": true,
+      "path_indices": [
+        0,
+        2,
+        4,
+        16,
+        25,
+        26,
+        34,
+        40,
+        47,
+        49,
+        56,
+        58,
+        71,
+        73,
+        74,
+        77,
+        89,
+        95,
+        106,
+        114,
+        116,
+        122,
+        144,
+        169,
+        182,
+        202,
+        207,
+        212,
+        238,
+        241,
+        243,
+        245,
+        251
+      ],
+      "path_labels": [
+        "ORIGIN",
+        "node2:27:Nungambakkam - Prestige Palladium Bayan",
+        "node4:30:T Nagar - Grand Chennai by GRT Hotels",
+        "node16:23:Guindy - Olympia Tech Park",
+        "node25:19:Chennai Airport - Domestic Parking (AEROHUB)",
+        "node26:20:Chennai Airport - International Parking (AEROHUB)",
+        "node34:398:Kalyan Grand Business Hotel",
+        "node40:11:Mamandur - Ram Residency (Manoj Bhavan)",
+        "node47:425:Hotel Aishwarya Bhavan",
+        "node49:426:Zeon Charging - Nalathur",
+        "node56:415:IOCL - Sakthi Agency",
+        "node58:430:Vikravandi - Arutperun Jothi",
+        "node71:88:IOCL - K G P Amaravathi",
+        "node73:85:IOCL - Shivasakthi Singaram (1)",
+        "node74:87:Cuddalore - Argunt Aggregates",
+        "node77:91:IOCL - Raja Traders",
+        "node89:320:Quality Inn Viha",
+        "node95:319:Kumbakonam - Cholaa Dynasty (A Bergamont Hotel)",
+        "node106:358:Trichy - Hotel Balaji Ariyas",
+        "node114:354:Charge Zone - Tiruchirappalli (Courtyard Marriott)",
+        "node116:249:Kaveri Garage Piratiyur",
+        "node122:253:IOCL - Sugan Tradings",
+        "node144:195:Melur - Zeon X A.N Energy Solutions",
+        "node169:183:Madurai - Grand Madurai by GRT Hotels",
+        "node182:181:Jasmine Filling Station",
+        "node202:440:Ather - TRZ Virudhunagar",
+        "node207:438:Ather - TRZ Sivakasi",
+        "node212:365:IOCL - Rajam Agency",
+        "node238:360:IOCL - GSM",
+        "node241:373:Ather-Eagle Traders (Vallioor)",
+        "node243:147:Nagercoil, Thovalai - Carnival City",
+        "node245:146:Ather-Nagercoil",
+        "DEST"
+      ],
+      "total_energy_kwh": 364.49,
+      "sim_feasible": true,
+      "gap": null,
+      "reason": null
+    },
+    {
+      "battery_pct": 91.0,
+      "dijkstra_feasible": true,
+      "path_indices": [
+        0,
+        2,
+        4,
+        16,
+        25,
+        26,
+        34,
+        40,
+        47,
+        49,
+        56,
+        58,
+        71,
+        73,
+        74,
+        77,
+        89,
+        95,
+        106,
+        114,
+        116,
+        122,
+        144,
+        169,
+        182,
+        202,
+        207,
+        212,
+        238,
+        241,
+        243,
+        245,
+        251
+      ],
+      "path_labels": [
+        "ORIGIN",
+        "node2:27:Nungambakkam - Prestige Palladium Bayan",
+        "node4:30:T Nagar - Grand Chennai by GRT Hotels",
+        "node16:23:Guindy - Olympia Tech Park",
+        "node25:19:Chennai Airport - Domestic Parking (AEROHUB)",
+        "node26:20:Chennai Airport - International Parking (AEROHUB)",
+        "node34:398:Kalyan Grand Business Hotel",
+        "node40:11:Mamandur - Ram Residency (Manoj Bhavan)",
+        "node47:425:Hotel Aishwarya Bhavan",
+        "node49:426:Zeon Charging - Nalathur",
+        "node56:415:IOCL - Sakthi Agency",
+        "node58:430:Vikravandi - Arutperun Jothi",
+        "node71:88:IOCL - K G P Amaravathi",
+        "node73:85:IOCL - Shivasakthi Singaram (1)",
+        "node74:87:Cuddalore - Argunt Aggregates",
+        "node77:91:IOCL - Raja Traders",
+        "node89:320:Quality Inn Viha",
+        "node95:319:Kumbakonam - Cholaa Dynasty (A Bergamont Hotel)",
+        "node106:358:Trichy - Hotel Balaji Ariyas",
+        "node114:354:Charge Zone - Tiruchirappalli (Courtyard Marriott)",
+        "node116:249:Kaveri Garage Piratiyur",
+        "node122:253:IOCL - Sugan Tradings",
+        "node144:195:Melur - Zeon X A.N Energy Solutions",
+        "node169:183:Madurai - Grand Madurai by GRT Hotels",
+        "node182:181:Jasmine Filling Station",
+        "node202:440:Ather - TRZ Virudhunagar",
+        "node207:438:Ather - TRZ Sivakasi",
+        "node212:365:IOCL - Rajam Agency",
+        "node238:360:IOCL - GSM",
+        "node241:373:Ather-Eagle Traders (Vallioor)",
+        "node243:147:Nagercoil, Thovalai - Carnival City",
+        "node245:146:Ather-Nagercoil",
+        "DEST"
+      ],
+      "total_energy_kwh": 364.49,
+      "sim_feasible": true,
+      "gap": null,
+      "reason": null
+    }
+  ]
+}

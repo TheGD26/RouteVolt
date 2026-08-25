@@ -8,7 +8,10 @@ of truth for re-seeding: download_chargers.py regenerates it, seed_stations.py
 reloads it into the DB. This module only ever queries the DB.
 """
 
+import itertools
 import math
+import threading
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
@@ -52,6 +55,47 @@ CROWDSOURCED_CONFIDENCE_THRESHOLD = 2.5
 # measured average, ideally per vehicle_profile, once real RouteVolt session
 # logs accumulate.
 AVERAGE_SESSION_MINUTES = 35.0
+
+# ---- Reservation-based queue (demo layer, in-memory) ----
+# Deterministic, per-charger-slot reservations for a live multi-tab demo --
+# sits on top of the heuristic/blend/crowdsourced tiers above, not a
+# replacement: get_blended_occupancy/estimate_wait_time only consult this
+# store when a station has at least one live reservation (see
+# _reservation_occupancy/_reservation_wait below), so every station nobody
+# has joined a queue at keeps behaving exactly as before. Deliberately
+# in-memory, not a DB table -- process-lifetime demo state, not something
+# that needs to survive a restart.
+RESERVATION_TURNOVER_BUFFER_MINUTES = 5.0  # gap between back-to-back sessions on the same slot (plug/unplug time)
+
+# Duplicated (not imported) from route_optimizer.VEHICLE_PROFILES's
+# battery_capacity_kwh: route_optimizer imports estimate_wait_time/
+# get_stations from this module, so importing route_optimizer here would
+# create a charger_service -> route_optimizer -> charger_service cycle.
+# Keep these numbers in sync with route_optimizer.VEHICLE_PROFILES.
+_VEHICLE_BATTERY_CAPACITY_KWH = {
+    "small_ev": 24,
+    "mid_ev": 40,
+    "large_ev": 75,
+}
+DEFAULT_CHARGE_POWER_KW = 7.0  # fallback when a station's power_kw can't be parsed as a plain number
+
+
+@dataclass
+class Reservation:
+    reservation_id: int
+    station_id: int
+    charger_slot: int
+    user_id: str
+    user_name: Optional[str]
+    requested_eta: datetime
+    start_time: datetime
+    end_time: datetime
+    status: str = "active"  # "active" | "released"
+
+
+_reservation_lock = threading.Lock()
+_reservations: dict[int, Reservation] = {}
+_reservation_id_counter = itertools.count(1)
 
 
 def _station_to_dict(station: Station) -> dict:
@@ -235,12 +279,23 @@ def get_blended_occupancy(
     reports, not a trained model; there isn't enough crowdsourced history
     yet to train one (see estimate_wait_time for the arithmetic built on top
     of this, also not ML yet).
+
+    If the station has any live reservations (see join_queue), those take
+    over completely -- "confidence": "reserved", ranked above "crowdsourced"
+    since it's exact rather than estimated -- and the heuristic/report blend
+    below never runs. A station nobody has reserved through the queue demo
+    falls through to the heuristic/blend logic exactly as before.
     """
     station = get_station(station_id)
     if station is None:
         raise ValueError(f"Unknown station_id '{station_id}'")
 
     num_chargers = station["num_chargers"] or 1
+
+    reservation_occupancy = _reservation_occupancy(station["id"], num_chargers, timestamp)
+    if reservation_occupancy is not None:
+        return reservation_occupancy
+
     heuristic = _heuristic_occupancy(station, timestamp)
     return _blend_with_recent_reports(station["id"], heuristic, num_chargers, window_minutes)
 
@@ -261,12 +316,23 @@ def estimate_wait_time(station_id: str, timestamp: datetime) -> dict:
     session history yet (see AVERAGE_SESSION_MINUTES). Replace this with a
     real model once RouteVolt has real session logs to train one, same
     spirit as get_blended_occupancy's heuristic-until-there's-data approach.
+
+    If the station has any live reservations, the wait is derived directly
+    from their real start/end times (see _reservation_wait) instead of the
+    AVERAGE_SESSION_MINUTES arithmetic below -- exact rather than estimated,
+    same "reserved" tier as get_blended_occupancy. Falls through to the
+    existing arithmetic, unchanged, for every other station.
     """
     station = get_station(station_id)
     if station is None:
         raise ValueError(f"Unknown station_id '{station_id}'")
 
     num_chargers = station["num_chargers"] or 1
+
+    reservation_wait = _reservation_wait(station["id"], num_chargers, timestamp)
+    if reservation_wait is not None:
+        return reservation_wait
+
     occupancy = get_blended_occupancy(station_id, timestamp)
     occupied = occupancy["expected_occupied_ports"]
 
@@ -311,3 +377,209 @@ def get_recent_reports(station_id, limit: int = 5) -> list[dict]:
     station_id = int(station_id)
     reports = _query_reports(station_id, limit=limit)
     return [{**r, "reported_status": r["reported_status"].value} for r in reports]
+
+
+# ---- Reservation-based queue (demo layer) ----
+
+
+def _live_reservations(station_id: int) -> list[Reservation]:
+    with _reservation_lock:
+        return [r for r in _reservations.values() if r.station_id == station_id and r.status == "active"]
+
+
+def _reservation_occupancy(station_id: int, num_chargers: int, at_time: datetime) -> Optional[dict]:
+    """None if the station has no live reservations (fall through to the
+    heuristic/blend tiers); otherwise the exact occupied/available count at
+    `at_time`, "confidence": "reserved"."""
+    live = _live_reservations(station_id)
+    if not live:
+        return None
+
+    occupied = sum(1 for r in live if r.start_time <= at_time < r.end_time)
+    occupied = min(occupied, num_chargers)
+    return {
+        "expected_occupied_ports": occupied,
+        "expected_available_ports": num_chargers - occupied,
+        "confidence": "reserved",
+    }
+
+
+def _reservation_wait(station_id: int, num_chargers: int, at_time: datetime) -> Optional[dict]:
+    """None if the station has no live reservations (fall through to the
+    AVERAGE_SESSION_MINUTES arithmetic); otherwise the exact wait a new
+    arrival at `at_time` would face, derived from real reservation end
+    times."""
+    live = _live_reservations(station_id)
+    if not live:
+        return None
+
+    soonest_free_per_slot = []
+    for slot in range(1, num_chargers + 1):
+        slot_reservations = [r for r in live if r.charger_slot == slot]
+        soonest_free_per_slot.append(max((r.end_time for r in slot_reservations), default=at_time))
+    soonest_free = min(soonest_free_per_slot)
+
+    wait_minutes = max((soonest_free - at_time).total_seconds() / 60.0, 0.0)
+    queue_length = max(len(live) - num_chargers, 0) if wait_minutes > 0 else 0
+
+    return {
+        "expected_wait_minutes": round(wait_minutes, 1),
+        "queue_length": queue_length,
+        "confidence": "reserved",
+    }
+
+
+def _station_power_kw(station: dict) -> float:
+    try:
+        power = float(station.get("power_kw"))
+        if power > 0:
+            return power
+    except (TypeError, ValueError):
+        pass
+    return DEFAULT_CHARGE_POWER_KW
+
+
+def estimate_charge_duration_for_station(
+    station_id, current_battery_pct: float, target_battery_pct: float, vehicle_profile: str = "mid_ev"
+) -> float:
+    """Minutes to charge from current_battery_pct to target_battery_pct at
+    this station's power_kw, for a vehicle_profile's battery capacity (see
+    _VEHICLE_BATTERY_CAPACITY_KWH). Linear estimate -- no charge-curve
+    tapering -- same spirit as the rest of this module's queueing arithmetic
+    (AVERAGE_SESSION_MINUTES etc.): good enough for the demo's deterministic
+    scheduling, not a physical charge-curve model."""
+    station = get_station(station_id)
+    if station is None:
+        raise ValueError(f"Unknown station_id '{station_id}'")
+
+    capacity_kwh = _VEHICLE_BATTERY_CAPACITY_KWH.get(vehicle_profile, _VEHICLE_BATTERY_CAPACITY_KWH["mid_ev"])
+    power_kw = _station_power_kw(station)
+    pct_delta = max(target_battery_pct - current_battery_pct, 0.0)
+    energy_kwh = (pct_delta / 100.0) * capacity_kwh
+    duration_min = (energy_kwh / power_kw) * 60.0
+    return round(duration_min, 1)
+
+
+def join_queue(
+    station_id,
+    user_id: str,
+    charge_duration_min: float,
+    user_name: Optional[str] = None,
+    eta: Optional[datetime] = None,
+) -> dict:
+    """
+    Reserve whichever charger slot at `station_id` frees up soonest at/after
+    `eta` (immediate if a slot is free now; otherwise chained off that
+    slot's existing reservations plus RESERVATION_TURNOVER_BUFFER_MINUTES).
+    Deterministic and race-free: the whole read-decide-write sequence runs
+    under _reservation_lock, so two near-simultaneous joins (e.g. two demo
+    browser tabs) can never be assigned the same slot for overlapping times.
+
+    Returns the assignment: reservation_id, station_id, charger_slot,
+    wait_minutes (eta -> actual start_time gap), start_time, end_time,
+    queue_position (1-indexed position in the chosen slot's queue).
+    """
+    station_id = int(station_id)
+    station = get_station(station_id)
+    if station is None:
+        raise ValueError(f"Unknown station_id '{station_id}'")
+
+    num_chargers = station["num_chargers"] or 1
+    now = datetime.now(timezone.utc)
+    eta = eta or now
+    if eta.tzinfo is None:
+        eta = eta.replace(tzinfo=timezone.utc)
+
+    with _reservation_lock:
+        live = [r for r in _reservations.values() if r.station_id == station_id and r.status == "active"]
+
+        best_slot = None
+        best_start = None
+        best_queue_position = None
+        for slot in range(1, num_chargers + 1):
+            slot_reservations = sorted((r for r in live if r.charger_slot == slot), key=lambda r: r.start_time)
+            if slot_reservations:
+                slot_free_at = slot_reservations[-1].end_time + timedelta(minutes=RESERVATION_TURNOVER_BUFFER_MINUTES)
+            else:
+                slot_free_at = now
+            start_time = max(eta, slot_free_at)
+
+            if best_start is None or start_time < best_start:
+                best_start = start_time
+                best_slot = slot
+                best_queue_position = len(slot_reservations) + 1
+
+        end_time = best_start + timedelta(minutes=charge_duration_min)
+        reservation_id = next(_reservation_id_counter)
+        _reservations[reservation_id] = Reservation(
+            reservation_id=reservation_id,
+            station_id=station_id,
+            charger_slot=best_slot,
+            user_id=user_id,
+            user_name=user_name,
+            requested_eta=eta,
+            start_time=best_start,
+            end_time=end_time,
+            status="active",
+        )
+
+    wait_minutes = max((best_start - eta).total_seconds() / 60.0, 0.0)
+    return {
+        "reservation_id": reservation_id,
+        "station_id": station_id,
+        "charger_slot": best_slot,
+        "wait_minutes": round(wait_minutes, 1),
+        "start_time": best_start,
+        "end_time": end_time,
+        "queue_position": best_queue_position,
+    }
+
+
+def _reservation_to_dict(reservation: Reservation) -> dict:
+    return {
+        "reservation_id": reservation.reservation_id,
+        "user_id": reservation.user_id,
+        "user_name": reservation.user_name,
+        "start_time": reservation.start_time,
+        "end_time": reservation.end_time,
+    }
+
+
+def get_queue_state(station_id, at_time: Optional[datetime] = None) -> dict:
+    """Per-charger-slot snapshot: current occupant (if any) + upcoming queue,
+    for the frontend to poll (GET /stations/{id}/queue)."""
+    station_id = int(station_id)
+    station = get_station(station_id)
+    if station is None:
+        raise ValueError(f"Unknown station_id '{station_id}'")
+
+    num_chargers = station["num_chargers"] or 1
+    at_time = at_time or datetime.now(timezone.utc)
+    if at_time.tzinfo is None:
+        at_time = at_time.replace(tzinfo=timezone.utc)
+
+    live = _live_reservations(station_id)
+
+    slots = []
+    for slot in range(1, num_chargers + 1):
+        slot_reservations = sorted((r for r in live if r.charger_slot == slot), key=lambda r: r.start_time)
+        current = next((r for r in slot_reservations if r.start_time <= at_time < r.end_time), None)
+        upcoming = [r for r in slot_reservations if r.start_time > at_time]
+        slots.append({
+            "charger_slot": slot,
+            "current": _reservation_to_dict(current) if current else None,
+            "upcoming": [_reservation_to_dict(r) for r in upcoming],
+        })
+
+    return {"station_id": station_id, "num_chargers": num_chargers, "slots": slots}
+
+
+def release_reservation(reservation_id: int) -> bool:
+    """Cancel a reservation (e.g. "leave queue"). Returns False if the id is
+    unknown or already released."""
+    with _reservation_lock:
+        reservation = _reservations.get(reservation_id)
+        if reservation is None or reservation.status != "active":
+            return False
+        reservation.status = "released"
+        return True

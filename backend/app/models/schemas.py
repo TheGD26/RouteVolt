@@ -55,6 +55,20 @@ class OccupancyReportRequest(BaseModel):
     reported_status: Literal["busy", "free", "unknown"]
 
 
+class QueueJoinRequest(BaseModel):
+    """Body for POST /stations/{station_id}/queue/join -- see
+    charger_service.join_queue/estimate_charge_duration_for_station."""
+
+    user_id: str
+    user_name: Optional[str] = None
+    current_battery_pct: float
+    target_battery_pct: float = 80.0
+    vehicle_profile: str = "mid_ev"
+    eta_minutes_from_now: float = Field(
+        default=0.0, description="How many minutes from now this user expects to arrive at the station."
+    )
+
+
 class LatLng(BaseModel):
     lat: float
     lng: float
