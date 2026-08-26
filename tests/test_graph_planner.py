@@ -409,6 +409,162 @@ def test_exceeded_ceiling_drift_is_logged_not_raised():
             _check("logged message includes the fine-grained (real-leg) estimate", "11.0" in message, message)
 
 
+def test_simulate_feasibility_only_battery_clamp():
+    """
+    Regression test for the same phantom-stop battery-loss bug in
+    battery_simulator.plan_full_journey (see tests/test_battery_simulator.py),
+    fixed identically here since _simulate_feasibility_only keeps its own
+    separate copy of the same remaining_pct update line.
+
+    Synthetic, no network calls: patches graph_planner's own imported
+    references to _leg_elevation/_leg_traffic/_leg_energy_kwh/
+    plan_charge_to_percent (bound into this module's namespace at import
+    time -- patching battery_simulator's copies would not affect these
+    call sites, see the existing _leg_energy_kwh patches above which
+    target battery_simulator directly only because plan_charge_to_percent
+    itself, not this function, is what calls them there).
+
+    The scenario is deliberately borderline in one direction only: leg_a
+    drains 10% of capacity (80% start -> 70% real battery on arrival at a
+    phantom stop, i.e. plan_charge_to_percent returns 34.2%, below that
+    70%), then leg_b drains 65% of capacity -- survivable from the clamped
+    70% (final 5%) but would go negative from the discarded 34.2% (final
+    -30.8%, i.e. status would flip to "unreachable_gap" without the
+    clamp). This directly demonstrates the fix can only make a
+    borderline-infeasible case MORE feasible, never less: the clamp only
+    ever raises the battery carried forward, so a case that was feasible
+    on the correct (higher) trajectory cannot become infeasible from
+    applying it.
+    """
+    print("\n=== _simulate_feasibility_only: phantom-stop battery clamp (synthetic) ===")
+
+    capacity_kwh = VEHICLE_PROFILES["mid_ev"]["battery_capacity_kwh"]
+    leg_a = {"start": (13.0, 80.0), "end": (12.9, 79.9), "distance_km": 10.0, "duration_s": 600.0}
+    leg_b = {"start": (12.9, 79.9), "end": (12.8, 79.8), "distance_km": 10.0, "duration_s": 600.0}
+    route_leg_groups = [[leg_a], [leg_b]]
+    stops = [{"lat": 12.9, "lon": 79.9, "id": 1, "station_name": "Phantom"}]
+
+    leg_a_energy_kwh = 0.10 * capacity_kwh
+    leg_b_energy_kwh = 0.65 * capacity_kwh
+    fixed_elevation = {"elevation_gain_m": 0.0, "elevation_loss_m": 0.0, "elevation_source": "synthetic"}
+    fixed_traffic = {"congestion_level": 0.0, "congestion_source": "synthetic"}
+
+    with patch.object(graph_planner, "_leg_elevation", return_value=fixed_elevation), \
+         patch.object(graph_planner, "_leg_traffic", return_value=fixed_traffic), \
+         patch.object(graph_planner, "_leg_energy_kwh", side_effect=[leg_a_energy_kwh, leg_b_energy_kwh]), \
+         patch.object(graph_planner, "plan_charge_to_percent",
+                      return_value={"charge_to_percent": 34.2, "exceeded_ceiling": False}):
+        result = graph_planner._simulate_feasibility_only(
+            route_leg_groups=route_leg_groups, stops=stops, battery_pct=80.0,
+            vehicle_profile="mid_ev", load_state="half_load", payload_kg=None, safety_margin=0.12,
+        )
+
+    print(f"  status={result['status']} final_battery_pct={result.get('final_battery_pct')}")
+    _check(
+        "feasibility verdict is 'ok' -- the clamp preserved the real 70% battery on arrival, "
+        "not the phantom stop's lower 34.2% charge target",
+        result["status"] == "ok",
+        f"got {result}",
+    )
+    _check(
+        "final_battery_pct reflects the clamped trajectory (70% - 65% = 5%)",
+        result.get("final_battery_pct") is not None and abs(result["final_battery_pct"] - 5.0) < 0.5,
+        f"got {result.get('final_battery_pct')}",
+    )
+
+
+def test_plan_journey_via_graph_filters_phantom_stops_but_keeps_exceeded_ceiling_correlation():
+    """
+    Regression test for the phantom-stop display fix's ordering constraint:
+    battery_simulator.plan_full_journey keeps building its full, unfiltered
+    stop_log (so _log_exceeded_ceiling_drift's positional correlation
+    between journey["stops"] and path_result["path"] -- stops[k] <->
+    path[k+1] -- stays intact); plan_journey_via_graph filters phantom
+    stops (charging_required=False) out of the *returned* "stops" list
+    only AFTER the drift check has already run against the complete list.
+
+    Mocks everything above and including plan_full_journey (filter_
+    candidate_stations, build_station_graph, find_shortest_path,
+    get_top_n_neighbors, plan_full_journey itself) with a hand-crafted
+    4-node path (origin -> phantom stop -> real stop that tripped
+    exceeded_ceiling -> destination), isolating this test to plan_journey_
+    via_graph's own orchestration (the ordering of the drift check vs. the
+    filter), not the simulation that produces the journey. routing_service.
+    get_route is patched to raise if called at all, confirming route_cache
+    is what's actually used (no accidental live network call).
+    """
+    print("\n=== plan_journey_via_graph: phantom stop filtered, exceeded_ceiling_stops correlation intact (synthetic) ===")
+
+    nodes = [
+        {"lat": 13.08, "lon": 80.27, "kind": "origin"},
+        {"id": 101, "lat": 13.0, "lon": 80.1, "station_name": "Phantom", "kind": "station"},
+        {"id": 102, "lat": 12.9, "lon": 80.0, "station_name": "Real", "kind": "station"},
+        {"lat": 12.8, "lon": 79.9, "kind": "destination"},
+    ]
+    dummy_route = {"legs": [], "distance_m": 1000.0, "duration_s": 100.0}
+    route_cache = {(0, 1): dummy_route, (1, 2): dummy_route, (2, 3): dummy_route}
+    fake_graph = {"nodes": nodes, "edges": {}, "route_cache": route_cache, "candidates_per_node": {}}
+
+    fake_journey = {
+        "legs": [{"predicted_energy_kwh": 1.0} for _ in range(4)],
+        "stops": [
+            {
+                "leg_index": 1, "location": {"lat": 13.0, "lng": 80.1},
+                "battery_pct_on_arrival": 69.48, "station_id": 101, "station_name": "Phantom",
+                "charge_to_percent": 34.2, "exceeded_ceiling": False, "charging_required": False,
+                "estimated_charge_duration_min": 0.0, "expected_wait_minutes": 0.0,
+                "queue_length": 0, "alternatives": [], "backup_stations": [],
+            },
+            {
+                "leg_index": 2, "location": {"lat": 12.9, "lng": 80.0},
+                "battery_pct_on_arrival": 60.0, "station_id": 102, "station_name": "Real",
+                "charge_to_percent": 95.0, "exceeded_ceiling": True, "charging_required": True,
+                "estimated_charge_duration_min": 10.0, "expected_wait_minutes": 0.0,
+                "queue_length": 0, "alternatives": [], "backup_stations": [],
+            },
+        ],
+        "final_battery_pct": 50.0,
+        "total_predicted_energy_kwh": 20.0,
+        "status": "ok",
+        "gap": None,
+    }
+
+    with patch.object(graph_planner, "filter_candidate_stations", return_value=[]), \
+         patch.object(graph_planner, "build_station_graph", return_value=fake_graph), \
+         patch.object(graph_planner, "find_shortest_path",
+                      return_value={"feasible": True, "path": [0, 1, 2, 3], "total_energy_kwh": 20.0}), \
+         patch.object(graph_planner, "get_top_n_neighbors", return_value=[]), \
+         patch.object(graph_planner, "plan_full_journey", return_value=fake_journey), \
+         patch.object(routing_service, "get_route",
+                      side_effect=AssertionError("route_cache should have been used -- no live get_route call expected")):
+        result = graph_planner.plan_journey_via_graph(
+            origin_lat=13.08, origin_lon=80.27, dest_lat=12.8, dest_lon=79.9,
+            battery_pct=80.0, vehicle_profile="mid_ev", load_state="half_load",
+            stations=[],
+        )
+
+    print(f"  exceeded_ceiling_stops={result['exceeded_ceiling_stops']}")
+    print(f"  stops={[(s['station_name'], s['charge_to_percent'], s['exceeded_ceiling']) for s in result['stops']]}")
+
+    _check(
+        "exceeded_ceiling_stops correctly names node 2 (the real stop), unaffected by the phantom stop ahead of it",
+        result["exceeded_ceiling_stops"] == [2],
+        f"got {result['exceeded_ceiling_stops']}",
+    )
+    _check(
+        "the phantom stop (charging_required=False) is removed from the returned stops list",
+        len(result["stops"]) == 1,
+        f"got {len(result['stops'])} stops: {[s['station_name'] for s in result['stops']]}",
+    )
+    _check(
+        "the surviving stop is the real one, unchanged",
+        bool(result["stops"]) and result["stops"][0]["station_name"] == "Real"
+        and result["stops"][0]["charge_to_percent"] == 95.0
+        and result["stops"][0]["exceeded_ceiling"] is True,
+        f"got {result['stops']}",
+    )
+
+
 def test_edge_refinement_drops_failed_get_route_gracefully():
     """
     build_station_graph's per-edge real-route refinement (_fetch_edge_sub_legs,
@@ -631,6 +787,8 @@ if __name__ == "__main__":
     test_charge_to_need_reduces_below_ceiling()
     test_plan_charge_to_percent_catches_cumulative_ceiling_shortfall()
     test_exceeded_ceiling_drift_is_logged_not_raised()
+    test_simulate_feasibility_only_battery_clamp()
+    test_plan_journey_via_graph_filters_phantom_stops_but_keeps_exceeded_ceiling_correlation()
     test_edge_refinement_drops_failed_get_route_gracefully()
     test_leg14_edge_real_refinement_lands_near_isolation_study()
     # test_full_state_north_to_south() and

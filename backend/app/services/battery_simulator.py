@@ -378,6 +378,7 @@ def _build_stop_entry(
         "station_name": station.get("station_name"),
         "charge_to_percent": charge_plan["charge_to_percent"],
         "exceeded_ceiling": charge_plan["exceeded_ceiling"],
+        "charging_required": energy_needed_kwh > 0.0,
         "estimated_charge_duration_min": round(
             _estimate_charge_duration_min(energy_needed_kwh, power_kw), 1
         ),
@@ -555,7 +556,7 @@ def plan_full_journey(
                 safety_margin=safety_margin,
             )
             stop_log.append(stop_entry)
-            remaining_pct = stop_entry["charge_to_percent"]
+            remaining_pct = max(stop_entry["charge_to_percent"], stop_entry["battery_pct_on_arrival"])
 
     return {
         "legs": leg_log,

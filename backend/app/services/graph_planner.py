@@ -25,6 +25,7 @@ from backend.app.services import charger_service, elevation_service, routing_ser
 from backend.app.services.battery_simulator import (
     BATTERY_CEILING_PCT,
     CHARGE_TARGET_LOOKAHEAD_SEGMENTS,
+    _estimate_charge_duration_min,
     _leg_elevation,
     _leg_energy_kwh,
     _leg_traffic,
@@ -114,6 +115,12 @@ MIN_ABSOLUTE_KM_FOR_DETOUR_CHECK = 30.0
 # rather than removing the cap -- that's the signal the cap became too
 # aggressive for that route's station density, not that capping is wrong.
 MAX_EDGES_PER_NODE = 8
+
+# Consecutive real stops within this real driving distance of each other are
+# collapsed into one displayed stop -- dense-cluster case (e.g. two Chennai-
+# area stations both needing charge within a few km of each other), not a
+# graph-construction fix.
+MERGE_ADJACENT_STOPS_MAX_KM = 20.0
 
 # Redundancy charge-sizing / backup-station recommendation: how many of a
 # stop's nearest real graph neighbors (edges[i], already sorted ascending by
@@ -795,6 +802,62 @@ def _log_exceeded_ceiling_drift(path: list[int], edges: dict, journey: dict) -> 
     return exceeded_ceiling_stops
 
 
+def _merge_adjacent_stops(stops: list[dict], legs: list[dict], vehicle_profile: str) -> list[dict]:
+    """
+    Collapses consecutive display stops that sit within
+    MERGE_ADJACENT_STOPS_MAX_KM real driving distance of each other into one
+    -- the dense-cluster case where the graph-chosen path routes through two
+    (or more) stations that are practically the same stop for the driver
+    (e.g. two Chennai-area stations a few km apart). Runs after the
+    phantom-stop filter, over that already-filtered list -- pure display
+    post-processing, does not touch build_station_graph/find_shortest_path
+    or how the path was chosen.
+
+    Keeps the FIRST stop of each merged run (its location/station_id/
+    station_name/leg_index/alternatives/backup_stations -- that's where the
+    vehicle actually stops), raised to charge_to_percent = max across the
+    run and exceeded_ceiling = True if any stop in the run had it, with
+    estimated_charge_duration_min recomputed for that combined target via
+    battery_simulator._estimate_charge_duration_min (not reimplemented
+    here). Chains forward: a third stop within range of the (already-
+    merged) kept stop's position also merges in, using the kept stop's
+    leg_index for that next distance check, not the original second stop's.
+    """
+    if not stops:
+        return stops
+
+    capacity_kwh = VEHICLE_PROFILES[vehicle_profile]["battery_capacity_kwh"]
+    merged = [dict(stops[0])]
+    for stop in stops[1:]:
+        kept = merged[-1]
+        real_distance_km = sum(
+            leg["distance_km"] for leg in legs[kept["leg_index"]:stop["leg_index"]]
+        )
+        if real_distance_km > MERGE_ADJACENT_STOPS_MAX_KM:
+            merged.append(dict(stop))
+            continue
+
+        logger.info(
+            "plan_journey_via_graph: merging adjacent stop %s into %s "
+            "(%.2f km apart, within MERGE_ADJACENT_STOPS_MAX_KM=%.1f)",
+            stop.get("station_name"), kept.get("station_name"),
+            real_distance_km, MERGE_ADJACENT_STOPS_MAX_KM,
+        )
+        kept_station = charger_service.get_station(kept.get("station_id")) or {}
+        power_kw = clean_number(kept_station.get("power_kw"), default=0.0)
+        new_charge_to_percent = max(kept["charge_to_percent"], stop["charge_to_percent"])
+        energy_needed_kwh = (
+            max(new_charge_to_percent - kept["battery_pct_on_arrival"], 0.0) / 100.0 * capacity_kwh
+        )
+        kept["charge_to_percent"] = new_charge_to_percent
+        kept["exceeded_ceiling"] = kept["exceeded_ceiling"] or stop["exceeded_ceiling"]
+        kept["estimated_charge_duration_min"] = round(
+            _estimate_charge_duration_min(energy_needed_kwh, power_kw), 1
+        )
+
+    return merged
+
+
 def _simulate_feasibility_only(
     route_leg_groups: list[list[dict]], stops: list[dict], battery_pct: float,
     vehicle_profile: str, load_state: str, payload_kg: Optional[float], safety_margin: float,
@@ -855,7 +918,8 @@ def _simulate_feasibility_only(
                 remaining_legs=remaining_route_legs, vehicle_profile=vehicle_profile,
                 safety_margin=safety_margin, load_state=load_state, payload_kg=payload_kg,
             )
-            remaining_pct = charge_plan["charge_to_percent"]
+            battery_pct_on_arrival = remaining_pct
+            remaining_pct = max(charge_plan["charge_to_percent"], battery_pct_on_arrival)
 
     return {"status": "ok", "final_battery_pct": round(remaining_pct, 2), "reason": None}
 
@@ -1132,6 +1196,10 @@ def plan_journey_via_graph(
     )
 
     exceeded_ceiling_stops = _log_exceeded_ceiling_drift(path_result["path"], edges, journey)
+
+    display_stops = [s for s in journey["stops"] if s.get("charging_required", True)]
+    display_stops = _merge_adjacent_stops(display_stops, journey["legs"], vehicle_profile)
+    journey = {**journey, "stops": display_stops}
 
     return {
         **journey,
