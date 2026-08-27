@@ -6,7 +6,14 @@ const DC_BUCKETS = new Set(["CCS2", "CHADEMO", "BHARAT_DC"]);
 const AC_BUCKETS = new Set(["AC_TYPE2", "TYPE1_16A"]);
 
 function ranked(stop) {
-  return stop.alternatives.length > 0 ? stop.alternatives : [stop];
+  const ownEntry = {
+    station_id: stop.station_id,
+    station_name: stop.station_name,
+    expected_wait_minutes: stop.expected_wait_minutes,
+    queue_length: stop.queue_length,
+  };
+  const otherAlternatives = stop.alternatives.filter((alt) => alt.station_id !== stop.station_id);
+  return [ownEntry, ...otherAlternatives];
 }
 
 // Aggregates real fields from the /route/optimize response (connector
@@ -132,6 +139,32 @@ export default function ChargingStationsSummary({ route, stationMeta, stationExt
           <div className="flex flex-col gap-4">
             {route.charging_plan.map((stop, i) => {
               const { etaMinutes, trafficAware } = stopEta(route, stop.leg_index);
+              const allEntries = ranked(stop);
+
+              // Consecutive stops' alternatives are anchored to the previous
+              // stop's location, so dense clusters resurface the same
+              // stations repeatedly -- collapse repeats into a summary line,
+              // but never the planned-stop entry (always allEntries[0]).
+              let visibleEntries = allEntries;
+              let repeatedCount = 0;
+              if (i > 0) {
+                const previousAltIds = new Set(route.charging_plan[i - 1].alternatives.map((a) => a.station_id));
+                const fresh = [];
+                const repeated = [];
+                allEntries.forEach((entry, idx) => {
+                  if (idx === 0 || !previousAltIds.has(entry.station_id)) {
+                    fresh.push(entry);
+                  } else {
+                    repeated.push(entry);
+                  }
+                });
+                if (fresh.length === 0 && repeated.length > 0) {
+                  fresh.push(repeated.shift());
+                }
+                visibleEntries = fresh;
+                repeatedCount = repeated.length;
+              }
+
               return (
                 <div key={i}>
                   <p className="text-[12px] font-semibold text-ink-900">
@@ -142,20 +175,34 @@ export default function ChargingStationsSummary({ route, stationMeta, stationExt
                     Arriving at {stop.battery_pct_on_arrival}% battery &middot; ~
                     {stop.estimated_charge_duration_min} min charge
                   </p>
+                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-ink-300">
+                    Options reachable from your departure point for this leg
+                  </p>
                   <div className="flex flex-col gap-2">
-                    {ranked(stop).map((alt, idx) => (
-                      <StationCard
-                        key={`${alt.station_id}-${idx}`}
-                        rank={idx + 1}
-                        station={{
-                          ...buildStationView(alt, stationMeta, stationExtras),
-                          etaMinutes,
-                          trafficAware,
-                        }}
-                        onReport={onReport}
-                        reportState={reportStates[alt.station_id]}
-                      />
+                    {visibleEntries.map((alt, idx) => (
+                      <div key={`${alt.station_id}-${idx}`}>
+                        {idx === 0 && (
+                          <span className="mb-1 inline-block shrink-0 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                            Planned stop
+                          </span>
+                        )}
+                        <StationCard
+                          rank={idx === 0 ? null : idx}
+                          station={{
+                            ...buildStationView(alt, stationMeta, stationExtras),
+                            etaMinutes,
+                            trafficAware,
+                          }}
+                          onReport={onReport}
+                          reportState={reportStates[alt.station_id]}
+                        />
+                      </div>
                     ))}
+                    {repeatedCount > 0 && (
+                      <p className="text-[11px] text-ink-500">
+                        {repeatedCount} more option{repeatedCount === 1 ? "" : "s"} same as Stop {i}
+                      </p>
+                    )}
                   </div>
 
                   {stop.backup_stations && stop.backup_stations.length > 0 && (
