@@ -23,34 +23,45 @@ router = APIRouter(
 # backend/app/fixtures/ post-hackathon.
 #
 # When DEMO_MODE=true (backend/app/config.py) and an incoming request's
-# origin/destination/profile match the one pre-captured demo route exactly,
-# /route/optimize returns a saved real response instead of running the live
-# geocode -> graph_planner -> traffic pipeline, so a live demo can't be
-# derailed by third-party rate limiting (see
-# tests/baseline_rerun_and_health_check_2026-08-24.md's Part 2 risk note).
-# Any request that doesn't match -- wrong city names, wrong vehicle_profile/
-# load_state, or DEMO_MODE unset -- falls through to the real pipeline
-# untouched.
-_DEMO_ORIGIN = "chennai"
-_DEMO_DESTINATION = "nagercoil"
-_DEMO_VEHICLE_PROFILE = "mid_ev"
-_DEMO_LOAD_STATE = "half_load"
-_DEMO_FIXTURE_PATH = Path(__file__).resolve().parents[1] / "fixtures" / "demo_route_chennai_nagercoil.json"
-
-
-def _is_demo_request(data: RouteRequest) -> bool:
-    return (
-        DEMO_MODE
-        and data.current_location.strip().lower() == _DEMO_ORIGIN
-        and data.destination.strip().lower() == _DEMO_DESTINATION
-        and data.vehicle_profile == _DEMO_VEHICLE_PROFILE
-        and data.load_state == _DEMO_LOAD_STATE
-    )
+# origin/destination/profile/load_state match an entry in
+# demo_routes_manifest.json exactly, /route/optimize returns that entry's
+# saved real response instead of running the live geocode -> graph_planner
+# -> traffic pipeline, so a live demo can't be derailed by third-party rate
+# limiting (see tests/baseline_rerun_and_health_check_2026-08-24.md's Part 2
+# risk note). Any request that doesn't match -- wrong city names, wrong
+# vehicle_profile/load_state, or DEMO_MODE unset -- falls through to the
+# real pipeline untouched. New routes are added via
+# backend/app/scripts/capture_demo_fixture.py, not by hand.
+_DEMO_FIXTURES_DIR = Path(__file__).resolve().parents[1] / "fixtures"
+_DEMO_MANIFEST_PATH = _DEMO_FIXTURES_DIR / "demo_routes_manifest.json"
 
 
 @lru_cache(maxsize=1)
-def _demo_fixture() -> dict:
-    return json.loads(_DEMO_FIXTURE_PATH.read_text())
+def _demo_manifest() -> list[dict]:
+    if not _DEMO_MANIFEST_PATH.exists():
+        return []
+    return json.loads(_DEMO_MANIFEST_PATH.read_text())
+
+
+def _demo_fixture_name(data: RouteRequest) -> str | None:
+    if not DEMO_MODE:
+        return None
+    origin = data.current_location.strip().lower()
+    destination = data.destination.strip().lower()
+    for entry in _demo_manifest():
+        if (
+            entry["origin"] == origin
+            and entry["destination"] == destination
+            and entry["vehicle_profile"] == data.vehicle_profile
+            and entry["load_state"] == data.load_state
+        ):
+            return entry["fixture"]
+    return None
+
+
+@lru_cache(maxsize=None)
+def _demo_fixture(fixture_name: str) -> dict:
+    return json.loads((_DEMO_FIXTURES_DIR / fixture_name).read_text())
 # --- End demo mode -----------------------------------------------------
 
 # Pre-graph-planner, this used to fetch up to 3 geometrically distinct OSRM
@@ -72,8 +83,9 @@ ROUTE_LABEL = "Route A"
 @router.post("/optimize", response_model=RouteOptimizeResponse)
 def optimize_route(data: RouteRequest):
 
-    if _is_demo_request(data):
-        return _demo_fixture()
+    fixture_name = _demo_fixture_name(data)
+    if fixture_name is not None:
+        return _demo_fixture(fixture_name)
 
     try:
         origin_lat, origin_lng = geocode(data.current_location)

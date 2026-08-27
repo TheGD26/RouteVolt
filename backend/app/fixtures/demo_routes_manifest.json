@@ -1,0 +1,16 @@
+[
+  {
+    "origin": "chennai",
+    "destination": "nagercoil",
+    "vehicle_profile": "mid_ev",
+    "load_state": "half_load",
+    "fixture": "demo_route_chennai_nagercoil.json"
+  },
+  {
+    "origin": "chennai",
+    "destination": "madurai",
+    "vehicle_profile": "mid_ev",
+    "load_state": "half_load",
+    "fixture": "demo_route_chennai_madurai.json"
+  }
+]
