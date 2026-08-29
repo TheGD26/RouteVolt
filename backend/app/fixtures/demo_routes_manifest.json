@@ -12,5 +12,40 @@
     "vehicle_profile": "mid_ev",
     "load_state": "half_load",
     "fixture": "demo_route_chennai_madurai.json"
+  },
+  {
+    "origin": "chennai",
+    "destination": "trichy",
+    "vehicle_profile": "mid_ev",
+    "load_state": "half_load",
+    "fixture": "demo_route_chennai_trichy.json"
+  },
+  {
+    "origin": "chennai",
+    "destination": "kumbakonam",
+    "vehicle_profile": "mid_ev",
+    "load_state": "half_load",
+    "fixture": "demo_route_chennai_kumbakonam.json"
+  },
+  {
+    "origin": "chennai",
+    "destination": "rameswaram",
+    "vehicle_profile": "mid_ev",
+    "load_state": "half_load",
+    "fixture": "demo_route_chennai_rameswaram.json"
+  },
+  {
+    "origin": "chennai",
+    "destination": "coimbatore",
+    "vehicle_profile": "mid_ev",
+    "load_state": "half_load",
+    "fixture": "demo_route_chennai_coimbatore.json"
+  },
+  {
+    "origin": "chennai",
+    "destination": "dindigul",
+    "vehicle_profile": "mid_ev",
+    "load_state": "half_load",
+    "fixture": "demo_route_chennai_dindigul.json"
   }
 ]

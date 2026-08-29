@@ -253,7 +253,7 @@ def get_eta_matrix(origins: list[tuple[float, float]], destination: tuple[float,
     """
     Batch ETA lookup: one origin-per-station, one shared destination, in a
     single HTTP call per provider (not N sequential calls). Falls back
-    provider-wide: Ola -> Google -> straight-line per origin. Skips a
+    provider-wide: Google -> Ola -> straight-line per origin. Skips a
     provider entirely (straight to the next one) if it failed recently --
     see _PROVIDER_COOLDOWN_S -- rather than re-attempting a call that's
     almost certainly going to fail the same way it just did.
@@ -263,19 +263,27 @@ def get_eta_matrix(origins: list[tuple[float, float]], destination: tuple[float,
 
     _require_a_provider_key()
 
-    if _provider_available("ola"):
-        try:
-            return _ola_matrix(origins, destination)
-        except (requests.RequestException, TrafficServiceError, KeyError, ValueError) as exc:
-            logger.warning("Ola Maps provider failed (%s: %s), falling back to Google", type(exc).__name__, exc)
-            _mark_provider_failed("ola")
-
+    # HACKATHON-DAY SWAP: Google is tried first and Ola is the fallback,
+    # reversed from the normal Ola-primary priority described in this
+    # module's docstring. Ola's plan is hitting "429 Reached monthly/minute
+    # rate limits" on nearly every call right now, and each failed Ola call
+    # before falling back to Google was adding real latency (one live
+    # /route/optimize request took 224s with 34 separate Ola 429s in the
+    # log). Revert this ordering back to Ola -> Google once Ola's quota
+    # issue is resolved.
     if _provider_available("google"):
         try:
             return _google_matrix(origins, destination)
         except (requests.RequestException, TrafficServiceError, KeyError, ValueError) as exc:
-            logger.warning("Google Distance Matrix provider failed (%s: %s), falling back to straight-line estimate", type(exc).__name__, exc)
+            logger.warning("Google Distance Matrix provider failed (%s: %s), falling back to Ola", type(exc).__name__, exc)
             _mark_provider_failed("google")
+
+    if _provider_available("ola"):
+        try:
+            return _ola_matrix(origins, destination)
+        except (requests.RequestException, TrafficServiceError, KeyError, ValueError) as exc:
+            logger.warning("Ola Maps provider failed (%s: %s), falling back to straight-line estimate", type(exc).__name__, exc)
+            _mark_provider_failed("ola")
 
     return [_straight_line_eta(origin, destination) for origin in origins]
 

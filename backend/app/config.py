@@ -31,6 +31,23 @@ OLA_MAPS_API_KEY = os.environ.get("OLA_MAPS_API_KEY")
 OLA_MAPS_ALLOWED_ORIGIN = os.environ.get("OLA_MAPS_ALLOWED_ORIGIN", "http://127.0.0.1")
 GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
 
+# Google routing (Directions + Distance Matrix) fallback for
+# routing_service.get_route/get_distance_matrix when OSRM fails -- a
+# separate opt-in from GOOGLE_MAPS_API_KEY itself, which traffic_service.py
+# already uses for congestion/ETA. Both Directions and Distance Matrix are
+# billed APIs, unlike OSRM's free public demo server, so a user who set
+# GOOGLE_MAPS_API_KEY only to get traffic-aware ETAs shouldn't be silently
+# opted into routing spend too just because the same key happens to also be
+# valid for those endpoints. Defaults to True whenever GOOGLE_MAPS_API_KEY is
+# set (the common case: if you have the key, you probably want it used) but
+# stays independently overridable -- set ENABLE_GOOGLE_ROUTING_FALLBACK=false
+# to keep the key traffic-only, or =true to force it on even without a key
+# configured yet (routing_service will then just fail the same way it does
+# today when Google is actually called without one).
+ENABLE_GOOGLE_ROUTING_FALLBACK = os.environ.get(
+    "ENABLE_GOOGLE_ROUTING_FALLBACK", "true" if GOOGLE_MAPS_API_KEY else "false"
+).strip().lower() in ("1", "true", "yes")
+
 # Hackathon demo-day fallback -- see backend/app/api/routes.py's DEMO_MODE
 # block and README's "Demo mode" section. Off by default; must be explicitly
 # set to "true" to ever change behavior.

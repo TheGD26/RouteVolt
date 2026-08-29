@@ -460,7 +460,24 @@ def build_station_graph(
         for j in range(i + 1, n):
             approx_gap_km = nodes[j]["dist_from_origin_km"] - nodes[i]["dist_from_origin_km"]
             if approx_gap_km > vehicle_range_km:
-                break  # every later j is farther still -- DAG order guarantees this
+                # NOTE: this used to `break` here on the assumption that
+                # every later j is farther still ("DAG order guarantees
+                # this"). That's false: dest_node is always appended at
+                # index n-1 regardless of its own dist_from_origin_km, so
+                # whenever ANY surviving candidate station is farther from
+                # the origin than the destination itself -- routine for a
+                # mid-corridor destination (verified against the real
+                # station CSV: for a Chennai->Dindigul request, 163 of 408
+                # surviving candidates are farther from Chennai than
+                # Dindigul is, since Dindigul sits just before Madurai on
+                # the same corridor) -- breaking here skips past the
+                # destination's index without ever checking whether IT is
+                # in range, leaving it with zero incoming edges and
+                # producing "No station graph path reaches the destination
+                # at all." `continue` costs O(n^2) instead of an early
+                # exit, but n is only ~450 candidate stations, so the cost
+                # is negligible (this loop does no network/model work).
+                continue
 
             distance_km = matrix["distances_km"][i][j]
             duration_min = matrix["durations_min"][i][j]

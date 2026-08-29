@@ -1,0 +1,37 @@
+{
+  "origin": {
+    "lat": 13.065156,
+    "lng": 80.168682
+  },
+  "destination": {
+    "lat": 10.958426,
+    "lng": 79.376816
+  },
+  "estimated_time": "unreachable",
+  "eta_provider": "ola_maps",
+  "traffic_aware": true,
+  "routes": [
+    {
+      "label": "Route A",
+      "distance_km": null,
+      "duration_min": null,
+      "predicted_energy_kwh": 0.0,
+      "final_battery_pct": 80.0,
+      "status": "unreachable_gap",
+      "feasible": false,
+      "reason": "No station graph path reaches the destination at all.",
+      "charging_plan": [],
+      "exceeded_ceiling_stops": [],
+      "gap": {
+        "leg_index": 0,
+        "location": {
+          "lat": 13.065156,
+          "lng": 80.168682
+        },
+        "battery_pct_at_gap": 80.0,
+        "reason": "No station graph path reaches the destination at all."
+      },
+      "legs": []
+    }
+  ]
+}
