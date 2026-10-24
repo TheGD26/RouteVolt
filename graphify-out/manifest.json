@@ -33,37 +33,42 @@
     "mtime": 1787841170.827049,
     "seen": 1792852484.722899,
     "ast_hash": "cda53b0ddd38e3c229d3eda5f34806b1",
-    "semantic_hash": "cda53b0ddd38e3c229d3eda5f34806b1"
+    "semantic_hash": "cda53b0ddd38e3c229d3eda5f34806b1",
+    "ast_empty": true
   },
   "backend/app/fixtures/demo_route_chennai_madurai.json": {
     "mtime": 1787838904.351876,
     "seen": 1792852484.7229,
     "ast_hash": "b618e94bcf02c3576ca8f75955dbada8",
-    "semantic_hash": "b618e94bcf02c3576ca8f75955dbada8"
+    "semantic_hash": "b618e94bcf02c3576ca8f75955dbada8",
+    "ast_empty": true
   },
   "backend/app/fixtures/demo_route_chennai_nagercoil.json": {
     "mtime": 1787634867.2261114,
     "seen": 1792852484.7229,
-    "ast_hash": "be4d6bb693cdfd1c6cb45c979b55b1ff",
-    "semantic_hash": "be4d6bb693cdfd1c6cb45c979b55b1ff"
+    "ast_hash": "",
+    "semantic_hash": ""
   },
   "backend/app/fixtures/demo_route_chennai_rameswaram.json": {
     "mtime": 1787840929.1674452,
     "seen": 1792852484.722901,
     "ast_hash": "b98dffd96641b7b63cc66d36e84a0510",
-    "semantic_hash": "b98dffd96641b7b63cc66d36e84a0510"
+    "semantic_hash": "b98dffd96641b7b63cc66d36e84a0510",
+    "ast_empty": true
   },
   "backend/app/fixtures/demo_route_chennai_trichy.json": {
     "mtime": 1787840076.018966,
     "seen": 1792852484.722902,
     "ast_hash": "61cec9432208d7f5caec956a2f9cc691",
-    "semantic_hash": "61cec9432208d7f5caec956a2f9cc691"
+    "semantic_hash": "61cec9432208d7f5caec956a2f9cc691",
+    "ast_empty": true
   },
   "backend/app/fixtures/demo_routes_manifest.json": {
     "mtime": 1791980824.206733,
     "seen": 1792852484.722902,
     "ast_hash": "30b0c7cb074c5bbe842dfead6e9faa2a",
-    "semantic_hash": "30b0c7cb074c5bbe842dfead6e9faa2a"
+    "semantic_hash": "30b0c7cb074c5bbe842dfead6e9faa2a",
+    "ast_empty": true
   },
   "backend/app/main.py": {
     "mtime": 1786885731.4453652,
@@ -159,7 +164,8 @@
     "mtime": 1787557435.881652,
     "seen": 1792852484.7229152,
     "ast_hash": "d2d0e07a331b3de3d4075f201757cb81",
-    "semantic_hash": "d2d0e07a331b3de3d4075f201757cb81"
+    "semantic_hash": "d2d0e07a331b3de3d4075f201757cb81",
+    "ast_empty": true
   },
   "dataset/download_chargers.py": {
     "mtime": 1786474399.1336305,
@@ -353,59 +359,11 @@
     "ast_hash": "ea6a42a04ba4b2f75f830d5a24343368",
     "semantic_hash": "ea6a42a04ba4b2f75f830d5a24343368"
   },
-  "tests/coarse_admission_diagnostic_output_2026-08-24.json": {
-    "mtime": 1787593395.8347108,
-    "seen": 1792852484.72294,
-    "ast_hash": "ffc2d1b78983d6cd6541da1c5933f092",
-    "semantic_hash": "ffc2d1b78983d6cd6541da1c5933f092"
-  },
   "tests/diagnose_battery_pct_divergence_2026-08-25.py": {
     "mtime": 1787644972.7758656,
     "seen": 1792852484.72294,
     "ast_hash": "20e100e778e18d0e3013a8a861095d4f",
     "semantic_hash": "20e100e778e18d0e3013a8a861095d4f"
-  },
-  "tests/diagnose_battery_pct_divergence_output_2026-08-25.json": {
-    "mtime": 1787645841.3260937,
-    "seen": 1792852484.722941,
-    "ast_hash": "c950a9364f1b23cf4784425437631cfa",
-    "semantic_hash": "c950a9364f1b23cf4784425437631cfa"
-  },
-  "tests/energy_prediction_consistency_2026-08-24.json": {
-    "mtime": 1787593859.1907074,
-    "seen": 1792852484.7229419,
-    "ast_hash": "844e55c6cc1031568490e782d25cf18f",
-    "semantic_hash": "844e55c6cc1031568490e782d25cf18f"
-  },
-  "tests/energy_prediction_consistency_2026-08-24_rows.json": {
-    "mtime": 1787593761.6996224,
-    "seen": 1792852484.7229419,
-    "ast_hash": "95ae38407de7fdeaaf82c1fe79ddb86b",
-    "semantic_hash": "95ae38407de7fdeaaf82c1fe79ddb86b"
-  },
-  "tests/fanout_cap_diagnostic_output_2026-08-24.json": {
-    "mtime": 1787591901.8556058,
-    "seen": 1792852484.722943,
-    "ast_hash": "00a68c0c5e0fe1fbb115551725398550",
-    "semantic_hash": "00a68c0c5e0fe1fbb115551725398550"
-  },
-  "tests/fanout_flagged_segments_source_2026-08-24.json": {
-    "mtime": 1787591474.0485094,
-    "seen": 1792852484.722944,
-    "ast_hash": "5237fcac1bc0a3bc21e430f01d098cef",
-    "semantic_hash": "5237fcac1bc0a3bc21e430f01d098cef"
-  },
-  "tests/fanout_flagged_segments_source_2026-08-24_BASELINE_before_margin_fix.json": {
-    "mtime": 1787595181.5889277,
-    "seen": 1792852484.722945,
-    "ast_hash": "5237fcac1bc0a3bc21e430f01d098cef",
-    "semantic_hash": "5237fcac1bc0a3bc21e430f01d098cef"
-  },
-  "tests/fanout_flagged_segments_source_2026-08-24_local_reconstruction.json": {
-    "mtime": 1787591508.4687967,
-    "seen": 1792852484.722945,
-    "ast_hash": "2d353cab927f077642423660617a7037",
-    "semantic_hash": "2d353cab927f077642423660617a7037"
   },
   "tests/fanout_local_reconstruction.py": {
     "mtime": 1787591351.2539973,
@@ -419,48 +377,6 @@
     "ast_hash": "01c2438593af818318b97039832d9f14",
     "semantic_hash": "01c2438593af818318b97039832d9f14"
   },
-  "tests/fanout_osrm_ranking_result.json": {
-    "mtime": 1787591727.982297,
-    "seen": 1792852484.7229471,
-    "ast_hash": "01c355905646c23e482b878647b26359",
-    "semantic_hash": "01c355905646c23e482b878647b26359"
-  },
-  "tests/find_minimum_starting_battery_output_2026-08-24.json": {
-    "mtime": 1787583279.0122817,
-    "seen": 1792852484.722948,
-    "ast_hash": "b9dac6ee0e48745e9ca2119130c0578a",
-    "semantic_hash": "b9dac6ee0e48745e9ca2119130c0578a"
-  },
-  "tests/find_minimum_starting_battery_output_2026-08-25.json": {
-    "mtime": 1787597471.4264271,
-    "seen": 1792852484.722949,
-    "ast_hash": "3bce783cbb2baf40ca6fc4f73635769e",
-    "semantic_hash": "3bce783cbb2baf40ca6fc4f73635769e"
-  },
-  "tests/find_minimum_starting_battery_output_2026-08-25_attempt1_degraded.json": {
-    "mtime": 1787596987.284565,
-    "seen": 1792852484.722949,
-    "ast_hash": "11620ca5cb4133303a482f82c61ac688",
-    "semantic_hash": "11620ca5cb4133303a482f82c61ac688"
-  },
-  "tests/health_check_output_2026-08-25.json": {
-    "mtime": 1787597694.6159844,
-    "seen": 1792852484.72295,
-    "ast_hash": "9e31faded242a7387a4226e01f7c36a9",
-    "semantic_hash": "9e31faded242a7387a4226e01f7c36a9"
-  },
-  "tests/health_check_output_2026-08-25_rerun_attempt1_degraded.json": {
-    "mtime": 1787663997.0260932,
-    "seen": 1792852484.722951,
-    "ast_hash": "3018f89090cd8d815818d15f003d435f",
-    "semantic_hash": "3018f89090cd8d815818d15f003d435f"
-  },
-  "tests/health_check_output_2026-08-25_rerun_attempt2.json": {
-    "mtime": 1787664490.1981084,
-    "seen": 1792852484.722952,
-    "ast_hash": "e00801875763d626488d378748222a0e",
-    "semantic_hash": "e00801875763d626488d378748222a0e"
-  },
   "tests/inspect_path_shape.py": {
     "mtime": 1787500345.9287705,
     "seen": 1792852484.7229528,
@@ -473,59 +389,11 @@
     "ast_hash": "5ed894d357940e65e03f2b3518ab70ef",
     "semantic_hash": "5ed894d357940e65e03f2b3518ab70ef"
   },
-  "tests/leg17_80pct_diagnostic_output_2026-08-25.json": {
-    "mtime": 1787645754.695136,
-    "seen": 1792852484.722955,
-    "ast_hash": "06f35458f9860e6f120b28647dbd9213",
-    "semantic_hash": "06f35458f9860e6f120b28647dbd9213"
-  },
-  "tests/live_pipeline_output_2026-08-23.json": {
-    "mtime": 1787503058.377767,
-    "seen": 1792852484.722956,
-    "ast_hash": "d5a45f19ee3610c9fe07d544c6c35e91",
-    "semantic_hash": "d5a45f19ee3610c9fe07d544c6c35e91"
-  },
-  "tests/live_pipeline_output_2026-08-23_bounded.json": {
-    "mtime": 1787505093.6739013,
-    "seen": 1792852484.722956,
-    "ast_hash": "95e008a12470e269f250cdca1e15a2a6",
-    "semantic_hash": "95e008a12470e269f250cdca1e15a2a6"
-  },
-  "tests/live_pipeline_output_2026-08-23_postfix.json": {
-    "mtime": 1787504274.4855332,
-    "seen": 1792852484.7229571,
-    "ast_hash": "6fd4d8c02b7fba3d23e7acda67c3c15b",
-    "semantic_hash": "6fd4d8c02b7fba3d23e7acda67c3c15b"
-  },
-  "tests/margin_recalibration_implementation_verify_part1.json": {
-    "mtime": 1787595154.0922613,
-    "seen": 1792852484.722958,
-    "ast_hash": "93cd5817c80b75d90eea855876c007ca",
-    "semantic_hash": "93cd5817c80b75d90eea855876c007ca"
-  },
-  "tests/margin_recalibration_live_verification_2026-08-24.json": {
-    "mtime": 1787595498.2086594,
-    "seen": 1792852484.722959,
-    "ast_hash": "627f8a648a073662d6b2abe01e5d81ef",
-    "semantic_hash": "627f8a648a073662d6b2abe01e5d81ef"
-  },
   "tests/redundancy_charging_impact_diagnostic.py": {
     "mtime": 1787634057.9032702,
     "seen": 1792852484.7229598,
     "ast_hash": "b3184290c286d0c7864af3be130f2bf7",
     "semantic_hash": "b3184290c286d0c7864af3be130f2bf7"
-  },
-  "tests/redundancy_charging_impact_diagnostic_data_2026-08-24.json": {
-    "mtime": 1787634262.577314,
-    "seen": 1792852484.722962,
-    "ast_hash": "5ab8b38ef73b7d198011f29b0f8c97be",
-    "semantic_hash": "5ab8b38ef73b7d198011f29b0f8c97be"
-  },
-  "tests/redundancy_cutoff_selection_data_2026-08-24.json": {
-    "mtime": 1787635997.480675,
-    "seen": 1792852484.7229629,
-    "ast_hash": "8923d43853fd2a61a85bc573f07a60e0",
-    "semantic_hash": "8923d43853fd2a61a85bc573f07a60e0"
   },
   "tests/redundancy_cutoff_selection_diagnostic.py": {
     "mtime": 1787635536.6571944,
@@ -580,12 +448,6 @@
     "seen": 1792852484.72297,
     "ast_hash": "1858c4c3f052e41afc456adad053ab89",
     "semantic_hash": "1858c4c3f052e41afc456adad053ab89"
-  },
-  "tests/stop21_hotel_arun_cafe_own_window_result_2026-08-24.json": {
-    "mtime": 1787595453.0431523,
-    "seen": 1792852484.722971,
-    "ast_hash": "901d078f175779227b5e7c2d3ab20218",
-    "semantic_hash": "901d078f175779227b5e7c2d3ab20218"
   },
   "tests/sweep_max_edges_per_node.py": {
     "mtime": 1787499757.6597404,

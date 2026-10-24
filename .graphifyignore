@@ -1,0 +1,4 @@
+# CLAUDE.md just points at the graph; no need to index it
+CLAUDE.md
+# Recorded diagnostic outputs (data dumps, no symbols)
+tests/*.json
