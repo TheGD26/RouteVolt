@@ -20,3 +20,8 @@ wheels/
 
 # SQLite DB (seeded from the CSV at startup, not source of truth)
 *.db
+
+# graphify: machine-local cache and interpreter paths (graph outputs are committed)
+graphify-out/cache/
+graphify-out/.graphify_python
+graphify-out/.graphify_root

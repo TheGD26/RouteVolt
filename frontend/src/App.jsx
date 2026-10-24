@@ -156,6 +156,15 @@ export default function App() {
                 </div>
               )}
 
+              {result?.precomputed && (
+                <div className="rounded-lg border border-amber-600/30 bg-amber-100 px-3.5 py-2.5 text-[12px] text-amber-600">
+                  Demo mode: this is a saved plan, not computed live for your inputs
+                  {result.precomputed_battery_percentage != null &&
+                    ` (computed for a ${result.precomputed_battery_percentage}% starting battery)`}
+                  .
+                </div>
+              )}
+
               {route?.status === "unreachable_gap" && route.gap && (
                 <div className="rounded-lg border border-amber-600/30 bg-amber-100 px-3.5 py-2.5 text-[12px] text-amber-600">
                   No reachable station near leg {route.gap.leg_index} ({route.gap.reason}) -- battery would

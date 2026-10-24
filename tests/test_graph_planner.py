@@ -134,11 +134,17 @@ def test_filter_candidate_stations_handles_multi_hop_trips():
     print(f"  small_ev range ~{vehicle_range_km:.1f}km over a trip of "
           f"{graph_planner.haversine_km(origin_lat, origin_lon, dest_lat, dest_lon):.1f}km")
 
+    # connector_types is set because filter_candidate_stations now drops
+    # stations whose connector is unknown/incompatible (see its docstring);
+    # this test is about the multi-hop detour budget, not connector filtering.
     stations = [
-        {"id": 1, "station_name": "on-corridor near origin", "latitude": 12.5, "longitude": 80.0},
-        {"id": 2, "station_name": "on-corridor near destination", "latitude": 11.5, "longitude": 80.0},
+        {"id": 1, "station_name": "on-corridor near origin", "latitude": 12.5, "longitude": 80.0,
+         "connector_types": "CCS (Type 2)"},
+        {"id": 2, "station_name": "on-corridor near destination", "latitude": 11.5, "longitude": 80.0,
+         "connector_types": "CCS (Type 2)"},
         # ~5.5km east of the corridor at this latitude -- a real, if modest, detour.
-        {"id": 3, "station_name": "slightly off-corridor", "latitude": 12.0, "longitude": 80.05},
+        {"id": 3, "station_name": "slightly off-corridor", "latitude": 12.0, "longitude": 80.05,
+         "connector_types": "CCS (Type 2)"},
     ]
 
     candidates = graph_planner.filter_candidate_stations(

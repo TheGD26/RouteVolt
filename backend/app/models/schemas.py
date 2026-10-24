@@ -255,6 +255,16 @@ class RouteOptimizeResponse(BaseModel):
     eta_provider: str
     traffic_aware: bool
     routes: list[RouteAlternative]
+    precomputed: bool = Field(
+        default=False,
+        description="True only when this response was served from a saved demo-mode fixture "
+        "(see routes.py's Demo mode block) instead of being optimized live for this request.",
+    )
+    precomputed_battery_percentage: Optional[float] = Field(
+        default=None,
+        description="Only set when precomputed is true: the starting battery % the saved plan was "
+        "computed for, which may differ from the battery_percentage in the request.",
+    )
 
 
 class RerouteRequest(BaseModel):

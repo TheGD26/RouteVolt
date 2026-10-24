@@ -80,6 +80,16 @@ def capture(origin: str, destination: str, vehicle_profile: str, load_state: str
     response.raise_for_status()
     data = response.json()
 
+    # Never register a failed plan as a demo fixture: it would be served
+    # forever as if it were the answer, even after the underlying bug is fixed
+    # (this is how stale "unreachable" Chennai->Dindigul/Kumbakonam fixtures got in).
+    first_route = (data.get("routes") or [{}])[0]
+    if not first_route.get("feasible"):
+        raise SystemExit(
+            f"Refusing to capture {origin} -> {destination}: the live plan is not feasible "
+            f"({first_route.get('reason')!r}). Fix the cause or pick a different battery %, then re-run."
+        )
+
     FIXTURES_DIR.mkdir(parents=True, exist_ok=True)
     fixture_path.write_text(json.dumps(data, indent=2) + "\n")
 
@@ -90,6 +100,7 @@ def capture(origin: str, destination: str, vehicle_profile: str, load_state: str
         "vehicle_profile": vehicle_profile,
         "load_state": load_state,
         "fixture": fixture_name,
+        "captured_battery_percentage": DEFAULT_BATTERY_PERCENTAGE,
     }
     for existing in manifest:
         if (
@@ -99,6 +110,7 @@ def capture(origin: str, destination: str, vehicle_profile: str, load_state: str
             and existing["load_state"] == load_state
         ):
             existing["fixture"] = fixture_name
+            existing["captured_battery_percentage"] = DEFAULT_BATTERY_PERCENTAGE
             break
     else:
         manifest.append(entry)

@@ -34,6 +34,7 @@ from backend.app.services.battery_simulator import (
 )
 from backend.app.services.route_optimizer import (
     DEFAULT_SAFETY_MARGIN,
+    VEHICLE_CONNECTOR_COMPATIBILITY,
     VEHICLE_PROFILES,
     clean_number,
     estimate_leg_energy_kwh_batch,
@@ -41,6 +42,7 @@ from backend.app.services.route_optimizer import (
     haversine_km,
     infer_road_type_from_speed,
 )
+from backend.app.utils.connector_normalizer import normalize_connector_types
 
 logger = logging.getLogger(__name__)
 
@@ -230,6 +232,10 @@ def filter_candidate_stations(
     against every station in range (hundreds), and only the survivors go on
     to the real distance-matrix/routing calls below.
 
+    Stations with no connector compatible with `vehicle_profile` are dropped
+    here too (see the compatible_buckets comment below), so the graph never
+    routes a car to a plug it can't use.
+
     "Leftover after driving it all directly" only means something when the
     trip fits in one charge (trip_distance_km <= vehicle_range_km) -- for
     any trip that genuinely needs a stop (trip_distance_km > vehicle_range_km,
@@ -248,16 +254,41 @@ def filter_candidate_stations(
         detour_basis_km = vehicle_range_km - trip_distance_km
     detour_threshold_km = detour_basis_km * MAX_DETOUR_FRACTION_OF_LEFTOVER_RANGE
 
+    # A station is only a usable stop if it has a plug this vehicle can use
+    # (route_optimizer.VEHICLE_CONNECTOR_COMPATIBILITY -- itself an assumption,
+    # see there). Checked BEFORE the MAX_CANDIDATE_STATIONS cut so that cut is
+    # spent on stations that can actually charge this car. A station whose
+    # connector is UNKNOWN is excluded, same as calculate_best_route: a plug we
+    # can't identify must not be silently treated as compatible.
+    compatible_buckets = VEHICLE_CONNECTOR_COMPATIBILITY.get(vehicle_profile, set())
+    connector_excluded = 0
+
     candidates = []
     for station in stations:
         lat = clean_number(station.get("latitude"), default=None)
         lon = clean_number(station.get("longitude"), default=None)
         if lat is None or lon is None:
             continue
+
+        station_buckets = station.get("connector_buckets")
+        station_buckets = (
+            set(station_buckets) if station_buckets is not None
+            else normalize_connector_types(station.get("connector_types"))
+        )
+        if not (station_buckets & compatible_buckets):
+            connector_excluded += 1
+            continue
+
         origin_dist_km = haversine_km(origin_lat, origin_lon, lat, lon)
         detour_km = origin_dist_km + haversine_km(lat, lon, dest_lat, dest_lon) - direct_km
         if detour_km <= detour_threshold_km:
             candidates.append({**station, "detour_km": round(detour_km, 2), "_origin_dist_km": origin_dist_km})
+
+    if connector_excluded:
+        logger.info(
+            "filter_candidate_stations: excluded %d of %d stations with no connector compatible with %s (%s)",
+            connector_excluded, len(stations), vehicle_profile, sorted(compatible_buckets),
+        )
 
     if len(candidates) > MAX_CANDIDATE_STATIONS:
         # Flat lowest-detour-first cut. A position-bucketed alternative (cap

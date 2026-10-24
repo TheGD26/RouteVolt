@@ -79,10 +79,18 @@ class GeocodingError(Exception):
     """Raised when an address can't be resolved to coordinates."""
 
 
+class GeocodingNotFoundError(GeocodingError):
+    """The provider answered, but nothing matched this address -- a problem with the user's input."""
+
+
+class GeocodingProviderError(GeocodingError):
+    """The provider is unconfigured, unreachable, rate-limited or returned something unusable -- not the user's fault."""
+
+
 def geocode(address: str) -> tuple[float, float]:
     """Resolve a free-text address to (latitude, longitude) via Ola Maps' Geocoding API."""
     if not OLA_MAPS_API_KEY:
-        raise GeocodingError("OLA_MAPS_API_KEY not set")
+        raise GeocodingProviderError("OLA_MAPS_API_KEY not set")
 
     try:
         response = requests.get(
@@ -99,18 +107,24 @@ def geocode(address: str) -> tuple[float, float]:
         )
         response.raise_for_status()
     except requests.RequestException as exc:
-        raise GeocodingError(f"Geocoding request failed for '{address}': {exc}") from exc
+        raise GeocodingProviderError(f"Geocoding request failed for '{address}': {exc}") from exc
 
     # Ola's forward-geocode response: {"geocodingResults": [{"geometry":
     # {"location": {"lat", "lng"}}, ...}, ...], "status": "ok"} -- confirmed
     # against the live API, not assumed from docs (Ola's public docs pages
     # don't include a worked example response).
-    results = response.json().get("geocodingResults") or []
+    try:
+        results = response.json().get("geocodingResults") or []
+    except ValueError as exc:
+        raise GeocodingProviderError(f"Geocoding response for '{address}' was not valid JSON") from exc
     if not results:
-        raise GeocodingError(f"No geocoding match found for '{address}'")
+        raise GeocodingNotFoundError(f"No geocoding match found for '{address}'")
 
-    location = results[0]["geometry"]["location"]
-    return float(location["lat"]), float(location["lng"])
+    try:
+        location = results[0]["geometry"]["location"]
+        return float(location["lat"]), float(location["lng"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise GeocodingProviderError(f"Geocoding response for '{address}' had an unexpected shape") from exc
 
 
 # The public OSRM demo server (router.project-osrm.org) caps its Table

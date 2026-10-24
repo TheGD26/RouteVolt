@@ -45,6 +45,14 @@ DEFAULT_CONGESTION_LEVEL = 0.3
 
 CACHE_COORD_PRECISION = 4  # ~11m -- catches exact-repeat legs within a session
 
+# How long a cached per-leg traffic reading stays valid. Traffic changes over
+# the day, so an entry must not live for the whole server process (it used to).
+# Must comfortably exceed one full /route/optimize request -- a long trip took
+# ~3-10 minutes live and re-reads the same legs during graph build and again
+# during simulation, which is exactly the repeat-hit this cache exists for --
+# so 20 minutes keeps within-request hits while refreshing between requests.
+LEG_TRAFFIC_CACHE_TTL_S = 20 * 60
+
 # Ola's distanceMatrix endpoint isn't documented with an origin-count limit,
 # but empirically (single destination) it 200s at 50 origins and 400s
 # ("Invalid Request. Please check the request parameters") at 51+ -- found by
@@ -302,7 +310,7 @@ def get_traffic_eta(origin_lat: float, origin_lng: float, dest_lat: float, dest_
 
 # ---- Congestion (energy model input) -- shares get_eta_matrix's provider chain ----
 
-_leg_traffic_cache: dict[tuple, dict] = {}
+_leg_traffic_cache: dict[tuple, tuple[float, dict]] = {}  # key -> (time.monotonic() when stored, result)
 
 
 def _round_point(point: tuple[float, float]) -> tuple[float, float]:
@@ -357,8 +365,12 @@ def get_leg_traffic(
     elevation_service's per-leg fallback.
     """
     cache_key = (_round_point((origin_lat, origin_lng)), _round_point((dest_lat, dest_lng)))
-    if cache_key in _leg_traffic_cache:
-        return _leg_traffic_cache[cache_key]
+    cached = _leg_traffic_cache.get(cache_key)
+    if cached is not None:
+        stored_at, cached_out = cached
+        if time.monotonic() - stored_at < LEG_TRAFFIC_CACHE_TTL_S:
+            return cached_out
+        # Expired: fall through and re-query; the fresh result overwrites this entry below.
 
     try:
         result = get_eta_matrix([(origin_lat, origin_lng)], (dest_lat, dest_lng))[0]
@@ -367,7 +379,7 @@ def get_leg_traffic(
 
     congestion_level, congestion_source = _congestion_from_result(result, typical_duration_s)
     out = {**result, "congestion_level": congestion_level, "congestion_source": congestion_source}
-    _leg_traffic_cache[cache_key] = out
+    _leg_traffic_cache[cache_key] = (time.monotonic(), out)
     return out
 
 

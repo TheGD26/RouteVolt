@@ -8,7 +8,7 @@ from backend.app.config import DEMO_MODE
 from backend.app.models.schemas import RerouteRequest, RouteOptimizeResponse, RouteRequest
 from backend.app.services import graph_planner
 from backend.app.services.battery_simulator import reroute_from_stop
-from backend.app.services.routing_service import GeocodingError, RoutingError, geocode
+from backend.app.services.routing_service import GeocodingError, GeocodingNotFoundError, RoutingError, geocode
 from backend.app.services.traffic_service import TrafficServiceError, get_traffic_eta
 
 router = APIRouter(
@@ -32,6 +32,13 @@ router = APIRouter(
 # vehicle_profile/load_state, or DEMO_MODE unset -- falls through to the
 # real pipeline untouched. New routes are added via
 # backend/app/scripts/capture_demo_fixture.py, not by hand.
+#
+# Matching deliberately ignores battery_percentage (the frontend's default form
+# sends 80 while e.g. the Nagercoil fixture was captured at 8), but a request
+# that sets an exact payload_kg never matches. Every served fixture is labelled
+# `precomputed: true` plus `precomputed_battery_percentage` (the battery the
+# saved plan was actually computed for, from the manifest's
+# `captured_battery_percentage`) so it can't pass as a live result.
 _DEMO_FIXTURES_DIR = Path(__file__).resolve().parents[1] / "fixtures"
 _DEMO_MANIFEST_PATH = _DEMO_FIXTURES_DIR / "demo_routes_manifest.json"
 
@@ -43,8 +50,13 @@ def _demo_manifest() -> list[dict]:
     return json.loads(_DEMO_MANIFEST_PATH.read_text())
 
 
-def _demo_fixture_name(data: RouteRequest) -> str | None:
+def _demo_manifest_entry(data: RouteRequest) -> dict | None:
     if not DEMO_MODE:
+        return None
+    # Fixtures were captured from load_state's estimated payload. A request
+    # with an exact payload_kg is a different physical question (mass changes
+    # energy use), so it must run live rather than get a plan for another load.
+    if data.payload_kg is not None:
         return None
     origin = data.current_location.strip().lower()
     destination = data.destination.strip().lower()
@@ -55,7 +67,7 @@ def _demo_fixture_name(data: RouteRequest) -> str | None:
             and entry["vehicle_profile"] == data.vehicle_profile
             and entry["load_state"] == data.load_state
         ):
-            return entry["fixture"]
+            return entry
     return None
 
 
@@ -83,15 +95,24 @@ ROUTE_LABEL = "Route A"
 @router.post("/optimize", response_model=RouteOptimizeResponse)
 def optimize_route(data: RouteRequest):
 
-    fixture_name = _demo_fixture_name(data)
-    if fixture_name is not None:
-        return _demo_fixture(fixture_name)
+    demo_entry = _demo_manifest_entry(data)
+    if demo_entry is not None:
+        # Copy (the fixture dict is lru_cached and shared) and label it: this
+        # was NOT optimized for this request's battery_percentage.
+        return {
+            **_demo_fixture(demo_entry["fixture"]),
+            "precomputed": True,
+            "precomputed_battery_percentage": demo_entry.get("captured_battery_percentage"),
+        }
 
     try:
         origin_lat, origin_lng = geocode(data.current_location)
         dest_lat, dest_lng = geocode(data.destination)
-    except GeocodingError as exc:
+    except GeocodingNotFoundError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except GeocodingError as exc:
+        # Provider unconfigured/down/rate-limited: not the caller's mistake, and retryable.
+        raise HTTPException(status_code=503, detail=f"Geocoding service unavailable: {exc}") from exc
 
     journey = graph_planner.plan_journey_via_graph(
         origin_lat=origin_lat,

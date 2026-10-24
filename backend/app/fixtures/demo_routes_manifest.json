@@ -4,48 +4,39 @@
     "destination": "nagercoil",
     "vehicle_profile": "mid_ev",
     "load_state": "half_load",
-    "fixture": "demo_route_chennai_nagercoil.json"
+    "fixture": "demo_route_chennai_nagercoil.json",
+    "captured_battery_percentage": 8.0
   },
   {
     "origin": "chennai",
     "destination": "madurai",
     "vehicle_profile": "mid_ev",
     "load_state": "half_load",
-    "fixture": "demo_route_chennai_madurai.json"
+    "fixture": "demo_route_chennai_madurai.json",
+    "captured_battery_percentage": 80.0
   },
   {
     "origin": "chennai",
     "destination": "trichy",
     "vehicle_profile": "mid_ev",
     "load_state": "half_load",
-    "fixture": "demo_route_chennai_trichy.json"
-  },
-  {
-    "origin": "chennai",
-    "destination": "kumbakonam",
-    "vehicle_profile": "mid_ev",
-    "load_state": "half_load",
-    "fixture": "demo_route_chennai_kumbakonam.json"
+    "fixture": "demo_route_chennai_trichy.json",
+    "captured_battery_percentage": 80.0
   },
   {
     "origin": "chennai",
     "destination": "rameswaram",
     "vehicle_profile": "mid_ev",
     "load_state": "half_load",
-    "fixture": "demo_route_chennai_rameswaram.json"
+    "fixture": "demo_route_chennai_rameswaram.json",
+    "captured_battery_percentage": 80.0
   },
   {
     "origin": "chennai",
     "destination": "coimbatore",
     "vehicle_profile": "mid_ev",
     "load_state": "half_load",
-    "fixture": "demo_route_chennai_coimbatore.json"
-  },
-  {
-    "origin": "chennai",
-    "destination": "dindigul",
-    "vehicle_profile": "mid_ev",
-    "load_state": "half_load",
-    "fixture": "demo_route_chennai_dindigul.json"
+    "fixture": "demo_route_chennai_coimbatore.json",
+    "captured_battery_percentage": 80.0
   }
 ]

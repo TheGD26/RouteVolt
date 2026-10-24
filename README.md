@@ -31,7 +31,10 @@ not when the app boots.
 | `ELEVATION_API_URL` | `elevation_service.py` | Defaults to the public Open-Elevation instance (`https://api.open-elevation.com/api/v1/lookup`); point at a self-hosted instance for production (see below) |
 | `DEMO_MODE` | `routes.py` | Hackathon demo-day fallback, off by default -- see [Demo mode](#demo-mode) below |
 
-Nominatim (geocoding) needs no API key.
+Geocoding uses the Ola Maps Geocoding API (`routing_service.geocode`) and
+therefore **requires `OLA_MAPS_API_KEY`** -- there is no Nominatim fallback. An
+unmatched address returns HTTP 422; a missing key or a provider outage returns
+HTTP 503.
 
 ## Data flow
 
@@ -67,24 +70,39 @@ live API, so a live demo can't be derailed by rate limiting on the day.
   starting the backend, then restart it -- it's read once at process start,
   same as every other setting in `backend/app/config.py`.
 - **Disable**: unset it or set `DEMO_MODE=false` (default is off).
-- **Scope**: only intercepts `POST /route/optimize` requests where
-  `current_location`/`destination` are exactly `"Chennai"`/`"Nagercoil"`
-  (case-insensitive) *and* `vehicle_profile="mid_ev"`, `load_state="half_load"`
-  -- the exact request the frontend's default form sends. Any other
-  route/profile combination, or `DEMO_MODE` unset, runs the real live
-  pipeline unchanged. The served response ignores whatever
-  `battery_percentage` was typed -- it always returns the fixture captured
-  at `battery_pct=8.0` (this route's minimum feasible starting battery).
-- **What's served**: the exact real response captured in
-  `tests/baseline_rerun_and_health_check_2026-08-24.md`'s Part 2 health check
-  (raw data in `tests/health_check_output_2026-08-25.json`), repackaged as
-  `backend/app/fixtures/demo_route_chennai_nagercoil.json` in the same shape
-  `/route/optimize` normally returns -- a real, previously-computed
-  `plan_journey_via_graph` result, not synthetic data.
+- **Scope**: only intercepts `POST /route/optimize` requests whose
+  `current_location`, `destination`, `vehicle_profile` and `load_state` exactly
+  match an entry in `backend/app/fixtures/demo_routes_manifest.json`
+  (case-insensitive on the place names). Currently: Chennai → Nagercoil,
+  Madurai, Trichy, Rameswaram, Coimbatore, all `mid_ev` / `half_load` (the
+  exact request the frontend's default form sends). Any other route/profile
+  combination, or `DEMO_MODE` unset, runs the real live pipeline unchanged.
+  - A request that sets an exact `payload_kg` never matches (fixtures were
+    computed from `load_state`'s estimated payload) and runs live.
+  - `battery_percentage` is deliberately **not** part of the match, so a served
+    plan was not computed for the battery you typed. Every served response is
+    therefore labelled `"precomputed": true` with
+    `"precomputed_battery_percentage"` (the battery that plan was computed
+    for: 8% for Nagercoil, 80% for the others, recorded per entry as
+    `captured_battery_percentage` in the manifest), and the frontend shows a
+    "Demo mode: saved plan" notice.
+- **What's served**: a real, previously-computed `plan_journey_via_graph`
+  result saved as `backend/app/fixtures/demo_route_*.json` in the same shape
+  `/route/optimize` normally returns -- not synthetic data. The Nagercoil
+  fixture is the Part 2 health check from
+  `tests/baseline_rerun_and_health_check_2026-08-24.md` (raw data in
+  `tests/health_check_output_2026-08-25.json`).
+- **Adding routes**: `uv run python -m backend.app.scripts.capture_demo_fixture
+  --origin Chennai --destination Madurai` (needs a running backend). It
+  refuses to save an infeasible plan. Chennai → Kumbakonam and → Dindigul were
+  removed from the manifest because their saved fixtures were stale
+  `unreachable_gap` results from a since-fixed graph bug; they now run live,
+  and can be re-captured once a live run confirms they're feasible.
 - **Implementation**: entirely in `backend/app/api/routes.py`'s "Demo mode"
-  block plus the one fixture file -- no changes to `graph_planner.py`,
-  `battery_simulator.py`, `route_optimizer.py`, or any other planning code.
-  Safe to delete both after the hackathon.
+  block, the fixtures directory, and the two additive response fields -- no
+  changes to `graph_planner.py`, `battery_simulator.py`,
+  `route_optimizer.py`, or any other planning code. Safe to delete after the
+  hackathon.
 - **For grading/submission**: turn this OFF (leave `DEMO_MODE` unset) unless
   you deliberately want judges able to reproduce the fast demo path
   themselves -- leaving it on doesn't hide or fake anything (the fixture is
